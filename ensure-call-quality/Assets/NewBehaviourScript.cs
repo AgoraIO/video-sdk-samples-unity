@@ -75,10 +75,10 @@ public class NewBehaviourScript : MonoBehaviour
     {
         GameObject go = GameObject.Find("LocalView");
         LocalView = go.AddComponent<VideoSurface>();
-        go.transform.Rotate(0.0f, 0.0f, 90.0f);
+        go.transform.Rotate(0.0f, 0.0f, 180.0f);
         go = GameObject.Find("RemoteView");
         RemoteView = go.AddComponent<VideoSurface>();
-        go.transform.Rotate(0.0f, 0.0f, 90.0f);
+        go.transform.Rotate(0.0f, 0.0f, 180.0f);
         go = GameObject.Find("Leave");
         go.GetComponent<Button>().onClick.AddListener(Leave);
         go = GameObject.Find("Join");
