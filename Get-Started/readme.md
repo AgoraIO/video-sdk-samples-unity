@@ -4,7 +4,7 @@ This contains the necessary files, user interface elements, and the Agora implem
 
 1. **Integrate the Video SDK**
 
-To integrate the SDK into the project, do the following:
+    To integrate the SDK into the project, do the following:
 
     1. Clone this repo.
     1. Open the get-started project in the Unity Editor.
@@ -15,8 +15,8 @@ To integrate the SDK into the project, do the following:
 
 1. **Bind your script to the canvas**
 
-In **Unity Editor**, Go to the **Asset** folder and drag and drop `NewBehaviourScript.cs` to `Canvas` on the **Hierarchy**.
+    In **Unity Editor**, Go to the **Asset** folder and drag and drop `NewBehaviourScript.cs` to `Canvas` on the **Hierarchy**.
 
 1. **Test the Implementation**
 
-To test your implementation, follow [Test your implementation](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity#test-your-implementation).
+    To test your implementation, follow [Test your implementation](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity#test-your-implementation).
