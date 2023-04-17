@@ -1,6 +1,6 @@
-# Get started with Agora SDK
+# Endure call quality
 
-This contains the necessary files, user interface elements, and the Agora implementation logic that are required to implement real-time interaction features.
+Follow these step to run this project to test the call quality features.
 
 1. **Integrate the Video SDK**
 
@@ -20,4 +20,4 @@ In **Unity Editor**, Go to the **Asset** folder and drag and drop `NewBehaviourS
 
 1. **Test the Implementation**
 
-To test your implementation, follow [Test your implementation](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity#test-your-implementation).
+To test your implementation, follow [Test your implementation](https://docs.agora.io/en/interactive-live-streaming/develop/ensure-channel-quality?platform=unity#test-your-implementation).

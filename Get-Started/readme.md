@@ -1,4 +1,4 @@
-# Get started with Agora SDK
+# Get started with Agora Video SDK
 
 This contains the necessary files, user interface elements, and the Agora implementation logic that are required to implement real-time interaction features.
 
