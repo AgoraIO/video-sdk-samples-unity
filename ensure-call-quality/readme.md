@@ -2,7 +2,7 @@
 
 This contains the necessary files, user interface elements, and the Agora implementation logic that are required to implement real-time interaction features.
 
-**Integrate the Video SDK**
+1. **Integrate the Video SDK**
 
 To integrate the SDK into the project, do the following:
 
@@ -14,10 +14,10 @@ To integrate the SDK into the project, do the following:
 1. In **Import Unity Package**, click **Import**.
 
 
-**Bind your script to the canvas**
+1. **Bind your script to the canvas**
 
 In **Unity Editor**, Go to the **Asset** folder and drag and drop `NewBehaviourScript.cs` to `Canvas` on the **Hierarchy**.
 
-**Test the Implementation**
+1. **Test the Implementation**
 
 To test your implementation, follow [Test your implementation](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity#test-your-implementation).
