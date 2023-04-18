@@ -8,8 +8,8 @@ repository. In all examples, the code corresponds to a page in the Agora develop
   Each folder contains the project that is created when you follow the steps in the current documentation.
 
   Advantages are that the code and doc already exist. Disadvantage is that you have to follow the docs to make the code run.
-  - [SDK quickstart](./current-examples/get-started/)
-  - [Call quality](./current-examples/ensure-channel-quality/)
+  - [SDK quickstart](./current-examples/Get-Started/)
+  - [Call quality](./current-examples/ensure-call-quality/)
 
 
 - **Simplified examples that extend from a base class**
