@@ -4,7 +4,7 @@ This contains the necessary files, user interface elements, and the Agora implem
 
 1. **Bind your script to the event system**
 
-    In **Unity Editor**, Go to the  `Assets\ensure-call-quality` folder and drag and drop `GetStarted.cs` to `EventSystem` on the **Hierarchy**.
+    In **Unity Editor**, go to the  `Assets\ensure-call-quality` folder and drag and drop `GetStarted.cs` to `EventSystem` on the **Hierarchy**.
 
 1. **Test the Implementation**
 S

@@ -1,4 +1,4 @@
-# Agora Video SDK sample projects for Unity
+# Agora Video SDK sample projects for Unit
 
 This repository contains code from the following demo projects presented in Agora documentation:
 
@@ -7,6 +7,7 @@ This repository contains code from the following demo projects presented in Agor
 | [SDK quickstart](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity) |  [Quickstart project](./Assets/get-started-sdk) |
 | [Call quality](https://docs.agora.io/en/video-calling/develop/ensure-channel-quality?platform=unity) | [Call quality project](./Assets/ensure-call-quality) |
 
+# Integrate the video SDK
 
 To run this project, integrate the video SDK into this project:
 
@@ -16,3 +17,4 @@ To run this project, integrate the video SDK into this project:
 1. In Unity, click **Assets** > **Import Package** > **Custom Package**.
 1. Navigate to the **Video SDK package** and click **Open**.
 1. In **Import Unity Package**, click **Import**.
+
