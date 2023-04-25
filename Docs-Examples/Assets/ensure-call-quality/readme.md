@@ -1,6 +1,6 @@
 # Ensure call quality
 
-This folder gold the script to test call quality features. To test the call quality features, do the following:
+This folder holds the script to test call quality features. To test the call quality features, do the following:
 
 1. **Bind your script to the canvas**
 
@@ -10,4 +10,4 @@ This folder gold the script to test call quality features. To test the call qual
 
 1. **Test the Implementation**
 
-    To test your implementation, follow [Test your implementation](https://docs.agora.io/en/video-calling/get-started/ensure-call-quality?platform=unity#test-your-implementation).
+    To test your implementation, follow [Test your implementation](https://docs.agora.io/en/video-calling/develop/ensure-call-quality?platform=unity#test-your-implementation).
