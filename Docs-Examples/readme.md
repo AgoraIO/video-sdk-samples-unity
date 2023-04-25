@@ -1,4 +1,4 @@
-# Agora Video SDK sample projects for Unit
+# Agora Video SDK sample projects for Unity
 
 This repository contains code from the following demo projects presented in Agora documentation:
 
