@@ -4,7 +4,7 @@ This folder holds the script to test call quality features. To test the call qua
 
 1. **Bind your script to the canvas**
 
-    In **Unity Editor**, Go to the **Asset** folder and drag and drop `GetStarted.cs` to `EventSystem` on the **Hierarchy**.
+    In **Unity Editor**, Go to the **Asset** folder and drag and drop `EnsureCallQuality.cs` to `EventSystem` on the **Hierarchy**.
 
     Make sure, no other script is added to `EventSystem`.
 
