@@ -20,7 +20,7 @@ repository. In all examples, the code corresponds to a page in the Agora develop
      SDK. This means the docs become much shorter and simpler. Possible disadvantage is that we have to write the
      code for the project. TBH, we already have the code, we are just putting it in a better format for learning.
   - [SDK quickstart](./Docs-Examples/Assets/get-started-sdk/)
-  - [Call quality](./Docs-Examples/Assets/ensure-channel-quality/)
+  - [Call quality](./Docs-Examples/Assets/ensure-call-quality/)
   - [Secure authentication with tokens](Docs-Examples/authentication-workflow/)
 
 
