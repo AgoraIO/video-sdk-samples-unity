@@ -2,7 +2,7 @@
 
 This folder holds the script to test call quality features. To test the call quality features, do the following:
 
-1. **Bind your script to the canvas**
+1. **Bind your script to the event system**
 
     In **Unity Editor**, Go to the **Asset** folder and drag and drop `EnsureCallQuality.cs` to `EventSystem` on the **Hierarchy**.
 
