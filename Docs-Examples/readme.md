@@ -10,9 +10,9 @@ This repository contains code from the following demo projects presented in Agor
 
 To run this project, integrate the video SDK into this project:
 
-    1. Clone this repo.
-    1. Open the get-started project in the Unity Editor.
-    1. Go to [SDKs](https://docs.agora.io/en/sdks?platform=unity), download the latest version of the Agora Video SDK, and unzip the downloaded SDK to a local folder.
-    1. In Unity, click **Assets** > **Import Package** > **Custom Package**.
-    1. Navigate to the **Video SDK package** and click **Open**.
-    1. In **Import Unity Package**, click **Import**.
+1. Clone this repo.
+1. Open the get-started project in the Unity Editor.
+1. Go to [SDKs](https://docs.agora.io/en/sdks?platform=unity), download the latest version of the Agora Video SDK, and unzip the downloaded SDK to a local folder.
+1. In Unity, click **Assets** > **Import Package** > **Custom Package**.
+1. Navigate to the **Video SDK package** and click **Open**.
+1. In **Import Unity Package**, click **Import**.
