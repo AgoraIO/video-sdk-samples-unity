@@ -30,11 +30,6 @@ public class GetStarted : MonoBehaviour
         // Pass the local view and remote view to display videos
         agoraManager.LocalView = UI.LocalView;
         agoraManager.RemoteView = UI.RemoteView;
-        // Create an instance of Agora engine
-        RtcEngine = agoraManager.SetupVideoSDKEngine(_appID, _channelName, _token);
-        // Setup event handler to handle the events.
-        UserEventHandler obj = new UserEventHandler(agoraManager);
-        RtcEngine.InitEventHandler(obj);
         // Call the join and leave function of AgoraManager class when the user presses the button from the UI. 
         UI.leaveBtn.GetComponent<Button>().onClick.AddListener(Leave);
         UI.joinBtn.GetComponent<Button>().onClick.AddListener(Join);
@@ -59,22 +54,19 @@ public class GetStarted : MonoBehaviour
     {
         // Leave Channel
         agoraManager.Leave();
-    }
+        RtcEngine.Dispose();
+        RtcEngine = null;
+    } 
     // Button click event handler to join the channel
     public void Join()
     {
+        // Create an instance of Agora engine
+        RtcEngine = agoraManager.SetupVideoSDKEngine(_appID, _channelName, _token);
+        // Setup event handler to handle the events.
+        UserEventHandler obj = new UserEventHandler(agoraManager);
+        RtcEngine.InitEventHandler(obj);
         // Join a channel.
         agoraManager.Join();
-    }
-    // Define a function called OnApplicationQuit() to handle application quitting.
-    void OnApplicationQuit()
-    {
-        if (RtcEngine != null)
-        {
-            Leave();
-            RtcEngine.Dispose();
-            RtcEngine = null;
-        }
     }
 }
     
