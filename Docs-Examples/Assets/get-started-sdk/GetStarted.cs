@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class GetStarted : AgoraManager
 {
-    public string appID = "0cc8ea75bf504ed08d3e8f5ef3c371bf";
-    public string channelName = "hussain";
-    public string token = "007eJxTYLg0Z1F2pRejv7l+1MnZSyTX9en3L9Z325j1ZnbZwYY3k+YrMBgkJ1ukJpqbJqWZGpikphhYpBinWqSZpqYZJxubGyallfN4pjQEMjKEp6YyMEIhiM/OkFFaXJyYmcfAAAC/XSC4";
+    public string appID = "";
+    public string channelName = "";
+    public string token = "";
     // Start is called before the first frame update
     public override void Start()
     {
