@@ -1,77 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Agora.Rtc;
-using TMPro;
+using UnityEngine.UI;
 
-public class GetStarted : MonoBehaviour
+
+public class GetStarted : AgoraManager
 {
-    // This provides all the required business logic to enable
-    internal AgoraManager agoraManager;  // Instance of AgoraManager class
-    internal Canvas canvas;  // Reference to Unity's UI canvas
-    internal IRtcEngine RtcEngine;  // Agora's RtcEngine instance
-    UserInterface UI;  // Instance of UserInterface class to manage the UI
-        
-    // Fill in your app ID.
-    internal string _appID = "";
-    // Fill in your channel name.
-    internal string _channelName = "";
-    // Fill in the temporary token you obtained from Agora Console.
-    internal string _token = "";
-        
-    internal void Start()
+    public string appID = "0cc8ea75bf504ed08d3e8f5ef3c371bf";
+    public string channelName = "hussain";
+    public string token = "007eJxTYLg0Z1F2pRejv7l+1MnZSyTX9en3L9Z325j1ZnbZwYY3k+YrMBgkJ1ukJpqbJqWZGpikphhYpBinWqSZpqYZJxubGyallfN4pjQEMjKEp6YyMEIhiM/OkFFaXJyYmcfAAAC/XSC4";
+    // Start is called before the first frame update
+    public override void Start()
     {
-        // Add a canvas to the scene to add the UI elements
-        canvas = SetupCanvas();
-        // Create an object of AgoraManager
-        agoraManager = new AgoraManager();
+        // Pass your app ID, channel name, and token to AgoraManager
+        _appID = appID;
+        _channelName = channelName;
+        _token = token;
+
         // Setup UI
-        UI = new UserInterface(canvas);
-        UI.SetupUI();
-        // Pass the local view and remote view to display videos
-        agoraManager.LocalView = UI.LocalView;
-        agoraManager.RemoteView = UI.RemoteView;
-        // Call the join and leave function of AgoraManager class when the user presses the button from the UI. 
-        UI.leaveBtn.GetComponent<Button>().onClick.AddListener(Leave);
-        UI.joinBtn.GetComponent<Button>().onClick.AddListener(Join);
+        canvas = SetupCanvas();
+        joinBtn =  AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
+        leaveBtn =  AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
+        LocalView = MakeView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
+        RemoteView = MakeView("RemoteView", new Vector3(250, 0, 0), new Vector2(250, 250));
+
+        // Check if the required permissions are granted.
+        CheckPermissions();
+
+        // Add click-event functions to the join and leave buttons.
+        leaveBtn.GetComponent<Button>().onClick.AddListener(Leave);
+        joinBtn.GetComponent<Button>().onClick.AddListener(Join);
     }
-    // Helper method to set up the UI canvas
-    public Canvas SetupCanvas()
-    {
-        // Create a new GameObject and name it "Canvas"
-        GameObject canvasObject = new GameObject("Canvas");
-        // Add a Canvas component to the GameObject
-        Canvas CanvasRef = canvasObject.AddComponent<Canvas>();
-        // Set the render mode to Screen Space - Overlay
-        CanvasRef.renderMode = RenderMode.ScreenSpaceOverlay;
-        // Add a CanvasScaler component to the GameObject
-        canvasObject.AddComponent<CanvasScaler>();
-        // Add a GraphicRaycaster component to the GameObject
-        canvasObject.AddComponent<GraphicRaycaster>();
-        return CanvasRef;
-    }
-    // Button click event handler to leave the channel
-    public void Leave()
-    {
-        // Leave Channel
-        agoraManager.Leave();
-        RtcEngine.Dispose();
-        RtcEngine = null;
-    } 
-    // Button click event handler to join the channel
-    public void Join()
-    {
-        // Create an instance of Agora engine
-        RtcEngine = agoraManager.SetupVideoSDKEngine(_appID, _channelName, _token);
-        // Setup event handler to handle the events.
-        UserEventHandler obj = new UserEventHandler(agoraManager);
-        RtcEngine.InitEventHandler(obj);
-        // Join a channel.
-        agoraManager.Join();
-    }
-}
     
-// Event handler class to handle the events raised by Agora's RtcEngine instance
-internal class GetStartedEventHandler : UserEventHandler
-{
-    internal GetStartedEventHandler(AgoraManager videoSample):base(videoSample) {}
-}  
+}
+
+
