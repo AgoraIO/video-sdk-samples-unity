@@ -14,7 +14,6 @@ public class ConfigData
     public string secretKey = "";
     public string salt = "";
     public int tokenExpiryTime = 3600; // Default time of 1 hour
-    public string proxyUrl = ""; // Add Proxy Server URL ...
     public string tokenUrl = ""; // Add Token Generator URL ...
     public int uid  = 0; // RTC elected user ID (0 = choose random)
 }

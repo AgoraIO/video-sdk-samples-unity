@@ -2,7 +2,6 @@
   "appID": "<Your Application ID>",
   "channelName": "<Channel Name>",
   "token": "<Token from the Agora console>",
-  "proxyUrl": "",
   "tokenUrl": "", 
   "tokenExpiryTime": 3600,
   "uid": 0 
