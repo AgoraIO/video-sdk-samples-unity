@@ -67,7 +67,7 @@ public class AgoraManager
         }
     }
     // Define a public function called SetupVideoSDKEngine to setup the video SDK engine.
-    public virtual IRtcEngine SetupVideoSDKEngine()
+    public virtual void  SetupVideoSDKEngine()
     {
         LoadConfigFromJSON();
         // Create an instance of the video SDK engine.
@@ -114,14 +114,6 @@ public class AgoraManager
 
     public virtual void Join()
     {
-        Debug.Log("Called Join");
-        
-        // Create an instance of the engine.
-        RtcEngine = SetupVideoSDKEngine();
-
-        // Setup an event handler to receive callbacks.
-        InitEventHandler();
-
         // Set the local video view.
         LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA);
 
@@ -136,8 +128,6 @@ public class AgoraManager
         if(RtcEngine != null)
             RtcEngine.LeaveChannel();
             RtcEngine.Dispose();
-            RtcEngine = null;
-            
     }
     public virtual void InitEventHandler()
     {

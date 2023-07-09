@@ -47,4 +47,15 @@ public class AgoraUI : MonoBehaviour
     // Empty virtual methods for Start and Update
     public virtual void Start() {}
     public virtual void Update() {}
+    public virtual void OnDestroy() 
+    {
+        if (joinBtn)
+            Destroy(joinBtn.gameObject);
+        if (leaveBtn)
+            Destroy(leaveBtn.gameObject);
+        if (LocalView)
+            Destroy(LocalView.gameObject);
+        if (RemoteView)
+            Destroy(RemoteView.gameObject);
+    }
 }

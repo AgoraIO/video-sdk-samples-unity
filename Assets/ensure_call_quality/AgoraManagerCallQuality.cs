@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System;
 
 
-public class CallQualityAgoraManager : AgoraManager
+public class AgoraManagerCallQuality : AgoraManager
 {   
     private TMP_Text networkStatus; // A label to display the network quality.
     private bool highQuality = false; // For switching between high and low video quality.
@@ -44,14 +44,18 @@ public class CallQualityAgoraManager : AgoraManager
     private IntPtr hWnd;
 
     // Start is called before the first frame update
-    public CallQualityAgoraManager()
+    public AgoraManagerCallQuality(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface)
     {
-        // Check if the required permissions are granted.
+        LocalView = LocalVideoSurface;
+        RemoteView = RemoteVideoSurface;
+        // Check if the required permissions are granted
         CheckPermissions();
 
-        // Add video surfaces to the local and remote view.
-        LocalView = GameObject.Find("LocalView").AddComponent<VideoSurface>();
-        RemoteView = GameObject.Find("RemoteView").AddComponent<VideoSurface>();
+        // Create an instance of the engine.
+        SetupVideoSDKEngine();
+
+        // Setup an event handler to receive callbacks.
+        InitEventHandler();
 
         // Get the list of audio recording devices connected to the user's app.
         GetAudioRecordingDevice();
@@ -289,8 +293,8 @@ public class CallQualityAgoraManager : AgoraManager
 // Event handler class to handle the events raised by Agora's RtcEngine instance
 internal class CallQualityEventHandler : UserEventHandler
 {
-    private CallQualityAgoraManager callQuality;
-    internal CallQualityEventHandler(CallQualityAgoraManager videoSample):base(videoSample) 
+    private AgoraManagerCallQuality callQuality;
+    internal CallQualityEventHandler(AgoraManagerCallQuality videoSample):base(videoSample) 
     {
         callQuality = videoSample;
     }

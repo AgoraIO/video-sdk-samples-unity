@@ -12,7 +12,7 @@ public class EnsureCallQuality : AgoraUI
     GameObject networkStatusObj;
     GameObject audioDevicesDropdown;
     GameObject videoDevicesDropdown;
-    CallQualityAgoraManager callQuality;
+    AgoraManagerCallQuality callQuality;
     // Start is called before the first frame update
     public void Start()
     {
@@ -53,7 +53,10 @@ public class EnsureCallQuality : AgoraUI
         // Add a button to switch video quality
         videoQualityBtn = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "Low Video Quality", new Vector2(130, 30f));
 
-        callQuality = new CallQualityAgoraManager();
+        // Add video surfaces to the local and remote views
+        VideoSurface LocalVideoSurface = LocalView.AddComponent<VideoSurface>();
+        VideoSurface RemoteVideoSurface = RemoteView.AddComponent<VideoSurface>();
+        callQuality = new AgoraManagerCallQuality(LocalVideoSurface, LocalVideoSurface);
         // Attach event listeners to buttons
         leaveBtn.GetComponent<Button>().onClick.AddListener(callQuality.Leave);
         joinBtn.GetComponent<Button>().onClick.AddListener(callQuality.Join);
@@ -61,17 +64,10 @@ public class EnsureCallQuality : AgoraUI
         videoQualityBtn.GetComponent<Button>().onClick.AddListener(callQuality.setStreamQuality);
     }
 
-    public void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         // Destroy UI elements
-        if (joinBtn)
-            Destroy(joinBtn.gameObject);
-        if (leaveBtn)
-            Destroy(leaveBtn.gameObject);
-        if (LocalView)
-            Destroy(LocalView.gameObject);
-        if (RemoteView)
-            Destroy(RemoteView.gameObject);
         if (deviceTestBtn)
             Destroy(deviceTestBtn.gameObject);
         if (videoQualityBtn)
