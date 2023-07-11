@@ -1,8 +1,10 @@
 {
-  "appID": "<Your Application ID>",
-  "channelName": "<Channel Name>",
-  "token": "<Token from the Agora console>",
-  "tokenUrl": "", 
+  "appID": "0cc8ea75bf504ed08d3e8f5ef3c371bf",
+  "channelName": "hussain",
+  "token": "007eJxTYBDeyxo66fc6Cf5GaZkyZr2Tp88dnnNFoNXRa4pBnNWV8ycVGAySky1SE81Nk9JMDUxSUwwsUoxTLdJMU9OMk43NDZPS2vhWpzQEMjJs9YtlZWSAQBCfnSGjtLg4MTOPgQEAT54f4A==",
+  "tokenUrl": "https://agora-token-service-production-b75a.up.railway.app", 
   "tokenExpiryTime": 3600,
-  "uid": 0 
+  "uid": 0,
+  "secretKey" : "",
+  "salt" : ""
 }

@@ -28,6 +28,7 @@ public class AgoraManager
     internal IRtcEngine RtcEngine;
     internal VideoSurface LocalView;
     internal VideoSurface RemoteView;
+    internal ConfigData configData;
 
     #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     // Define an ArrayList of permissions required for Android devices.
@@ -55,7 +56,7 @@ public class AgoraManager
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            ConfigData configData = JsonUtility.FromJson<ConfigData>(json);
+            configData = JsonUtility.FromJson<ConfigData>(json);
 
             _appID = configData.appID;
             _channelName = configData.channelName;
@@ -70,6 +71,7 @@ public class AgoraManager
     public virtual void  SetupVideoSDKEngine()
     {
         LoadConfigFromJSON();
+        Debug.Log(configData);
         // Create an instance of the video SDK engine.
         RtcEngine = Agora.Rtc.RtcEngine.CreateAgoraRtcEngine();
         
@@ -86,10 +88,6 @@ public class AgoraManager
 
         // Set the user role as broadcaster.
         RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
-
-
-        // Return the initialized instance of the video SDK engine.
-        return RtcEngine;
     }
  
     // Define a public function called Leave() to leave the channel.
@@ -106,10 +104,6 @@ public class AgoraManager
 
         // Stop rendering the local video.
         LocalView.SetEnable(false);
-
-        // Kill the engine instance
-        RtcEngine.Dispose();
-        RtcEngine = null;
     }
 
     public virtual void Join()

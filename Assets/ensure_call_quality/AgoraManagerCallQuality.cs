@@ -63,39 +63,11 @@ public class AgoraManagerCallQuality : AgoraManager
         // Get the list of video devices connected to the user's app.
         GetVideoDeviceManager();
 
-        // Start the probe test.
-        StartProbeTest();
+        
     }
-    public void StartProbeTest()
+    public override void SetupVideoSDKEngine()
     {
-        RtcEngine = SetupVideoSDKEngine();
-        RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
-
-        // Configure a LastmileProbeConfig instance.
-        LastmileProbeConfig config = new LastmileProbeConfig();
-
-        // Probe theuplink network quality.
-        config.probeUplink = true;
-
-        // Probe the downlink network quality.
-        config.probeDownlink = true;
-
-        // The expected uplink bitrate (bps). The value range is [100000,5000000].
-        config.expectedUplinkBitrate = 100000;
-
-        // The expected downlink bitrate (bps). The value range is [100000,5000000].
-        config.expectedDownlinkBitrate = 100000;
-
-        RtcEngine.StartLastmileProbeTest(config);
-        Debug.Log("Running the last mile probe test ...");
-    }
-    public override void Join()
-    {
-        // Kill the already created instance
-        if (RtcEngine != null) RtcEngine.Dispose();
-
-        // Create an instance of the engine.
-        RtcEngine = SetupVideoSDKEngine();
+        base.SetupVideoSDKEngine();
 
         // Specify a path for the log file.
         RtcEngine.SetLogFile("/path/to/folder/agorasdk1.log");
@@ -136,9 +108,31 @@ public class AgoraManagerCallQuality : AgoraManager
         // Apply the configuration.
         RtcEngine.SetVideoEncoderConfiguration(videoConfig);
 
-        // Setup an event handler to receive callbacks.
-        RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
+        // Start the probe test.
+        StartProbeTest();
+    }
+    public void StartProbeTest()
+    {
+        // Configure a LastmileProbeConfig instance.
+        LastmileProbeConfig config = new LastmileProbeConfig();
 
+        // Probe theuplink network quality.
+        config.probeUplink = true;
+
+        // Probe the downlink network quality.
+        config.probeDownlink = true;
+
+        // The expected uplink bitrate (bps). The value range is [100000,5000000].
+        config.expectedUplinkBitrate = 100000;
+
+        // The expected downlink bitrate (bps). The value range is [100000,5000000].
+        config.expectedDownlinkBitrate = 100000;
+
+        RtcEngine.StartLastmileProbeTest(config);
+        Debug.Log("Running the last mile probe test ...");
+    }
+    public override void Join()
+    {
         // Set the local video view.
         LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA);
 
@@ -151,7 +145,6 @@ public class AgoraManagerCallQuality : AgoraManager
 
     private void GetAudioRecordingDevice()
     {
-        RtcEngine = SetupVideoSDKEngine();
         _audioDeviceManager = RtcEngine.GetAudioDeviceManager();
         _audioRecordingDeviceInfos = _audioDeviceManager.EnumerateRecordingDevices();
 
@@ -171,7 +164,6 @@ public class AgoraManagerCallQuality : AgoraManager
 
     private void GetVideoDeviceManager()
     {
-        RtcEngine = SetupVideoSDKEngine();
         _videoDeviceManager = RtcEngine.GetVideoDeviceManager();
         _videoDeviceInfos = _videoDeviceManager.EnumerateVideoDevices();
 
@@ -194,7 +186,7 @@ public class AgoraManagerCallQuality : AgoraManager
     public void testAudioAndVideoDevice()
     {
         GameObject go = GameObject.Find("testDevicesBtn");
-        if(RtcEngine == null) RtcEngine = SetupVideoSDKEngine();
+        if(RtcEngine == null) SetupVideoSDKEngine();
         if(!isTestRunning)
         {
             string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
