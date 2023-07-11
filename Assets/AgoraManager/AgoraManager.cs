@@ -11,7 +11,7 @@ public class ConfigData
     public string appID;
     public string channelName;
     public string token;
-    public string secretKey = "";
+    public string encryptionKey = "";
     public string salt = "";
     public int tokenExpiryTime = 3600; // Default time of 1 hour
     public string tokenUrl = ""; // Add Token Generator URL ...

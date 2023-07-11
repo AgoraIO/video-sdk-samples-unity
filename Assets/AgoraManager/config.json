@@ -5,6 +5,6 @@
   "tokenUrl": "", 
   "tokenExpiryTime": 3600,
   "uid": 0,
-  "secretKey" : "",
+  "encryptionKey" : "",
   "salt" : ""
 }

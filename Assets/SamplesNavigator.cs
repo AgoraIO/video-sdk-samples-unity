@@ -28,7 +28,8 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Select", null);
         scriptDictionary.Add("Get Started", typeof(GetStarted));
         scriptDictionary.Add("Ensure Call Quality", typeof(EnsureCallQuality));
-
+        scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));
+        scriptDictionary.Add("Secure Channel Encryption", typeof(MediaStreamEncryption));
         // Get the script names from the dictionary
         scriptNames.AddRange(scriptDictionary.Keys);
 
