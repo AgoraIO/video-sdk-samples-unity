@@ -23,12 +23,15 @@ public class AuthenticationWorkflow : AgoraUI
         // Add video surfaces to the local and remote views
         VideoSurface LocalVideoSurface = LocalView.AddComponent<VideoSurface>();
         VideoSurface RemoteVideoSurface = RemoteView.AddComponent<VideoSurface>();
+
         // Create an instance of the AgoraManagerGetStarted
         AuthenticationWorkflowManager = new AgoraManagerAuthenticationWorkflow(LocalVideoSurface, RemoteVideoSurface);
+
         // Add click-event functions to the join and leave buttons
         leaveBtn.GetComponent<Button>().onClick.AddListener(AuthenticationWorkflowManager.Leave);
         joinBtn.GetComponent<Button>().onClick.AddListener(AuthenticationWorkflowManager.Join);
 
+        // Create an input field to input the channel name.
         TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
         GameObject inputFieldObj = TMP_DefaultControls.CreateInputField(resources);
         inputFieldObj.name = "channelName";
@@ -40,6 +43,9 @@ public class AuthenticationWorkflow : AgoraUI
 
         TMP_Text textComponent = inputFieldObj.GetComponentInChildren<TMP_Text>();
         textComponent.alignment = TextAlignmentOptions.Center;
+
+        // Change the placeholder text
+        tmpInputField.placeholder.GetComponent<TMP_Text>().text = "Channel Name";
     }
     public override void OnDestroy()
     {
