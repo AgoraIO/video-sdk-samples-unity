@@ -1,26 +1,32 @@
 # Video SDK for Unity code examples POC
 
-Use the contents in this repo to compare the following ways of presenting runnable code examples in an open source 
-repository. In all examples, the code corresponds to a page in the Agora developer documentation. 
+Each folder contains the runnable code explained in the documentation. 
 
-- **Current Doc examples**
-
-  Each folder contains the project that is created when you follow the steps in the current documentation.
-
-  Advantages are that the code and doc already exist. Disadvantage is that you have to follow the docs to make the code run.
-  - [SDK quickstart](current-examples/get-started-sdk/)
-  - [Call quality](./current-examples/ensure-call-quality/)
-
-
-- **Simplified examples that extend from a base class**
-
-   Each folder contains the runnable code explained in the documentation. 
-
-    Advantages are that we supply runnable code where the UI is abstracted so we concentrate more clearly on Agora
+  Advantages are that we supply runnable code where the UI is abstracted so we concentrate more clearly on Agora
      SDK. This means the docs become much shorter and simpler. Possible disadvantage is that we have to write the
      code for the project. TBH, we already have the code, we are just putting it in a better format for learning.
-  - [SDK quickstart](./Docs-Examples/Assets/get-started-sdk/)
-  - [Call quality](./Docs-Examples/Assets/ensure-call-quality/)
-  - [Secure authentication with tokens](Docs-Examples/authentication-workflow/)
+
+  - [SDK Quickstart](./Assets/Get_started/)
+  - [Call Quality](./Assets/Ensure_call_quality/)
+  - [Secure Authentication with Tokens](./Assets/Authentication_workflow/)
+  - [Cloud Proxy](./Assets/Cloud_proxy/)
+  - [Secure Media Encryption](./Assets/Media_stream_encryption/)
+
+## Run a sample project
+
+To run a sample project in this repository, take the following steps:
+
+1. Clone this Git repository by executing the following command in a terminal window:
+
+    ```bash
+    git clone https://github.com/AgoraIO/video-sdk-samples-unity
+    ```
+
+1. Follow [Integrate the video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity#project-setup) steps in order to add the video SDK into your project.
+
+
+1. Go to [config.js](./Assets//AgoraManager/config.json) and add `appID`, `channelName`, and `token` from the agora console.
+
+1. In **Unity Editor**, click **Play** and select a sample code from the dropdown that you wish to execute.
 
 
