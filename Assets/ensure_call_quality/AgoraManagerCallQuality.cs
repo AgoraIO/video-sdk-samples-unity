@@ -55,7 +55,7 @@ public class AgoraManagerCallQuality : AgoraManager
         SetupVideoSDKEngine();
 
         // Setup an event handler to receive callbacks.
-        InitEventHandler();
+        RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
 
         // Get the list of audio recording devices connected to the user's app.
         GetAudioRecordingDevice();
@@ -63,7 +63,6 @@ public class AgoraManagerCallQuality : AgoraManager
         // Get the list of video devices connected to the user's app.
         GetVideoDeviceManager();
 
-        
     }
     public override void SetupVideoSDKEngine()
     {

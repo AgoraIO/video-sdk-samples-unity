@@ -21,6 +21,7 @@ public class AgoraManagerAuthenticationWorkflow : AgoraManager
         LocalView = refLocalSurface;
         RemoteView = refRemoteSurface;
         SetupVideoSDKEngine();
+        RtcEngine.InitEventHandler(new AuthenticationWorkflowEventHandler(this));
     }
     public async Task FetchToken()
     {
