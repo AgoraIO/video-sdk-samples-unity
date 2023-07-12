@@ -4,7 +4,7 @@ This folder contains the necessary files, user interface elements, and the Agora
 
 1. **Integrate the video SDK**
 
-    Follow [Integrate the video SDK](https://github.com/AgoraIO/video-sdk-samples-unity/tree/main/Docs-Examples#integrate-the-video-sdk) steps in order to add the video SDK into your project. If you already added the video SDK, you can skip this step.
+    Follow [Integrate the video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity#project-setup) steps in order to add the video SDK into your project.
 
 
 1. **Test the Implementation**
