@@ -8,7 +8,8 @@ using TMPro;
 
 public class AuthenticationWorkflow : AgoraUI
 {
-    AgoraManagerAuthenticationWorkflow AuthenticationWorkflowManager;
+    AuthenticationWorkflowManager authenticationWorkflowManager;
+    internal GameObject channelField;
     // Start is called before the first frame update
     public override void Start()
     {
@@ -17,31 +18,28 @@ public class AuthenticationWorkflow : AgoraUI
         // Create and position UI elements
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
-        LocalView = MakeView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        RemoteView = MakeView("RemoteView", new Vector3(250, 0, 0), new Vector2(250, 250));
+        LocalView = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
+        RemoteView = MakeRemoteView("RemoteView",new Vector2(250, 250));
 
         // Add video surfaces to the local and remote views
         VideoSurface LocalVideoSurface = LocalView.AddComponent<VideoSurface>();
         VideoSurface RemoteVideoSurface = RemoteView.AddComponent<VideoSurface>();
-
         // Create an instance of the AgoraManagerGetStarted
-        AuthenticationWorkflowManager = new AgoraManagerAuthenticationWorkflow(LocalVideoSurface, RemoteVideoSurface);
-
+        authenticationWorkflowManager = new AuthenticationWorkflowManager(LocalVideoSurface, RemoteVideoSurface);
         // Add click-event functions to the join and leave buttons
-        leaveBtn.GetComponent<Button>().onClick.AddListener(AuthenticationWorkflowManager.Leave);
-        joinBtn.GetComponent<Button>().onClick.AddListener(AuthenticationWorkflowManager.Join);
+        leaveBtn.GetComponent<Button>().onClick.AddListener(authenticationWorkflowManager.Leave);
+        joinBtn.GetComponent<Button>().onClick.AddListener(authenticationWorkflowManager.Join);
 
-        // Create an input field to input the channel name.
         TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
-        GameObject inputFieldObj = TMP_DefaultControls.CreateInputField(resources);
-        inputFieldObj.name = "channelName";
-        inputFieldObj.transform.SetParent(canvas.transform, false);
+        channelField = TMP_DefaultControls.CreateInputField(resources);
+        channelField.name = "channelName";
+        channelField.transform.SetParent(canvas.transform, false);
 
-        TMP_InputField tmpInputField = inputFieldObj.GetComponent<TMP_InputField>();
+        TMP_InputField tmpInputField = channelField.GetComponent<TMP_InputField>();
         RectTransform inputFieldTransform = tmpInputField.GetComponent<RectTransform>();
         inputFieldTransform.sizeDelta = new Vector2(200, 30);
 
-        TMP_Text textComponent = inputFieldObj.GetComponentInChildren<TMP_Text>();
+        TMP_Text textComponent = channelField.GetComponentInChildren<TMP_Text>();
         textComponent.alignment = TextAlignmentOptions.Center;
 
         // Change the placeholder text
@@ -49,8 +47,12 @@ public class AuthenticationWorkflow : AgoraUI
     }
     public override void OnDestroy()
     {
+        if(channelField)
+            Destroy(channelField.gameObject);
         base.OnDestroy();
-        AuthenticationWorkflowManager.OnDestroy();
+        authenticationWorkflowManager.OnDestroy();
+        if(channelField)
+            Destroy(channelField.gameObject);
     }
     
 }

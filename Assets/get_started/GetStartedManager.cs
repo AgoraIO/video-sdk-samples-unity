@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Agora.Rtc;
 
-public class AgoraManagerGetStarted : AgoraManager
+public class GetStartedManager : AgoraManager
 {  
     // Start is called before the first frame update
-     public AgoraManagerGetStarted(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface)
+     public GetStartedManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface)
     {
         LocalView = LocalVideoSurface;
         RemoteView = RemoteVideoSurface;

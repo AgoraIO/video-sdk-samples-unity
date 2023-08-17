@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System;
 
 
-public class AgoraManagerCallQuality : AgoraManager
+public class CallQualityManager : AuthenticationWorkflowManager
 {   
     private TMP_Text networkStatus; // A label to display the network quality.
     private bool highQuality = false; // For switching between high and low video quality.
@@ -44,15 +44,10 @@ public class AgoraManagerCallQuality : AgoraManager
     private IntPtr hWnd;
 
     // Start is called before the first frame update
-    public AgoraManagerCallQuality(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface)
+    public CallQualityManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface) : base(LocalVideoSurface, RemoteVideoSurface)
     {
-        LocalView = LocalVideoSurface;
-        RemoteView = RemoteVideoSurface;
         // Check if the required permissions are granted
         CheckPermissions();
-
-        // Create an instance of the engine.
-        SetupVideoSDKEngine();
 
         // Setup an event handler to receive callbacks.
         RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
@@ -63,11 +58,12 @@ public class AgoraManagerCallQuality : AgoraManager
         // Get the list of video devices connected to the user's app.
         GetVideoDeviceManager();
 
+        // Start the probe test.
+        StartProbeTest();
     }
     public override void SetupVideoSDKEngine()
     {
         base.SetupVideoSDKEngine();
-
         // Specify a path for the log file.
         RtcEngine.SetLogFile("/path/to/folder/agorasdk1.log");
 
@@ -106,9 +102,7 @@ public class AgoraManagerCallQuality : AgoraManager
 
         // Apply the configuration.
         RtcEngine.SetVideoEncoderConfiguration(videoConfig);
-
-        // Start the probe test.
-        StartProbeTest();
+        
     }
     public void StartProbeTest()
     {
@@ -129,17 +123,6 @@ public class AgoraManagerCallQuality : AgoraManager
 
         RtcEngine.StartLastmileProbeTest(config);
         Debug.Log("Running the last mile probe test ...");
-    }
-    public override void Join()
-    {
-        // Set the local video view.
-        LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA);
-
-        // Start rendering local video.
-        LocalView.SetEnable(true);
-
-        // Join the channel using the specified token and channel name.
-        RtcEngine.JoinChannel(_token, _channelName);
     }
 
     private void GetAudioRecordingDevice()
@@ -185,7 +168,6 @@ public class AgoraManagerCallQuality : AgoraManager
     public void testAudioAndVideoDevice()
     {
         GameObject go = GameObject.Find("testDevicesBtn");
-        if(RtcEngine == null) SetupVideoSDKEngine();
         if(!isTestRunning)
         {
             string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
@@ -284,8 +266,8 @@ public class AgoraManagerCallQuality : AgoraManager
 // Event handler class to handle the events raised by Agora's RtcEngine instance
 internal class CallQualityEventHandler : UserEventHandler
 {
-    private AgoraManagerCallQuality callQuality;
-    internal CallQualityEventHandler(AgoraManagerCallQuality videoSample):base(videoSample) 
+    private CallQualityManager callQuality;
+    internal CallQualityEventHandler(CallQualityManager videoSample):base(videoSample) 
     {
         callQuality = videoSample;
     }
@@ -302,8 +284,6 @@ internal class CallQualityEventHandler : UserEventHandler
     public override void OnLastmileProbeResult(LastmileProbeResult result) 
     {
         _videoSample.RtcEngine.StopLastmileProbeTest();
-        _videoSample.RtcEngine.Dispose();
-        _videoSample.RtcEngine = null;
         Debug.Log("Probe test finished");
         // The result object contains the detailed test results that help you
         // manage call quality, for example, the downlink jitter.

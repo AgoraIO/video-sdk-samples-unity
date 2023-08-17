@@ -4,13 +4,11 @@ using UnityEngine;
 using Agora.Rtc;
 using System;
 
-public class AgoraManagerMediaEncryption : AgoraManager
+public class MediaEncryptionManager : AuthenticationWorkflowManager
 {  
     // Start is called before the first frame update
-     public AgoraManagerMediaEncryption(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface)
+     public MediaEncryptionManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface): base (LocalVideoSurface, RemoteVideoSurface)
     {
-        LocalView = LocalVideoSurface;
-        RemoteView = RemoteVideoSurface;
         // Check if the required permissions are granted
         CheckPermissions();
 
@@ -29,6 +27,11 @@ public class AgoraManagerMediaEncryption : AgoraManager
     {
         if (RtcEngine != null)
         {
+            if(configData.encryptionKey == "" || configData.salt == "")
+            {
+                Debug.Log("Encryption key or encryption salt was not set");
+                return;
+            }
             // Create an encryption configuration.
             var config = new EncryptionConfig
             {

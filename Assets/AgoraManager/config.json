@@ -1,10 +1,1 @@
-{
-  "appID": "",
-  "channelName": "",
-  "token": "",
-  "tokenUrl": "", 
-  "tokenExpiryTime": 3600,
-  "uid": 0,
-  "encryptionKey" : "",
-  "salt" : ""
-}
+{"appID":"","channelName":"demo","token":"","encryptionKey":"","salt":"","tokenExpiryTime":3600,"tokenUrl":"","uid":1,"product":""}

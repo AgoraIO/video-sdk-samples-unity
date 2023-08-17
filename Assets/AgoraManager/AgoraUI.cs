@@ -13,7 +13,7 @@ public class AgoraUI : MonoBehaviour
     internal GameObject RemoteView;
 
     // Create a video view
-    public virtual GameObject MakeView(string VName, Vector3 VPos, Vector2 VSize)
+    public virtual GameObject MakeLocalView(string VName, Vector3 VPos, Vector2 VSize)
     {
         // Create the game object with a RawImage component
         GameObject go = new GameObject(VName, typeof(RawImage));
@@ -24,6 +24,18 @@ public class AgoraUI : MonoBehaviour
         rectTransform.localPosition = VPos;
         rectTransform.localScale = Vector3.one;
         rectTransform.sizeDelta = VSize;
+        return go;
+    }
+    public virtual GameObject MakeRemoteView(string VName, Vector2 VSize)
+    {
+        GameObject scrollView = GameObject.Find("RemoteViews");
+        Transform contentTransform = scrollView.transform.Find("Viewport/Content");
+
+        // Create the game object with a RawImage component
+        GameObject go = new GameObject(VName, typeof(RawImage));
+        // Set the RectTransform settings
+        RectTransform rectTransform = go.GetComponent<RectTransform>();
+        rectTransform.SetParent(scrollView.transform.Find("Viewport/Content")); // Access the Content GameObject within the Scroll View
         return go;
     }
 

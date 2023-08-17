@@ -7,16 +7,14 @@ using TMPro;
 using Agora.Rtc;
 using System.Threading.Tasks;
 
-
 public class TokenStruct
 {
     public string rtcToken;
 }
 
-
-public class AgoraManagerAuthenticationWorkflow : AgoraManager
+public class AuthenticationWorkflowManager : AgoraManager
 {
-    public AgoraManagerAuthenticationWorkflow(VideoSurface refLocalSurface, VideoSurface refRemoteSurface)
+    public AuthenticationWorkflowManager(VideoSurface refLocalSurface, VideoSurface refRemoteSurface)
     {
         LocalView = refLocalSurface;
         RemoteView = refRemoteSurface;
@@ -58,12 +56,6 @@ public class AgoraManagerAuthenticationWorkflow : AgoraManager
     }
     public override async void Join()
     {
-         // Set the local video view.
-        LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA);
-
-        // Start rendering local video.
-        LocalView.SetEnable(true);
-
         _channelName = GameObject.Find("channelName").GetComponent<TMP_InputField>().text;
         if (_channelName == "")
         {
@@ -77,14 +69,14 @@ public class AgoraManagerAuthenticationWorkflow : AgoraManager
             return;
         }
         // Join the channel using the specified token and channel name.
-        RtcEngine.JoinChannel(_token, _channelName);
+        base.Join();
     }
 }
 
 internal class AuthenticationWorkflowEventHandler : UserEventHandler
 {
-    private AgoraManagerAuthenticationWorkflow AuthenticationWorkflow;
-    internal AuthenticationWorkflowEventHandler(AgoraManagerAuthenticationWorkflow refAuthenticationWorkflow):base(refAuthenticationWorkflow) 
+    private AuthenticationWorkflowManager AuthenticationWorkflow;
+    internal AuthenticationWorkflowEventHandler(AuthenticationWorkflowManager refAuthenticationWorkflow):base(refAuthenticationWorkflow) 
     {
         AuthenticationWorkflow = refAuthenticationWorkflow;
     }

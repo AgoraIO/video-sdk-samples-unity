@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Agora.Rtc;
 
-public class AgoraManagerCloudProxy : AgoraManager
+public class CloudProxyManager : AuthenticationWorkflowManager
 {  
     // Start is called before the first frame update
-     public AgoraManagerCloudProxy(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface)
+     public CloudProxyManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface): base(LocalVideoSurface, RemoteVideoSurface)
     {
         LocalView = LocalVideoSurface;
         RemoteView = RemoteVideoSurface;
@@ -37,8 +37,8 @@ public class AgoraManagerCloudProxy : AgoraManager
 // Event handler class to handle the events raised by Agora's RtcEngine instance
 internal class CloudProxyEventHandler : UserEventHandler
 {
-    private AgoraManagerCloudProxy cloudProxy;
-    internal CloudProxyEventHandler(AgoraManagerCloudProxy videoSample):base(videoSample) 
+    private CloudProxyManager cloudProxy;
+    internal CloudProxyEventHandler(CloudProxyManager videoSample):base(videoSample) 
     {
         cloudProxy = videoSample;
     }

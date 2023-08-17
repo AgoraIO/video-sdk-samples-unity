@@ -12,7 +12,7 @@ public class EnsureCallQuality : AgoraUI
     GameObject networkStatusObj;
     GameObject audioDevicesDropdown;
     GameObject videoDevicesDropdown;
-    AgoraManagerCallQuality callQuality;
+    CallQualityManager callQualityManager;
     // Start is called before the first frame update
     public void Start()
     {
@@ -22,8 +22,8 @@ public class EnsureCallQuality : AgoraUI
         // Create and position UI elements
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
-        LocalView = MakeView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        RemoteView = MakeView("RemoteView", new Vector3(250, 0, 0), new Vector2(250, 250));
+        LocalView = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
+        RemoteView = MakeRemoteView("RemoteView", new Vector2(250, 250));
 
         // Add a TMP_Dropdown component for audio devices
         audioDevicesDropdown = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
@@ -56,12 +56,28 @@ public class EnsureCallQuality : AgoraUI
         // Add video surfaces to the local and remote views
         VideoSurface LocalVideoSurface = LocalView.AddComponent<VideoSurface>();
         VideoSurface RemoteVideoSurface = RemoteView.AddComponent<VideoSurface>();
-        callQuality = new AgoraManagerCallQuality(LocalVideoSurface, LocalVideoSurface);
+        callQualityManager = new CallQualityManager(LocalVideoSurface, LocalVideoSurface);
         // Attach event listeners to buttons
-        leaveBtn.GetComponent<Button>().onClick.AddListener(callQuality.Leave);
-        joinBtn.GetComponent<Button>().onClick.AddListener(callQuality.Join);
-        deviceTestBtn.GetComponent<Button>().onClick.AddListener(callQuality.testAudioAndVideoDevice);
-        videoQualityBtn.GetComponent<Button>().onClick.AddListener(callQuality.setStreamQuality);
+        leaveBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.Leave);
+        joinBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.Join);
+        deviceTestBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.testAudioAndVideoDevice);
+        videoQualityBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.setStreamQuality);
+
+        // Add an input field to input a channel name
+        TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
+        GameObject inputFieldObj = TMP_DefaultControls.CreateInputField(resources);
+        inputFieldObj.name = "channelName";
+        inputFieldObj.transform.SetParent(canvas.transform, false);
+
+        TMP_InputField tmpInputField = inputFieldObj.GetComponent<TMP_InputField>();
+        RectTransform inputFieldTransform = tmpInputField.GetComponent<RectTransform>();
+        inputFieldTransform.sizeDelta = new Vector2(200, 30);
+
+        TMP_Text textComponent = inputFieldObj.GetComponentInChildren<TMP_Text>();
+        textComponent.alignment = TextAlignmentOptions.Center;
+
+        // Change the placeholder text
+        tmpInputField.placeholder.GetComponent<TMP_Text>().text = "Channel Name";
     }
 
     public override void OnDestroy()
@@ -78,7 +94,7 @@ public class EnsureCallQuality : AgoraUI
             Destroy(audioDevicesDropdown.gameObject);
         if (videoDevicesDropdown)
             Destroy(videoDevicesDropdown.gameObject);
-        if(callQuality != null)
-            callQuality.OnDestroy();
+        if(callQualityManager != null)
+            callQualityManager.OnDestroy();
     }    
 }
