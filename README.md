@@ -8,7 +8,7 @@ The runnable code examples are:
 
 - [SDK quickstart](/Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency
   video calling features into your app using Agora Video SDK.
-- [Secure authentication with tokens](/Assets/authentication-wokflow/) - quickly set up an authentication token server, retrieve
+- [Secure authentication with tokens](/Assets/authentication-workflow/) - quickly set up an authentication token server, retrieve
   a token from the server, and use it to connect securely to the SD-RTN server as a specific user.
 - [Connect through restricted networks with Cloud Proxy](/Assets/cloud-proxy/) - ensure reliable connectivity for your users when they connect from an
   environment with a restricted network.
