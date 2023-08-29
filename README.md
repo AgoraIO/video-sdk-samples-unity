@@ -1,20 +1,20 @@
-# Agora Signaling SDK for Web v2.x reference app
+# Agora Video SDK for Unity reference game
 
-This repository holds the code examples used for the [Agora Video SDK for Unity](https://docs-staging-git-milestone-21-new-get-started-2d5f31-agora-gdxe.vercel.app/en/sdks?platform=unity) documentation. Clone the repo, run and test the samples, use the code in your own project. Enjoy.
+This repository holds the code examples used for the [Agora Video SDK for Unity](https://github.com/AgoraIO/video-sdk-samples-unity) documentation. Clone the repo, run and test the samples, use the code in your own project. Enjoy.
 
 ## Samples  
 
 The runnable code examples are:
 
-- [SDK quickstart](/Assets/get_started) - the minimum code you need to integrate low-latency, high-concurrency
+- [SDK quickstart](/Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency
   video calling features into your app using Agora Video SDK.
-- [Secure authentication with tokens](/Assets/Authentication_Wokflow/) - quickly set up an authentication token server, retrieve
+- [Secure authentication with tokens](/Assets/Authentication-Wokflow/) - quickly set up an authentication token server, retrieve
   a token from the server, and use it to connect securely to the SD-RTN server as a specific user.
-- [Connect through restricted networks with Cloud Proxy](/Assets/cloud_proxy/) - ensure reliable connectivity for your users when they connect from an
+- [Connect through restricted networks with Cloud Proxy](/Assets/cloud-proxy/) - ensure reliable connectivity for your users when they connect from an
   environment with a restricted network.
-- [Media encryption](/Assets/media_stream_encryption/) - integrate built-in data encryption into your app using Video SDK.
+- [Media encryption](/Assets/media-stream-encryption/) - integrate built-in data encryption into your app using Video SDK.
 
-- [Call Quality](/Assets/ensure_call_quality/) - ensure optimal audio and video quality in your game.
+- [Call Quality](/Assets/ensure-call-quality/) - ensure optimal audio and video quality in your game.
 
 
 ## Run this project
