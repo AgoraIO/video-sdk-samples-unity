@@ -1,26 +1,82 @@
-# Video SDK for Unity code examples POC
+# Agora Video SDK for Unity reference game
 
-Use the contents in this repo to compare the following ways of presenting runnable code examples in an open source 
-repository. In all examples, the code corresponds to a page in the Agora developer documentation. 
+This app demonstrates use of [Agora's Video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk) for real-time audio and video communication. It is a robust and comprehensive documentation reference app for Android, designed to enhance your productivity and understanding. It's built to be flexible, easily extensible, and beginner-friendly.
 
-- **Current Doc examples**
+Clone the repo, run and test the samples, and use the code in your own project. Enjoy.
 
-  Each folder contains the project that is created when you follow the steps in the current documentation.
+- [Samples](#samples)
+- [Prerequisites](#prerequisites)
+- [Run this project](#run-this-project)
+- [Contact](#contact)
 
-  Advantages are that the code and doc already exist. Disadvantage is that you have to follow the docs to make the code run.
-  - [SDK quickstart](current-examples/get-started-sdk/)
-  - [Call quality](./current-examples/ensure-call-quality/)
+## Samples  
+
+The runnable code examples are:
+
+- [SDK quickstart](/Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency
+  video calling features into your app using Agora Video SDK.
+- [Secure authentication with tokens](/Assets/authentication-workflow/) - quickly set up an authentication token server, retrieve
+  a token from the server, and use it to connect securely to the SD-RTN server as a specific user.
+- [Call quality best practice](/Assets/ensure-call-quality/) - ensure optimal audio and video quality in your game.
+- [Connect through restricted networks with Cloud Proxy](/Assets/cloud-proxy/) - ensure reliable connectivity for your users when they connect from an
+  environment with a restricted network.
+- [Secure channel encryption](/Assets/media-stream-encryption/) - integrate built-in data encryption into your app using Video SDK.
 
 
-- **Simplified examples that extend from a base class**
+## Prerequisites
 
-   Each folder contains the runnable code explained in the documentation. 
+Before getting started with this reference app, ensure you have the following set up:
 
-    Advantages are that we supply runnable code where the UI is abstracted so we concentrate more clearly on Agora
-     SDK. This means the docs become much shorter and simpler. Possible disadvantage is that we have to write the
-     code for the project. TBH, we already have the code, we are just putting it in a better format for learning.
-  - [SDK quickstart](./Docs-Examples/Assets/get-started-sdk/)
-  - [Call quality](./Docs-Examples/Assets/ensure-call-quality/)
-  - [Secure authentication with tokens](Docs-Examples/authentication-workflow/)
+- [Unity Hub](https://unity.com/download)
+- [Unity Editor 2017.X LTS or higher](https://unity.com/releases/editor/archive)
+- Microsoft Visual Studio 2017 or higher
 
+## Run this project
 
+To run the sample game, take the following steps:
+
+1. **Clone the repository**
+
+    To clone the repository to your local machine, open Terminal and navigate to the directory where you want to clone the repository. Then, use the following command:
+
+    ```bash
+    git https://github.com/AgoraIO/video-sdk-samples-unity.git
+    ```
+
+1. **Open the project**   
+
+    1. Unzip the cloned project and open it the Unity editor.
+
+    1. Unzip [the latest version of the Agora Video SDK](https://docs.agora.io/en/sdks?platform=unity) to a local 
+       folder.
+
+   1. In **Unity**, click **Assets** > **Import Package** > **Custom Package**.
+
+   1. Navigate to the Video SDK package and click **Open**.
+
+   1. In **Import Unity Package**, click **Import**.
+
+1. **Modify the project configuration**
+
+   The app loads connection parameters from the [`config.json`](.Assets/agora-manager/config.json) file. Ensure that 
+   the file is populated with the required parameter values before running the application.
+
+    - `uid`: The user ID associated with the application.
+    - `appId`: (Required) The unique ID for the application obtained from [Agora Console](https://console.agora.io). 
+    - `channelName`: The default name of the channel to join.
+    - `rtcToken`:An token generated for `channelName`. You generate a temporary token using the [Agora token builder](https://agora-token-generator-demo.vercel.app/).
+    - `serverUrl`: The URL for the token generator. See [Secure authentication with tokens](authentication-workflow) for information on how to set up a token server.
+    - `tokenExpiryTime`: The time in seconds after which a token expires.
+
+    If a valid `serverUrl` is provided, all samples use the token server to obtain a token except the **SDK quickstart** project that uses the `rtcToken`. If a `serverUrl` is not specified, all samples except **Secure authentication with tokens** use the `rtcToken` from `config.json`.
+
+1. **Build and run the project**
+
+    In **Unity Editor**, click **Play**. A moment later you see the game running on your development device.
+1. **Run the samples in the reference app**
+
+   Choose a sample code from the dropdown that you wish to execute.
+
+## Contact
+
+If you have any questions, issues, or suggestions, please file an issue in our [GitHub Issue Tracker](https://github.com/AgoraIO/video-sdk-samples-unity/issues).
