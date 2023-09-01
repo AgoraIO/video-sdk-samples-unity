@@ -10,7 +10,7 @@ public class CloudProxy : AgoraUI
 {
     CloudProxyManager cloudProxyManager;
     internal GameObject channelField;
-
+    internal GameObject audienceToggleGo, hostToggleGo;
     // Start is called before the first frame update
     public override void Start()
     {
@@ -19,14 +19,33 @@ public class CloudProxy : AgoraUI
         // Create and position UI elements
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
-        LocalView = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        RemoteView = MakeRemoteView("RemoteView", new Vector2(250, 250));
+        LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
+        RemoteViewGo = MakeRemoteView("RemoteView", new Vector2(250, 250));
 
-        // Add video surfaces to the local and remote views
-        VideoSurface LocalVideoSurface = LocalView.AddComponent<VideoSurface>();
-        VideoSurface RemoteVideoSurface = RemoteView.AddComponent<VideoSurface>();
         // Create an instance of the AgoraManagerGetStarted
-        cloudProxyManager = new CloudProxyManager(LocalVideoSurface, RemoteVideoSurface);
+        cloudProxyManager = new CloudProxyManager(LocalViewGo, RemoteViewGo);
+
+        if (cloudProxyManager.configData.product != "Video Calling")
+        {
+            hostToggleGo = AddToggle("Host", new Vector2(-19, 50), "Host", new Vector2(200, 30));
+            audienceToggleGo = AddToggle("Audience", new Vector2(-19, 100), "Audience", new Vector2(200, 30));
+            Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
+            Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
+            hostToggle.isOn = false;
+            audienceToggle.isOn = false;
+            hostToggle.onValueChanged.AddListener((value) =>
+            {
+                audienceToggle.isOn = !value;
+                cloudProxyManager.setClientRole("Host");
+            });
+
+            audienceToggle.onValueChanged.AddListener((value) =>
+            {
+                hostToggle.isOn = !value;
+                cloudProxyManager.setClientRole("Audience");
+            });
+        }
+
         // Add click-event functions to the join and leave buttons
         leaveBtn.GetComponent<Button>().onClick.AddListener(cloudProxyManager.Leave);
         joinBtn.GetComponent<Button>().onClick.AddListener(cloudProxyManager.Join);
@@ -52,5 +71,9 @@ public class CloudProxy : AgoraUI
             Destroy(channelField.gameObject);
         base.OnDestroy();
         cloudProxyManager.OnDestroy();
+        if (audienceToggleGo)
+            Destroy(LocalViewGo.gameObject);
+        if (hostToggleGo)
+            Destroy(RemoteViewGo.gameObject);
     }
 }

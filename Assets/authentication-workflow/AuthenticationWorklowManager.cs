@@ -14,10 +14,10 @@ public class TokenStruct
 
 public class AuthenticationWorkflowManager : AgoraManager
 {
-    public AuthenticationWorkflowManager(VideoSurface refLocalSurface, VideoSurface refRemoteSurface)
+    public AuthenticationWorkflowManager(GameObject localViewGo, GameObject RemoteViewGo): base()
     {
-        LocalView = refLocalSurface;
-        RemoteView = refRemoteSurface;
+        LocalView = localViewGo.AddComponent<VideoSurface>();
+        RemoteView = localViewGo.AddComponent<VideoSurface>();
         SetupVideoSDKEngine();
         RtcEngine.InitEventHandler(new AuthenticationWorkflowEventHandler(this));
     }

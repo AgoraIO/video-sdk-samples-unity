@@ -50,7 +50,7 @@ public class SamplesNavigator : MonoBehaviour
     }
     void onProductDropdownValueChanged(int index)
     {
-        string path = System.IO.Path.Combine(Application.dataPath, "AgoraManager", "config.json");
+        string path = System.IO.Path.Combine(Application.dataPath, "agora-manager", "config.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);

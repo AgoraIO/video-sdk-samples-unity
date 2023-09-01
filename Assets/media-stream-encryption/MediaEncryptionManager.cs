@@ -5,10 +5,12 @@ using Agora.Rtc;
 using System;
 
 public class MediaEncryptionManager : AuthenticationWorkflowManager
-{  
+{
+    
     // Start is called before the first frame update
-     public MediaEncryptionManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface): base (LocalVideoSurface, RemoteVideoSurface)
+    public MediaEncryptionManager(GameObject LocalViewGo, GameObject RemoteViewGo): base(LocalViewGo, RemoteViewGo)
     {
+
         // Check if the required permissions are granted
         CheckPermissions();
 

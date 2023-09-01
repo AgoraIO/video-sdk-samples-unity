@@ -4,12 +4,10 @@ using UnityEngine;
 using Agora.Rtc;
 
 public class CloudProxyManager : AuthenticationWorkflowManager
-{  
+{
     // Start is called before the first frame update
-     public CloudProxyManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface): base(LocalVideoSurface, RemoteVideoSurface)
+    public CloudProxyManager(GameObject LocalViewGo, GameObject RemoteViewGo):base(LocalViewGo, RemoteViewGo)
     {
-        LocalView = LocalVideoSurface;
-        RemoteView = RemoteVideoSurface;
         // Check if the required permissions are granted
         CheckPermissions();
 

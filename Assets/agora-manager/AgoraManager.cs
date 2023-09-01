@@ -56,7 +56,7 @@ public class AgoraManager
 
     private void LoadConfigFromJSON()
     {
-        string path = System.IO.Path.Combine(Application.dataPath, "AgoraManager", "config.json");
+        string path = System.IO.Path.Combine(Application.dataPath, "agora-manager", "config.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -105,6 +105,18 @@ public class AgoraManager
         // Set the user role as broadcaster.
         RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
 
+    }
+
+    public virtual void setClientRole(string role)
+    {
+        if(role == "Host")
+        {
+            RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
+        }
+        else
+        {
+            RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
+        }
     }
  
     // Define a public function called Leave() to leave the channel.

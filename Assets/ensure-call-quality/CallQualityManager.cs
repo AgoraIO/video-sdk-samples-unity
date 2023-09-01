@@ -44,7 +44,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
     private IntPtr hWnd;
 
     // Start is called before the first frame update
-    public CallQualityManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface) : base(LocalVideoSurface, RemoteVideoSurface)
+    public CallQualityManager(GameObject LocalViewGo, GameObject RemoteViewGo): base(LocalViewGo, RemoteViewGo)
     {
         // Check if the required permissions are granted
         CheckPermissions();
@@ -92,7 +92,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
         videoConfig.bitrate = (int)BITRATE.STANDARD_BITRATE;
 
         // Set dimensions.
-        videoConfig.dimensions = new VideoDimensions((int)FRAME_WIDTH.FRAME_WIDTH_640, (int)FRAME_HEIGHT.FRAME_HEIGHT_360);
+        videoConfig.dimensions = new VideoDimensions(640, 360);
 
         // Set orientation mode.
         videoConfig.orientationMode = ORIENTATION_MODE.ORIENTATION_MODE_ADAPTIVE;

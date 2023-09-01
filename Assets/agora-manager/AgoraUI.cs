@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Agora.Rtc;
 using TMPro;
+using UnityEditor;
 
 public class AgoraUI : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class AgoraUI : MonoBehaviour
     internal Canvas canvas;
     internal GameObject joinBtn;
     internal GameObject leaveBtn;
-    internal GameObject LocalView;
-    internal GameObject RemoteView;
+    internal GameObject LocalViewGo;
+    internal GameObject RemoteViewGo;
+    public TMP_FontAsset tmpFont;
 
     // Create a video view
     public virtual GameObject MakeLocalView(string VName, Vector3 VPos, Vector2 VSize)
@@ -37,6 +39,23 @@ public class AgoraUI : MonoBehaviour
         RectTransform rectTransform = go.GetComponent<RectTransform>();
         rectTransform.SetParent(scrollView.transform.Find("Viewport/Content")); // Access the Content GameObject within the Scroll View
         return go;
+    }
+
+    public virtual GameObject AddToggle(string TName, Vector3 TPos, string text, Vector2 TSize)
+    {
+        DefaultControls.Resources uiResources = new DefaultControls.Resources();
+
+        // Set the Toggle Background and Checkmark images to Unity's built-in sprites
+        uiResources.checkmark = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Checkmark.psd");
+        uiResources.background = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+        // Create the Toggle GameObject
+        GameObject uiToggle = DefaultControls.CreateToggle(uiResources);
+        uiToggle.name = TName;
+        Text labelText = uiToggle.GetComponentInChildren<Text>();
+        labelText.text = text;
+        uiToggle.transform.localPosition = TPos;
+        uiToggle.transform.SetParent(canvas.transform, false);
+        return uiToggle;
     }
 
     // Create a button
@@ -66,9 +85,9 @@ public class AgoraUI : MonoBehaviour
            Destroy(joinBtn.gameObject);
         if(leaveBtn)
            Destroy(leaveBtn.gameObject);
-        if(LocalView)
-           Destroy(LocalView.gameObject);
-        if(RemoteView)
-           Destroy(RemoteView.gameObject);
+        if(LocalViewGo)
+           Destroy(LocalViewGo.gameObject);
+        if(RemoteViewGo)
+           Destroy(RemoteViewGo.gameObject);
     }
 }
