@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{4580B204-3B68-1CE8-7745-6D807BE673B6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SamplesNavigator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/agora-manager/config.json">
     <Files>
       <File FileName="Assets/ensure-call-quality/EnsureCallQuality.cs" Line="47" Column="69" />
       <File FileName="Assets/agora-manager/AgoraUI.cs" Line="19" Column="6" />
@@ -7,8 +7,8 @@
       <File FileName="Assets/get-started/GetStarted.cs" Line="1" Column="1" />
       <File FileName="Assets/media-stream-encryption/MediaStreamEncryption.cs" Line="25" Column="60" />
       <File FileName="Assets/ensure-call-quality/CallQualityManager.cs" Line="121" Column="24" />
-      <File FileName="Assets/agora-manager/config.json" Line="1" Column="150" />
-      <File FileName="Assets/SamplesNavigator.cs" Line="72" Column="6" />
+      <File FileName="Assets/agora-manager/config.json" Line="1" Column="36" />
+      <File FileName="Assets/SamplesNavigator.cs" Line="75" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
