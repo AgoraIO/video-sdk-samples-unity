@@ -10,25 +10,39 @@ public class CloudProxyManager : AuthenticationWorkflowManager
     {
         // Check if the required permissions are granted
         CheckPermissions();
+    }
+    public override void Join()
+    {
+        base.Join();
 
         // Create an instance of the engine.
         SetupVideoSDKEngine();
 
         // Start cloud proxy service and set automatic transmission mode.
         int proxyStatus = RtcEngine.SetCloudProxy(CLOUD_PROXY_TYPE.UDP_PROXY);
-        if (proxyStatus == 0) 
+        if (proxyStatus == 0)
         {
             Debug.Log("Proxy service started successfully");
-        } 
-        else 
+        }
+        else
         {
             Debug.Log("Proxy service failed with error :" + proxyStatus);
         }
 
         // Setup an event handler to receive callbacks.
-        RtcEngine.InitEventHandler(new CloudProxyEventHandler(this));
-
-    }   
+        InitEventHandler();
+    }
+    public override void Leave()
+    {
+        // Leave the channel.
+        base.Leave();
+        // Destroy the engine.
+        if (RtcEngine != null)
+        {
+            RtcEngine.Dispose();
+            RtcEngine = null;
+        }
+    }
 }
 
 

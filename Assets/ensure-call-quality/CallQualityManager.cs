@@ -49,6 +49,9 @@ public class CallQualityManager : AuthenticationWorkflowManager
         // Check if the required permissions are granted
         CheckPermissions();
 
+        // Setup an instance of Agora engine.
+        SetupVideoSDKEngine();
+
         // Setup an event handler to receive callbacks.
         RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
 
@@ -61,9 +64,11 @@ public class CallQualityManager : AuthenticationWorkflowManager
         // Start the probe test.
         StartProbeTest();
     }
+ 
     public override void SetupVideoSDKEngine()
     {
         base.SetupVideoSDKEngine();
+
         // Specify a path for the log file.
         RtcEngine.SetLogFile("/path/to/folder/agorasdk1.log");
 
@@ -170,6 +175,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
         GameObject go = GameObject.Find("testDevicesBtn");
         if(!isTestRunning)
         {
+            SetupVideoSDKEngine();
             string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
             string selectedVideoDevice = videoDevicesDropdown.options[videoDevicesDropdown.value].text;
             foreach (var device in _audioRecordingDeviceInfos)
@@ -284,6 +290,11 @@ internal class CallQualityEventHandler : UserEventHandler
     public override void OnLastmileProbeResult(LastmileProbeResult result) 
     {
         _videoSample.RtcEngine.StopLastmileProbeTest();
+        if(callQuality.RtcEngine != null)
+        {
+            callQuality.RtcEngine.Dispose();
+            callQuality.RtcEngine = null;
+        }
         Debug.Log("Probe test finished");
         // The result object contains the detailed test results that help you
         // manage call quality, for example, the downlink jitter.

@@ -17,15 +17,12 @@ public class AuthenticationWorkflowManager : AgoraManager
     public AuthenticationWorkflowManager(GameObject localViewGo, GameObject RemoteViewGo): base()
     {
         LocalView = localViewGo.AddComponent<VideoSurface>();
-        RemoteView = localViewGo.AddComponent<VideoSurface>();
-        SetupVideoSDKEngine();
-        RtcEngine.InitEventHandler(new AuthenticationWorkflowEventHandler(this));
+        RemoteView = RemoteViewGo.AddComponent<VideoSurface>();
+        
     }
     public async Task FetchToken()
     {
-        Debug.Log(configData);
         string url = string.Format("{0}/rtc/{1}/1/uid/{2}/?expiry={3}", configData.tokenUrl, configData.channelName, configData.uid, configData.tokenExpiryTime);
-        Debug.Log(url);
         UnityWebRequest request = UnityWebRequest.Get(url);
         
         var operation = request.SendWebRequest();
@@ -56,6 +53,11 @@ public class AuthenticationWorkflowManager : AgoraManager
     }
     public override async void Join()
     {
+        SetupVideoSDKEngine();
+
+        // Setup an event handler to receive callbacks.
+        InitEventHandler();
+
         _channelName = GameObject.Find("channelName").GetComponent<TMP_InputField>().text;
         if (_channelName == "")
         {
@@ -70,6 +72,17 @@ public class AuthenticationWorkflowManager : AgoraManager
         }
         // Join the channel using the specified token and channel name.
         base.Join();
+    }
+    public override void Leave()
+    {
+        // Leave the channel.
+        base.Leave();
+        // Destroy the engine.
+        if (RtcEngine != null)
+        {
+            RtcEngine.Dispose();
+            RtcEngine = null;
+        }
     }
 }
 

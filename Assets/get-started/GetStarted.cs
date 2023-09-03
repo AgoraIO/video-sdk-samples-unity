@@ -21,12 +21,8 @@ public class GetStarted : AgoraUI
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, -2, 0), new Vector2(271, 294));
         RemoteViewGo = MakeRemoteView("RemoteView", new Vector2(250, 250));
 
-        // Add video surfaces to the local and remote views
-        VideoSurface LocalVideoSurface = LocalViewGo.AddComponent<VideoSurface>();
-        VideoSurface RemoteVideoSurface = RemoteViewGo.AddComponent<VideoSurface>();
-
         // Create an instance of the AgoraManagerGetStarted
-        getStartedManager = new GetStartedManager(LocalVideoSurface, RemoteVideoSurface);
+        getStartedManager = new GetStartedManager(LocalViewGo, RemoteViewGo);
 
         if (getStartedManager.configData.product != "Video Calling")
         {
