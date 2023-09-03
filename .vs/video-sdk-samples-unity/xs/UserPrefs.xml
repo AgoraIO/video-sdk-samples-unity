@@ -1,27 +1,17 @@
 ﻿<Properties StartupConfiguration="{4580B204-3B68-1CE8-7745-6D807BE673B6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ensure-call-quality/CallQualityManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/agora-manager/config.json">
     <Files>
       <File FileName="Assets/get-started/GetStartedManager.cs" Line="23" Column="29" />
       <File FileName="Assets/get-started/GetStarted.cs" Line="36" Column="14" />
-      <File FileName="Assets/agora-manager/AgoraManager.cs" Line="121" Column="27" />
+      <File FileName="Assets/agora-manager/AgoraManager.cs" Line="123" Column="46" />
       <File FileName="Assets/ensure-call-quality/EnsureCallQuality.cs" Line="21" Column="11" />
-      <File FileName="Assets/ensure-call-quality/CallQualityManager.cs" Line="23" Column="1" />
+      <File FileName="Assets/ensure-call-quality/CallQualityManager.cs" Line="288" Column="32" />
+      <File FileName="Assets/agora-manager/config.json" Line="1" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="video-sdk-samples-unity" expanded="True">
-            <Node name="Assets" expanded="True">
-              <Node name="agora-manager" expanded="True" />
-              <Node name="authentication-workflow" expanded="True" />
-              <Node name="cloud-proxy" expanded="True" />
-              <Node name="ensure-call-quality" expanded="True">
-                <Node name="CallQualityManager.cs" selected="True" />
-              </Node>
-              <Node name="get-started" expanded="True" />
-              <Node name="media-stream-encryption" expanded="True" />
-            </Node>
-          </Node>
+          <Node name="video-sdk-samples-unity" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>

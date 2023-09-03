@@ -1,1 +1,1 @@
-{"appID":"9d2498880e934632b38b0a68fa2f1622","channelName":"demo","token":"007eJxTYLgocarz+ssGnk2fvj0sVjaJnTBx3lT9jmUzz5U4NU/wu1qowGCQnGyRmmhumpRmamCSmmJgkWKcapFmmppmnGxsbpiUFqXwKaUhkJHBqLOdgREKQXwWhpTU3HwGBgAYCCHI","encryptionKey":"","salt":"","tokenExpiryTime":3600,"tokenUrl":"https://agora-token-service-production-b619.up.railway.app","uid":1,"product":"ILS"}
+{"appID":"","channelName":"demo","token":"","encryptionKey":"","salt":"","tokenExpiryTime":3600,"tokenUrl":"","uid":1,"product":""}
