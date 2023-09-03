@@ -53,7 +53,7 @@ public class AuthenticationWorkflowManager : AgoraManager
     }
     public override async void Join()
     {
-        SetupVideoSDKEngine();
+        SetupAgoraEngine();
 
         // Setup an event handler to receive callbacks.
         InitEventHandler();

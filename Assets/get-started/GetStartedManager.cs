@@ -18,7 +18,7 @@ public class GetStartedManager : AgoraManager
     public override void Join()
     {
         // Create an instance of the engine.
-        SetupVideoSDKEngine();
+        SetupAgoraEngine();
 
         // Setup an event handler to receive callbacks.
         InitEventHandler();

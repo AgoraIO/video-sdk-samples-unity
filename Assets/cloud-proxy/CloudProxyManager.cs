@@ -16,7 +16,7 @@ public class CloudProxyManager : AuthenticationWorkflowManager
         base.Join();
 
         // Create an instance of the engine.
-        SetupVideoSDKEngine();
+        SetupAgoraEngine();
 
         // Start cloud proxy service and set automatic transmission mode.
         int proxyStatus = RtcEngine.SetCloudProxy(CLOUD_PROXY_TYPE.UDP_PROXY);

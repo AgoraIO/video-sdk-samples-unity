@@ -19,7 +19,7 @@ public class MediaEncryptionManager : AuthenticationWorkflowManager
         base.Join();
 
         // Create an instance of the engine.
-        SetupVideoSDKEngine();
+        SetupAgoraEngine();
 
         // Enable media stream encryption
         enableEncryption();

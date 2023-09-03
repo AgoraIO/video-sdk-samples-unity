@@ -78,7 +78,7 @@ public class AgoraManager
     }
 
     // Define a public function called SetupVideoSDKEngine to setup the video SDK engine.
-    public virtual void  SetupVideoSDKEngine()
+    public virtual void SetupAgoraEngine()
     {
         // Create an instance of the video SDK engine.
         RtcEngine = Agora.Rtc.RtcEngine.CreateAgoraRtcEngine();

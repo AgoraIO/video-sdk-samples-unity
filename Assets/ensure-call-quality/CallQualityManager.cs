@@ -50,7 +50,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
         CheckPermissions();
 
         // Setup an instance of Agora engine.
-        SetupVideoSDKEngine();
+        SetupAgoraEngine();
 
         // Setup an event handler to receive callbacks.
         RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
@@ -65,9 +65,9 @@ public class CallQualityManager : AuthenticationWorkflowManager
         StartProbeTest();
     }
  
-    public override void SetupVideoSDKEngine()
+    public override void SetupAgoraEngine()
     {
-        base.SetupVideoSDKEngine();
+        base.SetupAgoraEngine();
 
         // Specify a path for the log file.
         RtcEngine.SetLogFile("/path/to/folder/agorasdk1.log");
@@ -175,7 +175,6 @@ public class CallQualityManager : AuthenticationWorkflowManager
         GameObject go = GameObject.Find("testDevicesBtn");
         if(!isTestRunning)
         {
-            SetupVideoSDKEngine();
             string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
             string selectedVideoDevice = videoDevicesDropdown.options[videoDevicesDropdown.value].text;
             foreach (var device in _audioRecordingDeviceInfos)
@@ -218,8 +217,6 @@ public class CallQualityManager : AuthenticationWorkflowManager
             go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device testing";
             _audioDeviceManager.StopAudioDeviceLoopbackTest();
             _videoDeviceManager.StopDeviceTest();
-            RtcEngine.Dispose();
-            RtcEngine = null;
         }
     }
     public void updateNetworkStatus(int quality)
