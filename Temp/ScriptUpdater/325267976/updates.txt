@@ -1,0 +1,3 @@
+Temp/ScriptUpdater/325267976/1170300067_TextureManager.cs => Assets/Agora-RTC-Plugin/Agora-Unity-RTC-SDK/Code/Rtc/VideoRender/TextureManager.cs
+Temp/ScriptUpdater/325267976/547297807_ProcessVideoRawData.cs => Assets/Agora-RTC-Plugin/API-Example/Examples/Advanced/ProcessVideoRawData/ProcessVideoRawData.cs
+Temp/ScriptUpdater/325267976/1905498720_TextureManagerYUV.cs => Assets/Agora-RTC-Plugin/Agora-Unity-RTC-SDK/Code/Rtc/VideoRender/TextureManagerYUV.cs

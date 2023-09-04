@@ -1,26 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Agora.Rtc;
 using System;
 
 public class MediaEncryptionManager : AuthenticationWorkflowManager
-{  
+{
+    
     // Start is called before the first frame update
-     public MediaEncryptionManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface): base (LocalVideoSurface, RemoteVideoSurface)
+    public MediaEncryptionManager(GameObject LocalViewGo, GameObject RemoteViewGo): base(LocalViewGo, RemoteViewGo)
     {
         // Check if the required permissions are granted
         CheckPermissions();
+    }
+
+    public override void Join()
+    {
+        base.Join();
 
         // Create an instance of the engine.
-        SetupVideoSDKEngine();
+        SetupAgoraEngine();
 
         // Enable media stream encryption
         enableEncryption();
 
         // Setup an event handler to receive callbacks.
         InitEventHandler();
-
+    }
+    public override void Leave()
+    {
+        // Leave the channel.
+        base.Leave();
+        // Destroy the engine.
+        if (RtcEngine != null)
+        {
+            RtcEngine.Dispose();
+            RtcEngine = null;
+        }
     }
 
     void enableEncryption()

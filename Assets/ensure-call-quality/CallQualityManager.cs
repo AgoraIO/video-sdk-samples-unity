@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Agora.Rtc;
 using TMPro;
 using System.Runtime.InteropServices;
@@ -44,10 +42,13 @@ public class CallQualityManager : AuthenticationWorkflowManager
     private IntPtr hWnd;
 
     // Start is called before the first frame update
-    public CallQualityManager(VideoSurface LocalVideoSurface, VideoSurface RemoteVideoSurface) : base(LocalVideoSurface, RemoteVideoSurface)
+    public CallQualityManager(GameObject LocalViewGo, GameObject RemoteViewGo): base(LocalViewGo, RemoteViewGo)
     {
         // Check if the required permissions are granted
         CheckPermissions();
+
+        // Setup an instance of Agora engine.
+        SetupAgoraEngine();
 
         // Setup an event handler to receive callbacks.
         RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
@@ -61,9 +62,11 @@ public class CallQualityManager : AuthenticationWorkflowManager
         // Start the probe test.
         StartProbeTest();
     }
-    public override void SetupVideoSDKEngine()
+ 
+    public override void SetupAgoraEngine()
     {
-        base.SetupVideoSDKEngine();
+        base.SetupAgoraEngine();
+
         // Specify a path for the log file.
         RtcEngine.SetLogFile("/path/to/folder/agorasdk1.log");
 
@@ -92,13 +95,16 @@ public class CallQualityManager : AuthenticationWorkflowManager
         videoConfig.bitrate = (int)BITRATE.STANDARD_BITRATE;
 
         // Set dimensions.
-        videoConfig.dimensions = new VideoDimensions((int)FRAME_WIDTH.FRAME_WIDTH_640, (int)FRAME_HEIGHT.FRAME_HEIGHT_360);
+        videoConfig.dimensions = new VideoDimensions(640, 360);
 
         // Set orientation mode.
         videoConfig.orientationMode = ORIENTATION_MODE.ORIENTATION_MODE_ADAPTIVE;
 
         // Set degradation preference.
         videoConfig.degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_BALANCED;
+
+        // Set the latency level
+        videoConfig.advanceOptions.compressionPreference = COMPRESSION_PREFERENCE.PREFER_LOW_LATENCY;
 
         // Apply the configuration.
         RtcEngine.SetVideoEncoderConfiguration(videoConfig);
@@ -209,11 +215,9 @@ public class CallQualityManager : AuthenticationWorkflowManager
         {
             DestroyWindow(hWnd);
             isTestRunning = false;
-            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device testing";
+            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device test";
             _audioDeviceManager.StopAudioDeviceLoopbackTest();
             _videoDeviceManager.StopDeviceTest();
-            RtcEngine.Dispose();
-            RtcEngine = null;
         }
     }
     public void updateNetworkStatus(int quality)
@@ -284,6 +288,7 @@ internal class CallQualityEventHandler : UserEventHandler
     public override void OnLastmileProbeResult(LastmileProbeResult result) 
     {
         _videoSample.RtcEngine.StopLastmileProbeTest();
+       
         Debug.Log("Probe test finished");
         // The result object contains the detailed test results that help you
         // manage call quality, for example, the downlink jitter.

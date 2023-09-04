@@ -54,9 +54,14 @@ public class AgoraManager
         #endif
     }
 
+    public AgoraManager()
+    {
+        LoadConfigFromJSON();
+    }
+
     private void LoadConfigFromJSON()
     {
-        string path = System.IO.Path.Combine(Application.dataPath, "AgoraManager", "config.json");
+        string path = System.IO.Path.Combine(Application.dataPath, "agora-manager", "config.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
@@ -73,9 +78,8 @@ public class AgoraManager
     }
 
     // Define a public function called SetupVideoSDKEngine to setup the video SDK engine.
-    public virtual void  SetupVideoSDKEngine()
+    public virtual void SetupAgoraEngine()
     {
-        LoadConfigFromJSON();
         // Create an instance of the video SDK engine.
         RtcEngine = Agora.Rtc.RtcEngine.CreateAgoraRtcEngine();
         if(configData.product == "Video Calling")
@@ -105,6 +109,25 @@ public class AgoraManager
         // Set the user role as broadcaster.
         RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
 
+    }
+
+    public virtual void setClientRole(string role)
+    {
+        if(RtcEngine == null)
+        {
+            Debug.Log("Click join and then change the client role!");
+            return;
+        }
+        if(role == "Host")
+        {
+            Debug.Log("Role is set to Host");
+            RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
+        }
+        else
+        {
+            Debug.Log("Role is set to Audience");
+            RtcEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
+        }
     }
  
     // Define a public function called Leave() to leave the channel.
@@ -191,11 +214,14 @@ public class AgoraManager
         var videoSurface = go.AddComponent<VideoSurface>();
         return videoSurface;
     }
+   
     public void OnDestroy()
     {
-        if(RtcEngine != null)
+        if (RtcEngine != null)
+        {
             RtcEngine.LeaveChannel();
             RtcEngine.Dispose();
+        }
     }
 }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1267,7 +1267,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -141.32477, y: 173}
+  m_AnchoredPosition: {x: -119, y: 173}
   m_SizeDelta: {x: 249.3505, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &714618642
@@ -1562,7 +1562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -347, y: 173}
+  m_AnchoredPosition: {x: -325, y: 173}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &960124449
@@ -1925,7 +1925,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1718540358}
   m_HandleRect: {fileID: 1718540357}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2278,8 +2278,8 @@ Canvas:
   m_GameObject: {fileID: 1350795452}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 963194227}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3268,7 +3268,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1234739940}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9248997
+  m_Size: 0.9248998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

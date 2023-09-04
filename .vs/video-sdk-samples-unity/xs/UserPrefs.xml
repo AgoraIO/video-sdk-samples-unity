@@ -1,0 +1,39 @@
+﻿<Properties StartupConfiguration="{4580B204-3B68-1CE8-7745-6D807BE673B6}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ensure-call-quality/EnsureCallQuality.cs">
+    <Files>
+      <File FileName="Assets/get-started/GetStartedManager.cs" Line="3" Column="1" />
+      <File FileName="Assets/get-started/GetStarted.cs" Line="2" Column="1" />
+      <File FileName="Assets/agora-manager/AgoraManager.cs" Line="91" Column="1" />
+      <File FileName="Assets/ensure-call-quality/EnsureCallQuality.cs" Line="76" Column="16" />
+      <File FileName="Assets/ensure-call-quality/CallQualityManager.cs" Line="263" Column="10" />
+      <File FileName="Assets/authentication-workflow/AuthenticationWorklowManager.cs" Line="3" Column="1" />
+      <File FileName="Assets/cloud-proxy/CloudProxyManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/cloud-proxy/CloudProxy.cs" Line="13" Column="6" />
+      <File FileName="Assets/media-stream-encryption/MediaEncryptionManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/media-stream-encryption/MediaStreamEncryption.cs" Line="22" Column="7" />
+      <File FileName="Assets/SamplesNavigator.cs" Line="49" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="video-sdk-samples-unity" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="ensure-call-quality" expanded="True">
+                <Node name="EnsureCallQuality.cs" selected="True" />
+              </Node>
+              <Node name="get-started" expanded="True" />
+              <Node name="media-stream-encryption" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a2ec9bd8-01ff-4a49-aa91-5663b957496c" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

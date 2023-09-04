@@ -31,8 +31,8 @@ public class SamplesNavigator : MonoBehaviour
 
         // Add script names and types to the dictionary
         scriptDictionary.Add("Select", null);
-        scriptDictionary.Add("Get Started", typeof(GetStarted));
-        scriptDictionary.Add("Ensure Call Quality", typeof(EnsureCallQuality));
+        scriptDictionary.Add("SDK QuickStart", typeof(GetStarted));
+        scriptDictionary.Add("Call Quality Best Practice", typeof(EnsureCallQuality));
         scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));
         scriptDictionary.Add("Secure Channel Encryption", typeof(MediaStreamEncryption));
         scriptDictionary.Add("Cloud Proxy", typeof(CloudProxy));
@@ -50,7 +50,7 @@ public class SamplesNavigator : MonoBehaviour
     }
     void onProductDropdownValueChanged(int index)
     {
-        string path = System.IO.Path.Combine(Application.dataPath, "AgoraManager", "config.json");
+        string path = System.IO.Path.Combine(Application.dataPath, "agora-manager", "config.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
