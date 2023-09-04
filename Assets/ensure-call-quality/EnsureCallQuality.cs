@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Agora.Rtc;
 using UnityEngine.UI;
 using TMPro;
 
@@ -53,7 +50,7 @@ public class EnsureCallQuality : AgoraUI
         deviceTestBtn = AddButton("testDevicesBtn", new Vector3(162, -172, 0), "Start device test", new Vector2(200f, 30f));
 
         // Add a button to switch video quality
-        videoQualityBtn = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "Low Video Quality", new Vector2(130, 30f));
+        videoQualityBtn = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "High Video Quality", new Vector2(130, 30f));
 
         // Add video surfaces to the local and remote views
         callQualityManager = new CallQualityManager(LocalViewGo, RemoteViewGo);

@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Agora.Rtc;
 
 public class GetStartedManager : AgoraManager
 {  
     // Start is called before the first frame update
-    public GetStartedManager(GameObject localViewGo, GameObject RemoteVideoGo): base()
+    public GetStartedManager(GameObject localViewGo, GameObject RemoteViewGo): base()
     {
         LocalView = localViewGo.AddComponent<VideoSurface>();
-        RemoteView = RemoteVideoGo.AddComponent<VideoSurface>();
+        RemoteView = RemoteViewGo.AddComponent<VideoSurface>();
 
         // Check if the required permissions are granted
         CheckPermissions();

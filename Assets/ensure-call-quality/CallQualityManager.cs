@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Agora.Rtc;
 using TMPro;
 using System.Runtime.InteropServices;
@@ -104,6 +102,9 @@ public class CallQualityManager : AuthenticationWorkflowManager
 
         // Set degradation preference.
         videoConfig.degradationPreference = DEGRADATION_PREFERENCE.MAINTAIN_BALANCED;
+
+        // Set the latency level
+        videoConfig.advanceOptions.compressionPreference = COMPRESSION_PREFERENCE.PREFER_LOW_LATENCY;
 
         // Apply the configuration.
         RtcEngine.SetVideoEncoderConfiguration(videoConfig);
@@ -214,7 +215,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
         {
             DestroyWindow(hWnd);
             isTestRunning = false;
-            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device testing";
+            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device test";
             _audioDeviceManager.StopAudioDeviceLoopbackTest();
             _videoDeviceManager.StopDeviceTest();
         }
@@ -287,11 +288,7 @@ internal class CallQualityEventHandler : UserEventHandler
     public override void OnLastmileProbeResult(LastmileProbeResult result) 
     {
         _videoSample.RtcEngine.StopLastmileProbeTest();
-        if(callQuality.RtcEngine != null)
-        {
-            callQuality.RtcEngine.Dispose();
-            callQuality.RtcEngine = null;
-        }
+       
         Debug.Log("Probe test finished");
         // The result object contains the detailed test results that help you
         // manage call quality, for example, the downlink jitter.
