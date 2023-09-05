@@ -13,14 +13,17 @@ Clone the repo, run and test the samples, and use the code in your own project. 
 
 The runnable code examples are:
 
-- [SDK quickstart](/Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency
+- [SDK quickstart](./Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency
   video calling features into your app using Agora Video SDK.
-- [Secure authentication with tokens](/Assets/authentication-workflow/) - quickly set up an authentication token server, retrieve
+- [Secure authentication with tokens](./Assets/authentication-workflow/) - quickly set up an authentication token 
+  server, retrieve
   a token from the server, and use it to connect securely to the SD-RTN server as a specific user.
-- [Call quality best practice](/Assets/ensure-call-quality/) - ensure optimal audio and video quality in your game.
-- [Connect through restricted networks with Cloud Proxy](/Assets/cloud-proxy/) - ensure reliable connectivity for your users when they connect from an
+- [Call quality best practice](./Assets/ensure-call-quality/) - ensure optimal audio and video quality in your game.
+- [Connect through restricted networks with Cloud Proxy](./Assets/cloud-proxy/) - ensure reliable connectivity for 
+  your users when they connect from an
   environment with a restricted network.
-- [Secure channel encryption](/Assets/media-stream-encryption/) - integrate built-in data encryption into your app using Video SDK.
+- [Secure channel encryption](./Assets/media-stream-encryption/) - integrate built-in data encryption into your app 
+  using Video SDK.
 
 
 ## Prerequisites
@@ -45,21 +48,24 @@ To run the sample game, take the following steps:
 
 1. **Open the project**   
 
-    1. Unzip the cloned project and open it the Unity editor.
-
-    1. Unzip [the latest version of the Agora Video SDK](https://docs.agora.io/en/sdks?platform=unity) to a local 
-       folder.
+    1. In Unity Hub, Open `video-sdk-samples-unity`, Unity Editor opens the project.
+       
+       Unity Editor warns of compile errors. Don't worry, you fix them when you import Video SDK for Unity. 
+         
+    1. Unzip [the latest version of the Agora Video SDK](https://docs.agora.io/en/sdks?platform=unity) to a local folder.
 
    1. In **Unity**, click **Assets** > **Import Package** > **Custom Package**.
 
    1. Navigate to the Video SDK package and click **Open**.
 
    1. In **Import Unity Package**, click **Import**.
+   
+      Unity recompiles the Video SDK samples for Unity and the warnings disappear. 
 
 1. **Modify the project configuration**
 
-   The app loads connection parameters from the [`config.json`](.Assets/agora-manager/config.json) file. Ensure that 
-   the file is populated with the required parameter values before running the application.
+   The app loads connection parameters from [`./Assets/agora-manager/config.json`](./Assets/agora-manager/config.json)
+   . Ensure that the file is populated with the required parameter values before running the application.
 
     - `uid`: The user ID associated with the application.
     - `appId`: (Required) The unique ID for the application obtained from [Agora Console](https://console.agora.io). 
