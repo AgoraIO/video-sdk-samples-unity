@@ -16,10 +16,9 @@ public class GetStarted : AgoraUI
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, -2, 0), new Vector2(271, 294));
-        RemoteViewGo = MakeRemoteView("RemoteView", new Vector2(250, 250));
 
         // Create an instance of the AgoraManagerGetStarted
-        getStartedManager = new GetStartedManager(LocalViewGo, RemoteViewGo);
+        getStartedManager = new GetStartedManager();
 
         if (getStartedManager.configData.product != "Video Calling")
         {
@@ -49,12 +48,10 @@ public class GetStarted : AgoraUI
     }
     public override void OnDestroy()
     {
+        // Clean up
         base.OnDestroy();
-        getStartedManager.OnDestroy();
+        getStartedManager.DestroyEngine();
         if (audienceToggleGo)
             Destroy(LocalViewGo.gameObject);
-        if (hostToggleGo)
-            Destroy(RemoteViewGo.gameObject);
-
     }
 }

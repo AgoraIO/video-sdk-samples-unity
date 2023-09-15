@@ -4,46 +4,34 @@ using System;
 
 public class MediaEncryptionManager : AuthenticationWorkflowManager
 {
-    
-    // Start is called before the first frame update
-    public MediaEncryptionManager(GameObject LocalViewGo, GameObject RemoteViewGo): base(LocalViewGo, RemoteViewGo)
+
+    public override void SetupAgoraEngine()
     {
-        // Check if the required permissions are granted
-        CheckPermissions();
+        base.SetupAgoraEngine();
+
+        // Enable media stream encryption
+        enableEncryption();
+
     }
 
     public override void Join()
     {
         base.Join();
 
-        // Create an instance of the engine.
-        SetupAgoraEngine();
-
-        // Enable media stream encryption
-        enableEncryption();
-
-        // Setup an event handler to receive callbacks.
-        InitEventHandler();
     }
     public override void Leave()
     {
         // Leave the channel.
         base.Leave();
-        // Destroy the engine.
-        if (RtcEngine != null)
-        {
-            RtcEngine.Dispose();
-            RtcEngine = null;
-        }
     }
 
     void enableEncryption()
     {
-        if (RtcEngine != null)
+        if (agoraEngine != null)
         {
             if(configData.encryptionKey == "" || configData.salt == "")
             {
-                Debug.Log("Encryption key or encryption salt was not set");
+                Debug.Log("Encryption key or encryption salt were not speicified in the config.json file");
                 return;
             }
             // Create an encryption configuration.
@@ -57,7 +45,7 @@ public class MediaEncryptionManager : AuthenticationWorkflowManager
                 encryptionKdfSalt = Convert.FromBase64String(configData.salt)
             };
             // Enable the built-in encryption.
-            RtcEngine.EnableEncryption(true, config);
+            agoraEngine.EnableEncryption(true, config);
         }
     }
     

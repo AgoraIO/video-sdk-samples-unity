@@ -98,13 +98,16 @@ public class SamplesNavigator : MonoBehaviour
         if (scriptDictionary.TryGetValue(selectedOption, out Type scriptType))
         {
             // Create an instance of the selected script type
-            MonoBehaviour scriptInstance = gameObject.AddComponent(scriptType) as MonoBehaviour;
+            MonoBehaviour scriptInstance = gameObject.GetComponent(scriptType) as MonoBehaviour;
+
+            if (scriptInstance == null)
+            {
+                // If the script component does not exist, add it
+                scriptInstance = gameObject.AddComponent(scriptType) as MonoBehaviour;
+            }
 
             // Store the script component as the previous script component
             previousScriptComponent = scriptInstance;
-
-            // Execute the script's functionality
-            scriptInstance.Invoke("Execute", 0f);
         }
     }
 }

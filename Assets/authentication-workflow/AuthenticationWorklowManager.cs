@@ -11,14 +11,13 @@ public class TokenStruct
 
 public class AuthenticationWorkflowManager : AgoraManager
 {
-    public AuthenticationWorkflowManager(GameObject localViewGo, GameObject RemoteViewGo): base()
-    {
-        LocalView = localViewGo.AddComponent<VideoSurface>();
-        RemoteView = RemoteViewGo.AddComponent<VideoSurface>();
-        
-    }
     public async Task FetchToken()
     {
+        if(configData.tokenUrl == "")
+        {
+            Debug.Log("Please specify a valid token server URL inside `config.json`");
+            return;
+        }
         string url = string.Format("{0}/rtc/{1}/1/uid/{2}/?expiry={3}", configData.tokenUrl, configData.channelName, configData.uid, configData.tokenExpiryTime);
         UnityWebRequest request = UnityWebRequest.Get(url);
         
@@ -36,6 +35,7 @@ public class AuthenticationWorkflowManager : AgoraManager
         }
 
         TokenStruct tokenInfo = JsonUtility.FromJson<TokenStruct>(request.downloadHandler.text);
+        Debug.Log("Retrieved token : " + tokenInfo.rtcToken);
         _token = tokenInfo.rtcToken;
     }
     public void RenewToken()
@@ -46,40 +46,37 @@ public class AuthenticationWorkflowManager : AgoraManager
             return;
         }
         // Update RTC Engine with new token, which will not expire so soon
-        RtcEngine.RenewToken(_token);
+        agoraEngine.RenewToken(_token);
     }
+
+    public override void SetupAgoraEngine()
+    {
+        base.SetupAgoraEngine();
+
+        // Attach the eventHandler
+        agoraEngine.InitEventHandler(new AuthenticationWorkflowEventHandler(this));
+    }
+
     public override async void Join()
     {
-        SetupAgoraEngine();
-
-        // Setup an event handler to receive callbacks.
-        InitEventHandler();
-
         _channelName = GameObject.Find("channelName").GetComponent<TMP_InputField>().text;
         if (_channelName == "")
         {
-            Debug.Log("Channel name is required!");
-            return;
+            Debug.Log("You did not specify the channel name. Joining using the rtcToken token given in the config.json file!");
+
         }
+
+        // Fetch a token from the server
         await FetchToken();
-        if(_token == "")
-        {
-            Debug.Log("Token was not retrieved");
-            return;
-        }
+
         // Join the channel using the specified token and channel name.
         base.Join();
+
     }
     public override void Leave()
     {
         // Leave the channel.
         base.Leave();
-        // Destroy the engine.
-        if (RtcEngine != null)
-        {
-            RtcEngine.Dispose();
-            RtcEngine = null;
-        }
     }
 }
 
