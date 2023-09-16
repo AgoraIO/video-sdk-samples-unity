@@ -11,7 +11,7 @@
 /[Mm]emoryCaptures/
 */Assets/
 /API-Example-Unity/UnityPackageManager/
-/Asset/Agora-RTC-Plugin
+/Assets/Agora-RTC-Plugin/
 .VsCode/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
@@ -48,6 +48,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.meta
 
 # Unity3D generated meta files
 *.pidb.meta
