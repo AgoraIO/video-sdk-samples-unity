@@ -9,8 +9,10 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-*/Assets/AgoraEngine
+*/Assets/
 /API-Example-Unity/UnityPackageManager/
+/Asset/Agora-RTC-Plugin
+.VsCode/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -63,8 +65,3 @@ sysinfo.txt
 crashlytics-build.properties
 
 .DS_Store
-
-API-Example-Unity/Assets/StreamingAssets/build_info
-API-Example-Unity/Assets/StreamingAssets/build_info.meta
-build_info.meta
-API-Example-Unity/Assets/Agora-RTC-Plugin
