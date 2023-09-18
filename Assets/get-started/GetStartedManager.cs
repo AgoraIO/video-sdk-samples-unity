@@ -1,6 +1,3 @@
-using UnityEngine;
-using Agora.Rtc;
-
 public class GetStartedManager : AgoraManager
 {
     public override void Join()

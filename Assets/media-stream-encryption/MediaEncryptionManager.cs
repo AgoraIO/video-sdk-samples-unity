@@ -31,7 +31,7 @@ public class MediaEncryptionManager : AuthenticationWorkflowManager
         {
             if(configData.encryptionKey == "" || configData.salt == "")
             {
-                Debug.Log("Encryption key or encryption salt were not speicified in the config.json file");
+                Debug.Log("Encryption key or encryption salt were not specified in the config.json file");
                 return;
             }
             // Create an encryption configuration.

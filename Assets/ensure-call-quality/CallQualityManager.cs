@@ -8,12 +8,10 @@ using System;
 
 public class CallQualityManager : AuthenticationWorkflowManager
 {   
-    private TMP_Text networkStatus; // A label to display the network quality.
     private bool highQuality = false; // For switching between high and low video quality.
     private IAudioDeviceManager _audioDeviceManager; // To manage audio devices.
     private IVideoDeviceManager _videoDeviceManager; // To manage video devices.
     private DeviceInfo[] _audioRecordingDeviceInfos; // Represent information about audio recording devices.
-    private DeviceInfo[] _audioPlaybackDeviceInfos; // Represent information about audio playback devices.
     private DeviceInfo[] _videoDeviceInfos; // Represent information about video devices.
     private TMP_Dropdown videoDevicesDropdown; // To access the video devices dropdown.
     private TMP_Dropdown audioDevicesDropdown; // To access the audio devices dropdown.
