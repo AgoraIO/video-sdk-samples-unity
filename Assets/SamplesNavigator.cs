@@ -35,7 +35,8 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Call Quality Best Practice", typeof(EnsureCallQuality));
         scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));
         scriptDictionary.Add("Secure Channel Encryption", typeof(MediaStreamEncryption));
-        scriptDictionary.Add("Cloud Proxy", typeof(CloudProxy));
+        scriptDictionary.Add("Geofencing", typeof(Geofencing));
+
         // Get the script names from the dictionary
         scriptNames.AddRange(scriptDictionary.Keys);
 

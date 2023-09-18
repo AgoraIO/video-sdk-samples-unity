@@ -18,7 +18,7 @@ public class CloudProxy : AgoraUI
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
 
-        // Create an instance of the AgoraManagerGetStarted
+        // Create an instance of the CloudProxyManager
         cloudProxyManager = new CloudProxyManager();
 
         if (cloudProxyManager.configData.product != "Video Calling")
@@ -32,13 +32,13 @@ public class CloudProxy : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                cloudProxyManager.setClientRole("Host");
+                cloudProxyManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                cloudProxyManager.setClientRole("Audience");
+                cloudProxyManager.SetClientRole("Audience");
             });
         }
 

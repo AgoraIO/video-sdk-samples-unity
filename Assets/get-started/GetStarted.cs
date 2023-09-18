@@ -17,7 +17,7 @@ public class GetStarted : AgoraUI
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, -2, 0), new Vector2(271, 294));
 
-        // Create an instance of the AgoraManagerGetStarted
+        // Create an instance of the GetStartedManager
         getStartedManager = new GetStartedManager();
 
         if (getStartedManager.configData.product != "Video Calling")
@@ -31,13 +31,13 @@ public class GetStarted : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                getStartedManager.setClientRole("Host");
+                getStartedManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                getStartedManager.setClientRole("Audience");
+                getStartedManager.SetClientRole("Audience");
             });
         }
 

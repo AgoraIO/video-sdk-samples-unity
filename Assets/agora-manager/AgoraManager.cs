@@ -24,16 +24,18 @@ public class AgoraManager
     internal string _appID;
     internal string _channelName;
     internal string _token;
+    internal uint _uid;
     internal uint remoteUid;
     internal IRtcEngine agoraEngine;
     internal VideoSurface LocalView;
     internal VideoSurface RemoteView;
     internal ConfigData configData;
+    internal RtcEngineContext context = new RtcEngineContext();
 
     #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     // Define an ArrayList of permissions required for Android devices.
     private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };
-    #endif
+#endif
 
     // Define a private function called CheckPermissions() to check for required permissions.
     public void CheckPermissions()
@@ -70,6 +72,7 @@ public class AgoraManager
             _appID = configData.appID;
             _channelName = configData.channelName;
             _token = configData.rtcToken;
+            _uid = configData.uid;
         }
         else
         {
@@ -83,23 +86,26 @@ public class AgoraManager
         // Create an instance of the video SDK engine.
         agoraEngine = Agora.Rtc.RtcEngine.CreateAgoraRtcEngine();
 
-        // Set context configuration based on the product type
+        // Set the channel profile based on the product type.
         CHANNEL_PROFILE_TYPE channelProfile = configData.product == "Video Calling"
             ? CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_COMMUNICATION
             : CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_LIVE_BROADCASTING;
 
-        RtcEngineContext context = new RtcEngineContext(_appID, 0, channelProfile,
-            AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT, AREA_CODE.AREA_CODE_GLOB, null);
+        // Configure appID, channel profile, and audio scenario in the context.
+        context.appId = _appID;
+        context.channelProfile = channelProfile;
+        context.audioScenario = AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT;
 
+        // Init the engine using the specified context.
         agoraEngine.Initialize(context);
 
         // Enable the video module.
         agoraEngine.EnableVideo();
 
-        // Set the user role as broadcaster.
+        // Set the user role as broadcaster
         agoraEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
 
-        // Attach the eventHandler
+        // Attach the eventHandler.
         InitEventHandler();
         
         // Attack a video surface to the local view game object.
@@ -107,7 +113,7 @@ public class AgoraManager
 
     }
 
-    public virtual void setClientRole(string role)
+    public virtual void SetClientRole(string role)
     {
         if(agoraEngine == null)
         {
@@ -146,7 +152,7 @@ public class AgoraManager
         SetupAgoraEngine();
 
         // Set the local video view.
-        LocalView.SetForUser(configData.uid, configData.channelName);
+        LocalView.SetForUser(_uid, configData.channelName);
 
         // Start rendering local video.
         LocalView.SetEnable(true);

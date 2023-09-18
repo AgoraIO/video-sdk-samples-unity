@@ -18,7 +18,7 @@ public class MediaStreamEncryption : AgoraUI
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
 
-        // Create an instance of the AgoraManagerGetStarted
+        // Create an instance of the MediaEncryptionManager
         mediaEncryptionManager = new MediaEncryptionManager();
         // Add click-event functions to the join and leave buttons
         leaveBtn.GetComponent<Button>().onClick.AddListener(mediaEncryptionManager.Leave);
@@ -35,13 +35,13 @@ public class MediaStreamEncryption : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                mediaEncryptionManager.setClientRole("Host");
+                mediaEncryptionManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                mediaEncryptionManager.setClientRole("Audience");
+                mediaEncryptionManager.SetClientRole("Audience");
             });
         }
 

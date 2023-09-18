@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Agora.Rtc;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
-
-public class AuthenticationWorkflow : AgoraUI
+public class Geofencing : AgoraUI
 {
-    AuthenticationWorkflowManager authenticationWorkflowManager;
+    internal GeofencingManager geofencingManager;
     internal GameObject channelField;
     internal GameObject audienceToggleGo, hostToggleGo;
     // Start is called before the first frame update
@@ -21,10 +17,13 @@ public class AuthenticationWorkflow : AgoraUI
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
 
-        // Create an instance of the AuthenticationWorkflowManager
-        authenticationWorkflowManager = new AuthenticationWorkflowManager();
+        // Create an instance of the GeofencingManager
+        geofencingManager = new GeofencingManager();
+        // Add click-event functions to the join and leave buttons
+        leaveBtn.GetComponent<Button>().onClick.AddListener(geofencingManager.Leave);
+        joinBtn.GetComponent<Button>().onClick.AddListener(geofencingManager.Join);
 
-        if (authenticationWorkflowManager.configData.product != "Video Calling")
+        if (geofencingManager.configData.product != "Video Calling")
         {
             hostToggleGo = AddToggle("Host", new Vector2(-19, 50), "Host", new Vector2(200, 30));
             audienceToggleGo = AddToggle("Audience", new Vector2(-19, 100), "Audience", new Vector2(200, 30));
@@ -35,19 +34,15 @@ public class AuthenticationWorkflow : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                authenticationWorkflowManager.SetClientRole("Host");
+                geofencingManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                authenticationWorkflowManager.SetClientRole("Audience");
+                geofencingManager.SetClientRole("Audience");
             });
         }
-
-        // Add click-event functions to the join and leave buttons
-        leaveBtn.GetComponent<Button>().onClick.AddListener(authenticationWorkflowManager.Leave);
-        joinBtn.GetComponent<Button>().onClick.AddListener(authenticationWorkflowManager.Join);
 
         TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
         channelField = TMP_DefaultControls.CreateInputField(resources);
@@ -67,14 +62,12 @@ public class AuthenticationWorkflow : AgoraUI
     public override void OnDestroy()
     {
         base.OnDestroy();
-        authenticationWorkflowManager.DestroyEngine();
+        geofencingManager.DestroyEngine();
         if (channelField)
             Destroy(channelField.gameObject);
-        if(audienceToggleGo)
+        if (audienceToggleGo)
             Destroy(audienceToggleGo.gameObject);
         if (hostToggleGo)
             Destroy(hostToggleGo.gameObject);
     }
-    
 }
-
