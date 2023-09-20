@@ -1,1 +1,11 @@
-{"appID":"","channelName":"demo","rtcToken":"","encryptionKey":"","salt":"","tokenExpiryTime":60,"tokenUrl":"","uid":0,"product":"Video Calling"}
+{
+  "appID":"",
+  "channelName":"demo",
+  "rtcToken":"",
+  "encryptionKey":"",
+  "salt":"",
+  "tokenExpiryTime":60,
+  "tokenUrl":"",
+  "uid":0,
+  "product":"Video Calling"
+}
