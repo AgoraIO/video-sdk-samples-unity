@@ -75,7 +75,6 @@ public class AgoraManager
             _appID = configData.appID;
             _channelName = configData.channelName;
             _token = configData.rtcToken;
-
         }
         else
         {
