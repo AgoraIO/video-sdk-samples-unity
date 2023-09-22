@@ -36,12 +36,14 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));
         scriptDictionary.Add("Secure Channel Encryption", typeof(MediaStreamEncryption));
         scriptDictionary.Add("Cloud Proxy", typeof(CloudProxy));
+        scriptDictionary.Add("Stream Media to a Channel", typeof(PlayMedia));
+
         // Get the script names from the dictionary
         scriptNames.AddRange(scriptDictionary.Keys);
 
         // Assign the script names to the dropdown
         sampleDropdown.AddOptions(scriptNames);
-        productDropdown.AddOptions(productNames);
+        productDropdown.AddOptions(productNames); 
 
         // Attach the onValueChanged event listener
         sampleDropdown.onValueChanged.AddListener(OnSampleDropdownValueChanged);
