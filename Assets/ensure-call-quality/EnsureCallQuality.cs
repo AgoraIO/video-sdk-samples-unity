@@ -21,7 +21,6 @@ public class EnsureCallQuality : AgoraUI
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        RemoteViewGo = MakeRemoteView("RemoteView", new Vector2(250, 250));
 
         // Add a TMP_Dropdown component for audio devices
         audioDevicesDropdown = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
@@ -53,7 +52,7 @@ public class EnsureCallQuality : AgoraUI
         videoQualityBtn = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "High Video Quality", new Vector2(130, 30f));
 
         // Add video surfaces to the local and remote views
-        callQualityManager = new CallQualityManager(LocalViewGo, RemoteViewGo);
+        callQualityManager = new CallQualityManager();
 
         if (callQualityManager.configData.product != "Video Calling")
         {
@@ -101,6 +100,7 @@ public class EnsureCallQuality : AgoraUI
     public override void OnDestroy()
     {
         base.OnDestroy();
+        callQualityManager.DestroyEngine();
         // Destroy UI elements
         if (deviceTestBtn)
             Destroy(deviceTestBtn.gameObject);
@@ -112,11 +112,9 @@ public class EnsureCallQuality : AgoraUI
             Destroy(audioDevicesDropdown.gameObject);
         if (videoDevicesDropdown)
             Destroy(videoDevicesDropdown.gameObject);
-        if(callQualityManager != null)
-            callQualityManager.OnDestroy();
         if (audienceToggleGo)
-            Destroy(LocalViewGo.gameObject);
+            Destroy(audienceToggleGo.gameObject);
         if (hostToggleGo)
-            Destroy(RemoteViewGo.gameObject);
+            Destroy(hostToggleGo.gameObject);
     }    
 }

@@ -17,10 +17,9 @@ public class MediaStreamEncryption : AgoraUI
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        RemoteViewGo = MakeRemoteView("RemoteView", new Vector2(250, 250));
 
         // Create an instance of the AgoraManagerGetStarted
-        mediaEncryptionManager = new MediaEncryptionManager(LocalViewGo, RemoteViewGo);
+        mediaEncryptionManager = new MediaEncryptionManager();
         // Add click-event functions to the join and leave buttons
         leaveBtn.GetComponent<Button>().onClick.AddListener(mediaEncryptionManager.Leave);
         joinBtn.GetComponent<Button>().onClick.AddListener(mediaEncryptionManager.Join);
@@ -63,13 +62,13 @@ public class MediaStreamEncryption : AgoraUI
     }
     public override void OnDestroy()
     {
-        if(channelField)
-            Destroy(channelField.gameObject);
         base.OnDestroy();
-        mediaEncryptionManager.OnDestroy();
+        mediaEncryptionManager.DestroyEngine();
+        if (channelField)
+            Destroy(channelField.gameObject);
         if (audienceToggleGo)
-            Destroy(LocalViewGo.gameObject);
+            Destroy(audienceToggleGo.gameObject);
         if (hostToggleGo)
-            Destroy(RemoteViewGo.gameObject);
+            Destroy(hostToggleGo.gameObject);
     }
 }

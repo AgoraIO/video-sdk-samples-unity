@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using Agora.Rtc;
 using TMPro;
 using UnityEditor;
+using System.Xml.Linq;
+using System;
 
 public class AgoraUI : MonoBehaviour
 {
@@ -11,9 +13,8 @@ public class AgoraUI : MonoBehaviour
     internal GameObject joinBtn;
     internal GameObject leaveBtn;
     internal GameObject LocalViewGo;
-    internal GameObject RemoteViewGo;
+    internal static GameObject[] RemoteViews;
     public TMP_FontAsset tmpFont;
-
     // Create a video view
     public virtual GameObject MakeLocalView(string VName, Vector3 VPos, Vector2 VSize)
     {
@@ -28,19 +29,37 @@ public class AgoraUI : MonoBehaviour
         rectTransform.sizeDelta = VSize;
         return go;
     }
-    public virtual GameObject MakeRemoteView(string VName, Vector2 VSize)
+    public virtual GameObject MakeRemoteView(string VName)
     {
-        GameObject scrollView = GameObject.Find("RemoteViews");
-        Transform contentTransform = scrollView.transform.Find("Viewport/Content");
+        GameObject userView = new GameObject();
+        userView.name = VName;
+        userView.AddComponent<RawImage>();
 
-        // Create the game object with a RawImage component
-        GameObject go = new GameObject(VName, typeof(RawImage));
-        // Set the RectTransform settings
-        RectTransform rectTransform = go.GetComponent<RectTransform>();
-        rectTransform.SetParent(scrollView.transform.Find("Viewport/Content")); // Access the Content GameObject within the Scroll View
-        return go;
+        userView.transform.SetParent(GameObject.Find("Content").transform); // Set parent to the Content of ScrollView
+
+        // Set up transform
+        userView.transform.Rotate(0f, 0.0f, 180.0f);
+        userView.transform.localPosition = Vector3.zero;
+        userView.transform.localScale = new Vector3(2f, 3f, 1f);
+
+        if (RemoteViews == null)
+        {
+            RemoteViews = new GameObject[1]; // Initialize the array with a single element
+            RemoteViews[0] = userView;
+            Debug.Log("Adding the first remote user");
+        }
+        else
+        {
+            int length = RemoteViews.Length;
+            GameObject[] temp = new GameObject[length];
+            Array.Copy(RemoteViews, temp, length); // Copy the existing elements to temp
+
+            RemoteViews = new GameObject[length + 1]; // Increase the size of the array
+            Array.Copy(temp, RemoteViews, length); // Copy back the elements from temp
+            RemoteViews[length] = userView; // Add the new element at the end
+        }
+        return userView;
     }
-
     public virtual GameObject AddToggle(string TName, Vector3 TPos, string text, Vector2 TSize)
     {
         DefaultControls.Resources uiResources = new DefaultControls.Resources();
@@ -87,7 +106,12 @@ public class AgoraUI : MonoBehaviour
            Destroy(leaveBtn.gameObject);
         if(LocalViewGo)
            Destroy(LocalViewGo.gameObject);
-        if(RemoteViewGo)
-           Destroy(RemoteViewGo.gameObject);
+        if(RemoteViews != null)
+        {
+            foreach(var go in RemoteViews)
+            {
+                Destroy(go.gameObject);
+            }
+        }
     }
 }

@@ -8,12 +8,10 @@ using System;
 
 public class CallQualityManager : AuthenticationWorkflowManager
 {   
-    private TMP_Text networkStatus; // A label to display the network quality.
     private bool highQuality = false; // For switching between high and low video quality.
     private IAudioDeviceManager _audioDeviceManager; // To manage audio devices.
     private IVideoDeviceManager _videoDeviceManager; // To manage video devices.
     private DeviceInfo[] _audioRecordingDeviceInfos; // Represent information about audio recording devices.
-    private DeviceInfo[] _audioPlaybackDeviceInfos; // Represent information about audio playback devices.
     private DeviceInfo[] _videoDeviceInfos; // Represent information about video devices.
     private TMP_Dropdown videoDevicesDropdown; // To access the video devices dropdown.
     private TMP_Dropdown audioDevicesDropdown; // To access the audio devices dropdown.
@@ -41,17 +39,11 @@ public class CallQualityManager : AuthenticationWorkflowManager
     private const int SW_SHOW = 5;
     private IntPtr hWnd;
 
-    // Start is called before the first frame update
-    public CallQualityManager(GameObject LocalViewGo, GameObject RemoteViewGo): base(LocalViewGo, RemoteViewGo)
+    public CallQualityManager()
     {
-        // Check if the required permissions are granted
-        CheckPermissions();
 
         // Setup an instance of Agora engine.
         SetupAgoraEngine();
-
-        // Setup an event handler to receive callbacks.
-        RtcEngine.InitEventHandler(new CallQualityEventHandler(this));
 
         // Get the list of audio recording devices connected to the user's app.
         GetAudioRecordingDevice();
@@ -68,19 +60,19 @@ public class CallQualityManager : AuthenticationWorkflowManager
         base.SetupAgoraEngine();
 
         // Specify a path for the log file.
-        RtcEngine.SetLogFile("/path/to/folder/agorasdk1.log");
+        agoraEngine.SetLogFile("/path/to/folder/agorasdk1.log");
 
         // Set the log file size.
-        RtcEngine.SetLogFileSize(256); // Range 128-20480 Kb
+        agoraEngine.SetLogFileSize(256); // Range 128-20480 Kb
 
         // Specify a log level.
-        RtcEngine.SetLogLevel(LOG_LEVEL.LOG_LEVEL_WARN);
+        agoraEngine.SetLogLevel(LOG_LEVEL.LOG_LEVEL_WARN);
 
         // Enable the dual stream mode.
-        RtcEngine.EnableDualStreamMode(true);
+        agoraEngine.EnableDualStreamMode(true);
 
         // Set audio profile and audio scenario.
-        RtcEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_DEFAULT, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_CHATROOM);
+        agoraEngine.SetAudioProfile(AUDIO_PROFILE_TYPE.AUDIO_PROFILE_DEFAULT, AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_CHATROOM);
 
         // Set the video profile.
         VideoEncoderConfiguration videoConfig = new VideoEncoderConfiguration();
@@ -107,8 +99,10 @@ public class CallQualityManager : AuthenticationWorkflowManager
         videoConfig.advanceOptions.compressionPreference = COMPRESSION_PREFERENCE.PREFER_LOW_LATENCY;
 
         // Apply the configuration.
-        RtcEngine.SetVideoEncoderConfiguration(videoConfig);
-        
+        agoraEngine.SetVideoEncoderConfiguration(videoConfig);
+
+        // Attach the eventHandler
+        agoraEngine.InitEventHandler(new CallQualityEventHandler(this));
     }
     public void StartProbeTest()
     {
@@ -127,13 +121,13 @@ public class CallQualityManager : AuthenticationWorkflowManager
         // The expected downlink bitrate (bps). The value range is [100000,5000000].
         config.expectedDownlinkBitrate = 100000;
 
-        RtcEngine.StartLastmileProbeTest(config);
+        agoraEngine.StartLastmileProbeTest(config);
         Debug.Log("Running the last mile probe test ...");
     }
 
     private void GetAudioRecordingDevice()
     {
-        _audioDeviceManager = RtcEngine.GetAudioDeviceManager();
+        _audioDeviceManager = agoraEngine.GetAudioDeviceManager();
         _audioRecordingDeviceInfos = _audioDeviceManager.EnumerateRecordingDevices();
 
         audioDevicesDropdown = GameObject.Find("audioDevicesDropdown").GetComponent<TMP_Dropdown>();
@@ -152,7 +146,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
 
     private void GetVideoDeviceManager()
     {
-        _videoDeviceManager = RtcEngine.GetVideoDeviceManager();
+        _videoDeviceManager = agoraEngine.GetVideoDeviceManager();
         _videoDeviceInfos = _videoDeviceManager.EnumerateVideoDevices();
 
         videoDevicesDropdown = GameObject.Find("videoDevicesDropdown").GetComponent<TMP_Dropdown>();
@@ -176,6 +170,8 @@ public class CallQualityManager : AuthenticationWorkflowManager
         GameObject go = GameObject.Find("testDevicesBtn");
         if(!isTestRunning)
         {
+            Debug.Log("Please conduct the device test before joining the channel.");
+            SetupAgoraEngine();
             string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
             string selectedVideoDevice = videoDevicesDropdown.options[videoDevicesDropdown.value].text;
             foreach (var device in _audioRecordingDeviceInfos)
@@ -206,10 +202,11 @@ public class CallQualityManager : AuthenticationWorkflowManager
                 IntPtr.Zero,
                 Marshal.GetHINSTANCE(typeof(EnsureCallQuality).Module),
                 IntPtr.Zero);
-                ShowWindow(hWnd, SW_SHOW);
-                _videoDeviceManager.StartDeviceTest(hWnd);
-                isTestRunning = true;
-                go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop test";
+            ShowWindow(hWnd, SW_SHOW);
+            _videoDeviceManager.StartDeviceTest(hWnd);
+            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop test";
+            isTestRunning = true;
+
         }
         else
         {
@@ -218,6 +215,8 @@ public class CallQualityManager : AuthenticationWorkflowManager
             go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device test";
             _audioDeviceManager.StopAudioDeviceLoopbackTest();
             _videoDeviceManager.StopDeviceTest();
+            DestroyEngine();
+
         }
     }
     public void updateNetworkStatus(int quality)
@@ -255,13 +254,13 @@ public class CallQualityManager : AuthenticationWorkflowManager
         highQuality = !highQuality;
         if (highQuality) 
         {
-            RtcEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_HIGH);
+            agoraEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_HIGH);
             videoQualityBtnText.text = "Low Video Quality";
             Debug.Log("Switching to high-quality video");
         } 
         else 
         {
-            RtcEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_LOW);
+            agoraEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_LOW);
             Debug.Log("Switching to low-quality video");
         }
     }
@@ -287,12 +286,16 @@ internal class CallQualityEventHandler : UserEventHandler
     }
     public override void OnLastmileProbeResult(LastmileProbeResult result) 
     {
-        _videoSample.RtcEngine.StopLastmileProbeTest();
+        _videoSample.agoraEngine.StopLastmileProbeTest();
        
         Debug.Log("Probe test finished");
         // The result object contains the detailed test results that help you
         // manage call quality, for example, the downlink jitter.
         Debug.Log("Downlink jitter: " + result.downlinkReport.jitter);
+
+        //Destroy the engine
+        callQuality.DestroyEngine();
+
     }
     public override void OnNetworkQuality(RtcConnection connection, uint remoteUid, int txQuality, int rxQuality) 
     {

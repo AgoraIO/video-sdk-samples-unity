@@ -20,10 +20,9 @@ public class AuthenticationWorkflow : AgoraUI
         joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        RemoteViewGo = MakeRemoteView("RemoteView",new Vector2(250, 250));
 
         // Create an instance of the AgoraManagerGetStarted
-        authenticationWorkflowManager = new AuthenticationWorkflowManager(LocalViewGo, RemoteViewGo);
+        authenticationWorkflowManager = new AuthenticationWorkflowManager();
 
         if (authenticationWorkflowManager.configData.product != "Video Calling")
         {
@@ -67,16 +66,14 @@ public class AuthenticationWorkflow : AgoraUI
     }
     public override void OnDestroy()
     {
-        if(channelField)
-            Destroy(channelField.gameObject);
         base.OnDestroy();
-        authenticationWorkflowManager.OnDestroy();
-        if(channelField)
+        authenticationWorkflowManager.DestroyEngine();
+        if (channelField)
             Destroy(channelField.gameObject);
         if(audienceToggleGo)
-            Destroy(LocalViewGo.gameObject);
+            Destroy(audienceToggleGo.gameObject);
         if (hostToggleGo)
-            Destroy(RemoteViewGo.gameObject);
+            Destroy(hostToggleGo.gameObject);
     }
     
 }

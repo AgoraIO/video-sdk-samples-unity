@@ -51,6 +51,8 @@ To run the sample game, take the following steps:
     1. In Unity Hub, Open `video-sdk-samples-unity`, Unity Editor opens the project.
        
        Unity Editor warns of compile errors. Don't worry, you fix them when you import Video SDK for Unity. 
+
+    1. Go `Assets\Scenes`, and open `SampleScene.unity`. The sample scene opens.
          
     1. Unzip [the latest version of the Agora Video SDK](https://docs.agora.io/en/sdks?platform=unity) to a local folder.
 
@@ -70,7 +72,7 @@ To run the sample game, take the following steps:
     - `uid`: The user ID associated with the application.
     - `appId`: (Required) The unique ID for the application obtained from [Agora Console](https://console.agora.io). 
     - `channelName`: The default name of the channel to join.
-    - `rtcToken`:An token generated for `channelName`. You generate a temporary token using the [Agora token builder](https://agora-token-generator-demo.vercel.app/).
+    - `token`: An token generated for `channelName`. You generate a temporary token using the [Agora token builder](https://agora-token-generator-demo.vercel.app/).
     - `serverUrl`: The URL for the token generator. See [Secure authentication with tokens](authentication-workflow) for information on how to set up a token server.
     - `tokenExpiryTime`: The time in seconds after which a token expires.
 
