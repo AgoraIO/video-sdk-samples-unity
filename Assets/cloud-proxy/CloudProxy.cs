@@ -14,8 +14,8 @@ public class CloudProxy : AgoraUI
         // Setup UI
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         // Create and position UI elements
-        joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
-        leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
+        joinBtn = AddButton("Join", new Vector3(-327, -172, 0), "Join", new Vector2(160f, 30f));
+        leaveBtn = AddButton("Leave", new Vector3(330, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
 
         // Create an instance of the AgoraManagerGetStarted
