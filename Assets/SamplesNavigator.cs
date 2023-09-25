@@ -14,6 +14,7 @@ public class SamplesNavigator : MonoBehaviour
     private Dictionary<string, Type> scriptDictionary = new Dictionary<string, Type>();
     private string previousOption = "";
     internal ConfigData configData;
+    private Type selectedScriptType;
 
     #endregion
 
