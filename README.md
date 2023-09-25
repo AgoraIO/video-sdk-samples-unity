@@ -24,6 +24,7 @@ The runnable code examples are:
   environment with a restricted network.
 - [Secure channel encryption](./Assets/media-stream-encryption/) - integrate built-in data encryption into your app 
   using Video SDK.
+- [Stream media to a channel](./Assets/play-media/) - play video and audio files during online social and business interactions.
 
 
 ## Prerequisites
