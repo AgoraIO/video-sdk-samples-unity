@@ -41,8 +41,8 @@ public class EnsureCallQuality : AgoraUI
         }
 
         // Create and position UI elements
-        joinBtnGo = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
-        leaveBtnGo = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
+        joinBtn = AddButton("Join", new Vector3(-327, -172, 0), "Join", new Vector2(160f, 30f));
+        leaveBtn = AddButton("Leave", new Vector3(330, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
         deviceTestGo = AddButton("testDevicesBtn", new Vector3(162, -172, 0), "Start device test", new Vector2(200f, 30f));
         videoQualityGo = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "High Video Quality", new Vector2(130, 30f));

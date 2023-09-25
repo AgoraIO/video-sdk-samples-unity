@@ -12,7 +12,7 @@ public class AuthenticationWorkflow : AgoraUI
     // Start is called before the first frame update
     public override void Start()
     {
-        // Create an instance of the AuthenticationWorkflowManager
+        // Create an instance of the AgoraManagerGetStarted
         authenticationWorkflowManager = new AuthenticationWorkflowManager();
 
         // Setup UI elements

@@ -1,1 +1,14 @@
-{"appID":"","channelName":"demo","rtcToken":"","encryptionKey":"","salt":"","tokenExpiryTime":60,"tokenUrl":"","uid":0,"product":"Video Calling","mediaURL":"https://www.appsloveworld.com/wp-content/uploads/2018/10/640.mp4"}
+{
+    "appID":"",
+    "channelName":"demo",
+    "rtcToken":"",
+    "encryptionKey":"",
+    "salt":"",
+    "tokenExpiryTime":60,
+    "tokenUrl":"",
+    "uid":0,
+    "product":"Video Calling",
+    "mediaURL":"https://www.appsloveworld.com/wp-content/uploads/2018/10/640.mp4",
+    "audioFilePath":"https://www.kozco.com/tech/organfinale.mp3",
+    "soundEffectFilePath":"https://www.soundjay.com/human/applause-01.mp3"
+}

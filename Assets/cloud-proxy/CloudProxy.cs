@@ -12,7 +12,14 @@ public class CloudProxy : AgoraUI
     // Start is called before the first frame update
     public override void Start()
     {
-        // Create an instance of the CloudProxyManager
+        // Setup UI
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        // Create and position UI elements
+        joinBtn = AddButton("Join", new Vector3(-327, -172, 0), "Join", new Vector2(160f, 30f));
+        leaveBtn = AddButton("Leave", new Vector3(330, -172, 0), "Leave", new Vector2(160f, 30f));
+        LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
+
+        // Create an instance of the AgoraManagerGetStarted
         cloudProxyManager = new CloudProxyManager();
 
         // Setup UI elements
