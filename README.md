@@ -24,7 +24,7 @@ The runnable code examples are:
   environment with a restricted network.
 - [Secure channel encryption](./Assets/media-stream-encryption/) - integrate built-in data encryption into your app 
   using Video SDK.
-- [Audio and Voice Effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
+- [Audio and voice effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
 
 ## Prerequisites
 
