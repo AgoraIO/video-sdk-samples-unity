@@ -107,7 +107,7 @@ public class AgoraManager
 
     }
 
-    public virtual void setClientRole(string role)
+    public virtual void SetClientRole(string role)
     {
         if(agoraEngine == null)
         {

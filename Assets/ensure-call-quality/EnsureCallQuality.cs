@@ -65,13 +65,13 @@ public class EnsureCallQuality : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                callQualityManager.setClientRole("Host");
+                callQualityManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                callQualityManager.setClientRole("Audience");
+                callQualityManager.SetClientRole("Audience");
             });
         }
         // Attach event listeners to buttons

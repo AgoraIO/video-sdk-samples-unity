@@ -31,13 +31,13 @@ public class GetStarted : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                getStartedManager.setClientRole("Host");
+                getStartedManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                getStartedManager.setClientRole("Audience");
+                getStartedManager.SetClientRole("Audience");
             });
         }
 

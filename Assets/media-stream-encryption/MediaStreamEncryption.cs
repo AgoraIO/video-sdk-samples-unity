@@ -35,13 +35,13 @@ public class MediaStreamEncryption : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                mediaEncryptionManager.setClientRole("Host");
+                mediaEncryptionManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                mediaEncryptionManager.setClientRole("Audience");
+                mediaEncryptionManager.SetClientRole("Audience");
             });
         }
 

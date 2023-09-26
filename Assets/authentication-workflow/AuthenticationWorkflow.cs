@@ -35,13 +35,13 @@ public class AuthenticationWorkflow : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                authenticationWorkflowManager.setClientRole("Host");
+                authenticationWorkflowManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                authenticationWorkflowManager.setClientRole("Audience");
+                authenticationWorkflowManager.SetClientRole("Audience");
             });
         }
 

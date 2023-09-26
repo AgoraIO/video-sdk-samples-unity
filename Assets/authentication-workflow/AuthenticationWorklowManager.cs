@@ -60,14 +60,14 @@ public class AuthenticationWorkflowManager : AgoraManager
     public override async void Join()
     {
         _channelName = GameObject.Find("channelName").GetComponent<TMP_InputField>().text;
-        if (_channelName == "")
+        if (_channelName != "")
         {
             Debug.Log("You did not specify the channel name. Joining using the rtcToken token given in the config.json file!");
-
         }
-
-        // Fetch a token from the server
-        await FetchToken();
+        else
+        {
+            await FetchToken();
+        }
 
         // Join the channel using the specified token and channel name.
         base.Join();

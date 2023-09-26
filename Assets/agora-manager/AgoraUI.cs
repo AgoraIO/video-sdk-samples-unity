@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Agora.Rtc;
 using TMPro;
 using UnityEditor;
-using System.Xml.Linq;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 public class AgoraUI : MonoBehaviour
 {
@@ -28,6 +27,21 @@ public class AgoraUI : MonoBehaviour
         rectTransform.localScale = Vector3.one;
         rectTransform.sizeDelta = VSize;
         return go;
+    }
+    public virtual GameObject AddSlider(string SName, Vector3 TPos)
+    {
+        DefaultControls.Resources uiResources = new DefaultControls.Resources();
+
+        // Use Unity's default sprites for the slider components
+        uiResources.background = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Background.psd");
+        uiResources.standard = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
+        uiResources.knob = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
+        // Create the slider GameObject
+        GameObject sliderGo = DefaultControls.CreateSlider(uiResources);
+        sliderGo.name = SName;
+        sliderGo.transform.localPosition = TPos;
+        sliderGo.transform.SetParent(canvas.transform, false);
+        return sliderGo;
     }
     public virtual GameObject MakeRemoteView(string VName)
     {
@@ -70,7 +84,7 @@ public class AgoraUI : MonoBehaviour
         // Create the Toggle GameObject
         GameObject uiToggle = DefaultControls.CreateToggle(uiResources);
         uiToggle.name = TName;
-        Text labelText = uiToggle.GetComponentInChildren<Text>();
+        UnityEngine.UI.Text labelText = uiToggle.GetComponentInChildren<UnityEngine.UI.Text>();
         labelText.text = text;
         uiToggle.transform.localPosition = TPos;
         uiToggle.transform.SetParent(canvas.transform, false);
@@ -95,20 +109,20 @@ public class AgoraUI : MonoBehaviour
     }
 
     // Empty virtual methods for Start and Update
-    public virtual void Start() {}
-    public virtual void Update() {}
+    public virtual void Start() { }
+    public virtual void Update() { }
 
     public virtual void OnDestroy()
     {
-        if(joinBtn)
-           Destroy(joinBtn.gameObject);
-        if(leaveBtn)
-           Destroy(leaveBtn.gameObject);
-        if(LocalViewGo)
-           Destroy(LocalViewGo.gameObject);
-        if(RemoteViews != null)
+        if (joinBtn)
+            Destroy(joinBtn.gameObject);
+        if (leaveBtn)
+            Destroy(leaveBtn.gameObject);
+        if (LocalViewGo)
+            Destroy(LocalViewGo.gameObject);
+        if (RemoteViews != null)
         {
-            foreach(var go in RemoteViews)
+            foreach (var go in RemoteViews)
             {
                 Destroy(go.gameObject);
             }

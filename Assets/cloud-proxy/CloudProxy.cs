@@ -32,13 +32,13 @@ public class CloudProxy : AgoraUI
             hostToggle.onValueChanged.AddListener((value) =>
             {
                 audienceToggle.isOn = !value;
-                cloudProxyManager.setClientRole("Host");
+                cloudProxyManager.SetClientRole("Host");
             });
 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
                 hostToggle.isOn = !value;
-                cloudProxyManager.setClientRole("Audience");
+                cloudProxyManager.SetClientRole("Audience");
             });
         }
 
