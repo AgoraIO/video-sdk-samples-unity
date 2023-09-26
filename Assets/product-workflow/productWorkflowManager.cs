@@ -8,7 +8,6 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
         //Join the channel.
         base.Join();
     }
-
     public override void Leave()
     {
         // Leave the channel.
