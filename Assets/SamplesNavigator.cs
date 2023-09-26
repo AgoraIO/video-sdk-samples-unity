@@ -48,7 +48,7 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Cloud Proxy", typeof(CloudProxy));
         scriptDictionary.Add("Screen share, volume control and mute", typeof(ProductWorkflow));
         scriptDictionary.Add("Stream Media to a Channel", typeof(PlayMedia));
-
+        scriptDictionary.Add("Screen share, volume control and mute", typeof(ProductWorkflow));
         // Get the script names from the dictionary
         scriptNames.AddRange(scriptDictionary.Keys);
         scriptDictionary.Add("Audio and Voice Effects", typeof(AudioVoiceEffects));
