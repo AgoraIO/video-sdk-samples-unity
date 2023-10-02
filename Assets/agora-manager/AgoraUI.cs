@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Agora.Rtc;
 using TMPro;
 using UnityEditor;
-using System.Xml.Linq;
 using System;
 
 public class AgoraUI : MonoBehaviour

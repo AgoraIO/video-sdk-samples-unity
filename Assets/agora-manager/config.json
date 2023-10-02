@@ -1,11 +1,13 @@
 {
-  "appID":"",
-  "channelName":"demo",
-  "rtcToken":"",
-  "encryptionKey":"",
-  "salt":"",
-  "tokenExpiryTime":60,
-  "tokenUrl":"",
-  "uid":0,
-  "product":"Video Calling"
+    "appID":"",
+    "channelName":"demo",
+    "rtcToken":"",
+    "encryptionKey":"",
+    "salt":"",
+    "tokenExpiryTime":60,
+    "tokenUrl":"",
+    "uid":0,
+    "product":"Video Calling",
+    "audioFilePath":"https://www.kozco.com/tech/organfinale.mp3",
+    "soundEffectFilePath":"https://www.soundjay.com/human/applause-01.mp3"
 }
