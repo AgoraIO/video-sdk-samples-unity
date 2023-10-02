@@ -46,6 +46,10 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));
         scriptDictionary.Add("Secure Channel Encryption", typeof(MediaStreamEncryption));
         scriptDictionary.Add("Cloud Proxy", typeof(CloudProxy));
+        scriptDictionary.Add("Stream Media to a Channel", typeof(PlayMedia));
+
+        // Get the script names from the dictionary
+        scriptNames.AddRange(scriptDictionary.Keys);
         scriptDictionary.Add("Audio and Voice Effects", typeof(AudioVoiceEffects));
     }
 

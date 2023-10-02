@@ -16,8 +16,6 @@ public class ConfigData
     public string tokenUrl = ""; // Add Token Generator URL ...
     public uint uid  = 0; // RTC elected user ID (0 = choose random)
     public string product;
-    public string audioFilePath;
-    public string soundEffectFilePath;
 }
 
 public class AgoraManager
@@ -72,6 +70,11 @@ public class AgoraManager
             _appID = configData.appID;
             _channelName = configData.channelName;
             _token = configData.rtcToken;
+
+            if(_appID == ""|| _channelName == null || _token == "")
+            {
+                Debug.Log("Please make sure you specified a valid app ID, token, and channel name inside `config.json`");
+            }
         }
         else
         {
