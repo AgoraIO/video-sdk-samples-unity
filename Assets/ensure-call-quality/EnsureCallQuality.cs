@@ -1,63 +1,78 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Agora.Rtc;
 
 public class EnsureCallQuality : AgoraUI
 {
-    GameObject deviceTestBtn;
-    GameObject videoQualityBtn;
-    GameObject networkStatusObj;
-    GameObject audioDevicesDropdown;
-    GameObject videoDevicesDropdown;
+    GameObject deviceTestGo;
+    GameObject videoQualityGo;
+    GameObject networkStatusGo;
+    GameObject audioDevicesDropdownGo;
+    GameObject videoDevicesDropdownGo;
+    GameObject channelFieldGo;
     CallQualityManager callQualityManager;
     internal GameObject audienceToggleGo, hostToggleGo;
+    bool isDeviceTest = false;
+    bool isHighQuality = false;
+
     // Start is called before the first frame update
     public override void Start()
     {
-        // Setup UI
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        // Create an instance of the CallQualityManager
+        callQualityManager = new CallQualityManager();
+
+        // Setup UI elements
+        SetupUI();
+
+        // Attach a video surface to the local view game object.
+        callQualityManager.LocalView = LocalViewGo.AddComponent<VideoSurface>();
+    }
+
+    // Set up UI elements
+    private void SetupUI()
+    {
+        // Find the canvas
+        canvas = GameObject.Find("Canvas")?.GetComponent<Canvas>();
+        if (canvas == null)
+        {
+            Debug.LogError("Canvas not found!");
+            return;
+        }
 
         // Create and position UI elements
-        joinBtn = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
-        leaveBtn = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
+        joinBtnGo = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
+        leaveBtnGo = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-
-        // Add a TMP_Dropdown component for audio devices
-        audioDevicesDropdown = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
-        audioDevicesDropdown.name = "audioDevicesDropdown";
-        audioDevicesDropdown.transform.SetParent(canvas.transform);
-        audioDevicesDropdown.transform.localPosition = new Vector2(-187, -172);
-        audioDevicesDropdown.transform.localScale = Vector3.one;
-
-        // Add a TMP_Dropdown component for video devices
-        videoDevicesDropdown = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
-        videoDevicesDropdown.name = "videoDevicesDropdown";
-        videoDevicesDropdown.transform.SetParent(canvas.transform);
-        videoDevicesDropdown.transform.localPosition = new Vector2(-30, -172);
-        videoDevicesDropdown.transform.localScale = Vector3.one;
-
-        // Add a network status label
-        networkStatusObj = new GameObject("networkStatus");
-        TextMeshProUGUI networkStatus = networkStatusObj.AddComponent<TextMeshProUGUI>();
+        deviceTestGo = AddButton("testDevicesBtn", new Vector3(162, -172, 0), "Start device test", new Vector2(200f, 30f));
+        videoQualityGo = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "High Video Quality", new Vector2(130, 30f));
+        audioDevicesDropdownGo = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
+        audioDevicesDropdownGo.name = "audioDevicesDropdown";
+        audioDevicesDropdownGo.transform.SetParent(canvas.transform);
+        audioDevicesDropdownGo.transform.localPosition = new Vector2(-187, -172);
+        audioDevicesDropdownGo.transform.localScale = Vector3.one;
+        videoDevicesDropdownGo = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
+        videoDevicesDropdownGo.name = "videoDevicesDropdown";
+        videoDevicesDropdownGo.transform.SetParent(canvas.transform);
+        videoDevicesDropdownGo.transform.localPosition = new Vector2(-30, -172);
+        videoDevicesDropdownGo.transform.localScale = Vector3.one;
+        networkStatusGo = new GameObject("networkStatus");
+        TextMeshProUGUI networkStatus = networkStatusGo.AddComponent<TextMeshProUGUI>();
         networkStatus.transform.SetParent(canvas.transform);
         networkStatus.transform.localPosition = new Vector2(370, 100);
         networkStatus.text = "Network Quality: ";
         networkStatus.fontSize = 6;
-
-
-        // Add a button to test audio and video devices
-        deviceTestBtn = AddButton("testDevicesBtn", new Vector3(162, -172, 0), "Start device test", new Vector2(200f, 30f));
-
-        // Add a button to switch video quality
-        videoQualityBtn = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "High Video Quality", new Vector2(130, 30f));
-
-        // Add video surfaces to the local and remote views
-        callQualityManager = new CallQualityManager();
-
+        // Toggles to switch the user roles
         if (callQualityManager.configData.product != "Video Calling")
         {
             hostToggleGo = AddToggle("Host", new Vector2(-19, 50), "Host", new Vector2(200, 30));
             audienceToggleGo = AddToggle("Audience", new Vector2(-19, 100), "Audience", new Vector2(200, 30));
+        }
+        channelFieldGo = AddInputField("channelName", new Vector3(0, 0, 0), "Channel Name");
+
+        // Attach event listeners to UI elements
+        if (hostToggleGo && audienceToggleGo)
+        {
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
@@ -74,47 +89,82 @@ public class EnsureCallQuality : AgoraUI
                 callQualityManager.SetClientRole("Audience");
             });
         }
-        // Attach event listeners to buttons
-        leaveBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.Leave);
-        joinBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.Join);
-        deviceTestBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.testAudioAndVideoDevice);
-        videoQualityBtn.GetComponent<Button>().onClick.AddListener(callQualityManager.setStreamQuality);
 
-        // Add an input field to input a channel name
-        TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
-        GameObject inputFieldObj = TMP_DefaultControls.CreateInputField(resources);
-        inputFieldObj.name = "channelName";
-        inputFieldObj.transform.SetParent(canvas.transform, false);
+        leaveBtnGo.GetComponent<Button>().onClick.AddListener(callQualityManager.Leave);
+        joinBtnGo.GetComponent<Button>().onClick.AddListener(callQualityManager.Join);
+        deviceTestGo.GetComponent<Button>().onClick.AddListener(ToggleDeviceTest);
+        videoQualityGo.GetComponent<Button>().onClick.AddListener(ToggleStreamQuality);
 
-        TMP_InputField tmpInputField = inputFieldObj.GetComponent<TMP_InputField>();
-        RectTransform inputFieldTransform = tmpInputField.GetComponent<RectTransform>();
-        inputFieldTransform.sizeDelta = new Vector2(200, 30);
+        // Add a listener to the channel input field to update the channel name in CallQualityManager
+        TMP_InputField tmpInputField = channelFieldGo.GetComponent<TMP_InputField>();
+        tmpInputField.onValueChanged.AddListener(HandleChannelFieldChange);
+    }
 
-        TMP_Text textComponent = inputFieldObj.GetComponentInChildren<TMP_Text>();
-        textComponent.alignment = TextAlignmentOptions.Center;
+    // Function to toggle stream quality between high and low
+    public void ToggleStreamQuality()
+    {
+        if (isHighQuality)
+        {
+            videoQualityGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Low Video Quality";
+            isHighQuality = false;
+            callQualityManager.SetLowStreamQuality();
+        }
+        else
+        {
+            videoQualityGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "High Video Quality";
+            isHighQuality = true;
+            callQualityManager.SetHighStreamQuality();
+        }
+    }
 
-        // Change the placeholder text
-        tmpInputField.placeholder.GetComponent<TMP_Text>().text = "Channel Name";
+    // Function to toggle device test
+    public void ToggleDeviceTest()
+    {
+        if (isDeviceTest)
+        {
+            isDeviceTest = false;
+            deviceTestGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device test";
+            callQualityManager.StopAudioVideoDeviceTest();
+        }
+        else
+        {
+            isDeviceTest = true;
+            deviceTestGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop device test";
+            callQualityManager.StartAudioVideoDeviceTest();
+        }
+    }
+
+    // Pass the channel name to the CallQualityManager class to fetch a token from the token server
+    private void HandleChannelFieldChange(string newValue)
+    {
+        callQualityManager.configData.channelName = newValue;
+    }
+
+    private void DestroyUIElements()
+    {
+        // Destroy UI elements
+        if (deviceTestGo)
+            Destroy(deviceTestGo.gameObject);
+        if (videoQualityGo)
+            Destroy(videoQualityGo.gameObject);
+        if (networkStatusGo)
+            Destroy(networkStatusGo.gameObject);
+        if (audioDevicesDropdownGo)
+            Destroy(audioDevicesDropdownGo.gameObject);
+        if (videoDevicesDropdownGo)
+            Destroy(videoDevicesDropdownGo.gameObject);
+        if (audienceToggleGo)
+            Destroy(audienceToggleGo.gameObject);
+        if (hostToggleGo)
+            Destroy(hostToggleGo.gameObject);
+        if (channelFieldGo)
+            Destroy(channelFieldGo.gameObject);
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
         callQualityManager.DestroyEngine();
-        // Destroy UI elements
-        if (deviceTestBtn)
-            Destroy(deviceTestBtn.gameObject);
-        if (videoQualityBtn)
-            Destroy(videoQualityBtn.gameObject);
-        if (networkStatusObj)
-            Destroy(networkStatusObj.gameObject);
-        if (audioDevicesDropdown)
-            Destroy(audioDevicesDropdown.gameObject);
-        if (videoDevicesDropdown)
-            Destroy(videoDevicesDropdown.gameObject);
-        if (audienceToggleGo)
-            Destroy(audienceToggleGo.gameObject);
-        if (hostToggleGo)
-            Destroy(hostToggleGo.gameObject);
-    }    
+        DestroyUIElements();
+    }
 }
