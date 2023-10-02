@@ -86,6 +86,8 @@ public class GetStarted : AgoraUI
         // Destroy UI elements, e.g., audienceToggleGo, hostToggleGo
         if (audienceToggleGo)
             Destroy(audienceToggleGo.gameObject);
+        if (LocalViewGo)
+            Destroy(LocalViewGo.gameObject);
         if (hostToggleGo)
             Destroy(hostToggleGo.gameObject);
     }

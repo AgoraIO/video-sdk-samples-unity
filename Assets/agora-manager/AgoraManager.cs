@@ -70,6 +70,11 @@ public class AgoraManager
             _appID = configData.appID;
             _channelName = configData.channelName;
             _token = configData.rtcToken;
+
+            if(_appID == ""|| _channelName == null || _token == "")
+            {
+                Debug.Log("Please make sure you specified a valid app ID, token, and channel name inside `config.json`");
+            }
         }
         else
         {
