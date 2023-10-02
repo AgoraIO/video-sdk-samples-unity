@@ -16,7 +16,6 @@ public class ConfigData
     public string tokenUrl = ""; // Add Token Generator URL ...
     public uint uid  = 0; // RTC elected user ID (0 = choose random)
     public string product;
-    public string mediaURL;
 }
 
 public class AgoraManager

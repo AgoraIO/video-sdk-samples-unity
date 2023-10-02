@@ -25,7 +25,7 @@ The runnable code examples are:
 - [Secure channel encryption](./Assets/media-stream-encryption/) - integrate built-in data encryption into your app 
   using Video SDK.
 - [Stream media to a channel](./Assets/play-media/) - play video and audio files during online social and business interactions.
-
+- [Audio and voice effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
 
 ## Prerequisites
 

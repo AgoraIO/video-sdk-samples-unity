@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -7,28 +6,39 @@ using System.IO;
 
 public class SamplesNavigator : MonoBehaviour
 {
+    #region Variables
+
     private TMP_Dropdown sampleDropdown;
     private TMP_Dropdown productDropdown;
     private MonoBehaviour previousScriptComponent;
     private Dictionary<string, Type> scriptDictionary = new Dictionary<string, Type>();
     private string previousOption = "";
     internal ConfigData configData;
+    private Type selectedScriptType;
 
-    // Start is called before the first frame update
+    #endregion
+
+    #region Initialization
+
     void Start()
     {
-        // Get a reference to the sample dropdown component
-        GameObject go = GameObject.Find("sampleDropdown");
-        sampleDropdown = go.GetComponent<TMP_Dropdown>();
-        
-        // Get a reference to the sample dropdown component
-        go = GameObject.Find("productDropdown");
-        productDropdown = go.GetComponent<TMP_Dropdown>();
+        InitializeDropdowns();
+        AttachEventListeners();
+    }
 
-        // Create a list of script names
-        List<string> scriptNames = new List<string>();
-        List<string> productNames = new List<string> { "Video Calling", "ILS" };
+    void InitializeDropdowns()
+    {
+        // Get references to dropdown components
+        sampleDropdown = GameObject.Find("sampleDropdown").GetComponent<TMP_Dropdown>();
+        productDropdown = GameObject.Find("productDropdown").GetComponent<TMP_Dropdown>();
 
+        // Populate script dictionary and dropdown options
+        PopulateScriptDictionary();
+        PopulateDropdowns();
+    }
+
+    void PopulateScriptDictionary()
+    {
         // Add script names and types to the dictionary
         scriptDictionary.Add("Select", null);
         scriptDictionary.Add("SDK QuickStart", typeof(GetStarted));
@@ -40,30 +50,68 @@ public class SamplesNavigator : MonoBehaviour
 
         // Get the script names from the dictionary
         scriptNames.AddRange(scriptDictionary.Keys);
-
-        // Assign the script names to the dropdown
-        sampleDropdown.AddOptions(scriptNames);
-        productDropdown.AddOptions(productNames); 
-
-        // Attach the onValueChanged event listener
-        sampleDropdown.onValueChanged.AddListener(OnSampleDropdownValueChanged);
-        productDropdown.onValueChanged.AddListener(onProductDropdownValueChanged);
-
+        scriptDictionary.Add("Audio and Voice Effects", typeof(AudioVoiceEffects));
     }
-    void onProductDropdownValueChanged(int index)
+
+    void PopulateDropdowns()
     {
-        string path = System.IO.Path.Combine(Application.dataPath, "agora-manager", "config.json");
+        // Define dropdown options
+        List<string> scriptNames = new List<string>(scriptDictionary.Keys);
+        List<string> productNames = new List<string> { "Video Calling", "ILS" };
+
+        // Assign options to the dropdowns
+        sampleDropdown.AddOptions(scriptNames);
+        productDropdown.AddOptions(productNames);
+    }
+
+    void AttachEventListeners()
+    {
+        // Attach event listeners
+        sampleDropdown.onValueChanged.AddListener(OnSampleDropdownValueChanged);
+        productDropdown.onValueChanged.AddListener(OnProductDropdownValueChanged);
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    void OnProductDropdownValueChanged(int index)
+    {
+        // Handle product dropdown value change
+        UpdateConfigData(index);
+
+        // Destroy the previous script component
+        DestroyPreviousScript();
+
+        // Handle script selection based on the new product
+        HandleScriptSelection();
+    }
+
+    void OnSampleDropdownValueChanged(int index)
+    {
+        // Handle sample dropdown value change
+        DestroyPreviousScript();
+        CreateOrGetScript(index);
+    }
+
+    #endregion
+
+    #region Custom Methods
+
+    void UpdateConfigData(int index)
+    {
+        string path = Path.Combine(Application.dataPath, "agora-manager", "config.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             configData = JsonUtility.FromJson<ConfigData>(json);
-            
+
             // Update the 'product' attribute
             configData.product = productDropdown.options[index].text;
-            
+
             // Convert the updated configData back to JSON
             string updatedJson = JsonUtility.ToJson(configData);
-            
+
             // Write the updated JSON back to the file
             File.WriteAllText(path, updatedJson);
         }
@@ -73,23 +121,26 @@ public class SamplesNavigator : MonoBehaviour
         }
     }
 
-    void OnSampleDropdownValueChanged(int index)
+    void HandleScriptSelection()
     {
-        // Get the selected option text
+        string selectedProduct = productDropdown.options[productDropdown.value].text;
+        // Check if a script is selected (e.g., not "Select")
+        if (selectedProduct != "Select")
+        {
+            CreateOrGetScript(sampleDropdown.value);
+        }
+    }
+
+    void CreateOrGetScript(int index)
+    {
         string selectedOption = sampleDropdown.options[index].text;
 
         // Check if there was a previous option
         if (!string.IsNullOrEmpty(previousOption))
         {
-            // Get the corresponding script type of the previous option
-            if (scriptDictionary.TryGetValue(previousOption, out Type previousScriptType))
+            if (scriptDictionary.TryGetValue(previousOption, out Type previousScriptType) && previousOption != selectedOption)
             {
-                // Destroy the previous script component if it exists
-                if (previousScriptComponent != null)
-                {
-                    Destroy(previousScriptComponent);
-                    Debug.Log("Destroyed previous script: " + previousScriptComponent.GetType());
-                }
+                DestroyPreviousScript();
             }
         }
 
@@ -99,17 +150,25 @@ public class SamplesNavigator : MonoBehaviour
         // Get the corresponding script type from the dictionary
         if (scriptDictionary.TryGetValue(selectedOption, out Type scriptType))
         {
-            // Create an instance of the selected script type
+            // Create or get an instance of the selected script type
             MonoBehaviour scriptInstance = gameObject.GetComponent(scriptType) as MonoBehaviour;
-
-            if (scriptInstance == null)
-            {
-                // If the script component does not exist, add it
-                scriptInstance = gameObject.AddComponent(scriptType) as MonoBehaviour;
-            }
+            scriptInstance = gameObject.AddComponent(scriptType) as MonoBehaviour;
 
             // Store the script component as the previous script component
             previousScriptComponent = scriptInstance;
         }
     }
+
+    void DestroyPreviousScript()
+    {
+        if (previousScriptComponent != null)
+        {
+            Destroy(previousScriptComponent);
+            Debug.Log("Destroyed previous script: " + previousScriptComponent.GetType());
+            previousScriptComponent = null;
+            previousOption = "";
+        }
+    }
+
+    #endregion
 }
