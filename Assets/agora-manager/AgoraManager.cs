@@ -101,9 +101,6 @@ public class AgoraManager
 
         // Attach the eventHandler
         InitEventHandler();
-        
-        // Attack a video surface to the local view game object.
-        LocalView = GameObject.Find("LocalView").AddComponent<VideoSurface>();
 
     }
 
@@ -146,13 +143,13 @@ public class AgoraManager
         SetupAgoraEngine();
 
         // Set the local video view.
-        LocalView.SetForUser(configData.uid, configData.channelName);
+        LocalView.SetForUser(configData.uid, _channelName);
 
         // Start rendering local video.
         LocalView.SetEnable(true);
 
         // Join the channel using the specified token and channel name.
-        agoraEngine.JoinChannel(_token, _channelName);
+        agoraEngine.JoinChannel(configData.rtcToken, configData.channelName);
     }
 
     // Init event handler to receive callbacks
@@ -225,7 +222,7 @@ internal class UserEventHandler : IRtcEngineEventHandler
     {
         _videoSample.DestroyVideoView(uid);
     }
-    public override void OnUserJoined(RtcConnection connection, uint uid, int elapsed)
+    public override void OnUserJoined(RtcConnection connecn, uint uid, int elapsed)
     {
         _videoSample.MakeVideoView(uid);
         // Save the remote user ID in a variable.

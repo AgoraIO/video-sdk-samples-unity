@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Networking;
-using TMPro;
 using Agora.Rtc;
 using System.Threading.Tasks;
 
@@ -13,11 +12,7 @@ public class AuthenticationWorkflowManager : AgoraManager
 {
     public async Task FetchToken()
     {
-        if(configData.tokenUrl == "")
-        {
-            Debug.Log("Please specify a valid token server URL inside `config.json`");
-            return;
-        }
+        
         string url = string.Format("{0}/rtc/{1}/1/uid/{2}/?expiry={3}", configData.tokenUrl, configData.channelName, configData.uid, configData.tokenExpiryTime);
         UnityWebRequest request = UnityWebRequest.Get(url);
         
@@ -37,6 +32,7 @@ public class AuthenticationWorkflowManager : AgoraManager
         TokenStruct tokenInfo = JsonUtility.FromJson<TokenStruct>(request.downloadHandler.text);
         Debug.Log("Retrieved token : " + tokenInfo.rtcToken);
         _token = tokenInfo.rtcToken;
+        _channelName = configData.channelName;
     }
     public void RenewToken()
     {
@@ -59,10 +55,9 @@ public class AuthenticationWorkflowManager : AgoraManager
 
     public override async void Join()
     {
-        _channelName = GameObject.Find("channelName").GetComponent<TMP_InputField>().text;
-        if (_channelName != "")
+        if (configData.tokenUrl == "")
         {
-            Debug.Log("You did not specify the channel name. Joining using the rtcToken token given in the config.json file!");
+            Debug.Log("Please specify a valid token server URL inside `config.json`");
         }
         else
         {

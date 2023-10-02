@@ -1,67 +1,111 @@
+using System;
 using Agora.Rtc;
-using TMPro;
 using UnityEngine;
 public class ProductWorkflowManager : AuthenticationWorkflowManager
 {
-    // Track screen sharing state.
-    private bool sharingScreen = false;
-
     public override void Join()
     {
         //Join the channel.
         base.Join();
     }
+
     public override void Leave()
     {
         // Leave the channel.
         base.Leave();
     }
+
     public void ChangeVolume(int volume)
     {
-        // Adjust the recorded signal volume.
+        // Adjust the volume of the recorded signal.
         agoraEngine.AdjustRecordingSignalVolume(volume);
     }
+
     public void MuteRemoteAudio(bool value)
     {
-        // Pass the uid of the remote user you want to mute.
-        agoraEngine.MuteRemoteAudioStream(System.Convert.ToUInt32(remoteUid), value);
-    }
-    public void UpdateChannelPublishOptions(bool publishMediaPlayer)
-    {
-        ChannelMediaOptions channelOptions = new ChannelMediaOptions();
-        channelOptions.publishScreenTrack.SetValue(publishMediaPlayer);
-        channelOptions.publishMicrophoneTrack.SetValue(true);
-        channelOptions.publishSecondaryScreenTrack.SetValue(publishMediaPlayer);
-        channelOptions.publishCameraTrack.SetValue(!publishMediaPlayer);
-        agoraEngine.UpdateChannelMediaOptions(channelOptions);
-    }
-    public void SetupLocalVideo(bool isScreenSharing)
-    {
-        if (isScreenSharing)
+        if (remoteUid > 0)
         {
-            LocalView = new VideoSurface();
-            // Render the screen sharing track on the local view.
-            LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_SCREEN_PRIMARY);
-
+            // Pass the uid of the remote user you want to mute.
+            agoraEngine.MuteRemoteAudioStream(Convert.ToUInt32(remoteUid), value);
         }
         else
         {
-            LocalView = new VideoSurface();
-            // Render the local video track on the local view.
+            Debug.Log("No remote user in the channel");
+        }
+    }
+
+    public void PublishScreenTrack()
+    {
+        // Publish the screen track
+        ChannelMediaOptions channelOptions = new ChannelMediaOptions();
+        channelOptions.publishScreenTrack.SetValue(true);
+        channelOptions.publishMicrophoneTrack.SetValue(true);
+        channelOptions.publishSecondaryScreenTrack.SetValue(true);
+        channelOptions.publishCameraTrack.SetValue(false);
+        agoraEngine.UpdateChannelMediaOptions(channelOptions);
+    }
+
+    public void UnPublishScreenTrack()
+    {
+        // Unpublish the screen track.
+        ChannelMediaOptions channelOptions = new ChannelMediaOptions();
+        channelOptions.publishScreenTrack.SetValue(false);
+        channelOptions.publishCameraTrack.SetValue(true);
+        channelOptions.publishMicrophoneTrack.SetValue(true);
+        agoraEngine.UpdateChannelMediaOptions(channelOptions);
+    }
+
+    public void PlayScreenTrackLocally(bool isScreenSharing, GameObject localViewGo)
+    {
+        if (isScreenSharing)
+        {
+            LocalView = localViewGo.AddComponent<VideoSurface>();
+            // Render the screen sharing track on the local view GameObject.
+            LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_SCREEN_PRIMARY);
+        }
+        else
+        {
+            // Update the VideoSurface component of the local view GameObject.
+            LocalView = localViewGo.AddComponent<VideoSurface>();
+            // Render the local video track on the local view GameObject.
             LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY);
         }
     }
+
     public void StopSharing()
     {
-        // Stop sharing.
+        // Stop screen sharing.
         agoraEngine.StopScreenCapture();
+
         // Publish the local video track when you stop sharing your screen.
-        UpdateChannelPublishOptions(false);
-        // Display the local video in the local view.
-        SetupLocalVideo(false);
-        // Update the screen sharing state.
-        sharingScreen = false;
+        UnPublishScreenTrack();
+
     }
+
+    private void StartScreenCaptureAndroid(long sourceId)
+    {
+        // Configure screen capture parameters for Android.
+        var parameters2 = new ScreenCaptureParameters2();
+        parameters2.captureAudio = true;
+        parameters2.captureVideo = true;
+        agoraEngine.StartScreenCapture(parameters2);
+    }
+
+    private void StartScreenCaptureWindows(long sourceId)
+    {
+        // Configure screen capture parameters for Windows.
+        agoraEngine.StartScreenCaptureByDisplayId((uint)sourceId, default(Rectangle),
+            new ScreenCaptureParameters { captureMouseCursor = true, frameRate = 30 });
+    }
+
+    // Get the list of shareable screens
+    private ScreenCaptureSourceInfo[] GetScreenCaptureSources()
+    {
+        SIZE targetSize = new SIZE(360, 660);
+        return agoraEngine.GetScreenCaptureSources(targetSize, targetSize, true);
+    }
+
+    // Share the screen
     public void StartSharing()
     {
         if (agoraEngine == null)
@@ -69,21 +113,28 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
             Debug.Log("Join a channel to start screen sharing");
             return;
         }
-        // The target size of the screen or window thumbnail (the width and height are in pixels).
-        SIZE t = new SIZE(360, 240);
-        // The target size of the icon corresponding to the application program (the width and height are in pixels)
-        SIZE s = new SIZE(360, 240);
-        // Get a list of shareable screens and windows
-        var info = agoraEngine.GetScreenCaptureSources(t, s, true);
-        // Get the first source id to share the whole screen.
-        long dispId = info[0].sourceId;
-        // To share a part of the screen, specify the screen width and size using the Rectangle class.
-        agoraEngine.StartScreenCaptureByWindowId(System.Convert.ToUInt32(dispId), new Rectangle(),
-             default(ScreenCaptureParameters));
-        // Publish the screen track and unpublish the local video track.
-        UpdateChannelPublishOptions(true);
-        // Display the screen track in the local view.
-        SetupLocalVideo(true); 
+
+        // Get a list of shareable screens and windows.
+        var captureSources = GetScreenCaptureSources();
+
+        if (captureSources != null && captureSources.Length > 0)
+        {
+            var sourceId = captureSources[0].sourceId;
+
+            // Start screen sharing based on platform.
+#if UNITY_ANDROID || UNITY_IPHONE
+            StartScreenCaptureAndroid(sourceId);
+#else
+            StartScreenCaptureWindows(sourceId);
+#endif
+
+            // Publish the screen track and update local video display.
+            PublishScreenTrack();
+        }
+        else
+        {
+            Debug.LogWarning("No screen capture sources found.");
+        }
     }
 
 }

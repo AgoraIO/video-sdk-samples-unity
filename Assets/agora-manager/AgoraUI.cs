@@ -9,8 +9,8 @@ public class AgoraUI : MonoBehaviour
 {
     // References to UI elements
     internal Canvas canvas;
-    internal GameObject joinBtn;
-    internal GameObject leaveBtn;
+    internal GameObject joinBtnGo;
+    internal GameObject leaveBtnGo;
     internal GameObject LocalViewGo;
     internal static GameObject[] RemoteViews;
     public TMP_FontAsset tmpFont;
@@ -91,6 +91,26 @@ public class AgoraUI : MonoBehaviour
         return uiToggle;
     }
 
+    public GameObject AddInputField(string fieldName, Vector3 position, string placeholderText)
+    {
+        // Create input field.
+        TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
+        GameObject inputFieldGo = TMP_DefaultControls.CreateInputField(resources);
+        inputFieldGo.name = fieldName;
+        inputFieldGo.transform.SetParent(canvas.transform, false);
+
+        TMP_InputField tmpInputField = inputFieldGo.GetComponent<TMP_InputField>();
+        RectTransform inputFieldTransform = tmpInputField.GetComponent<RectTransform>();
+        inputFieldTransform.sizeDelta = new Vector2(200, 30);
+
+        TMP_Text textComponent = inputFieldGo.GetComponentInChildren<TMP_Text>();
+        textComponent.alignment = TextAlignmentOptions.Center;
+        tmpInputField.placeholder.GetComponent<TMP_Text>().text = placeholderText;
+
+        return inputFieldGo;
+    }
+
+
     // Create a button
     public virtual GameObject AddButton(string BName, Vector3 BPos, string BText, Vector2 BSize)
     {
@@ -114,10 +134,10 @@ public class AgoraUI : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        if (joinBtn)
-            Destroy(joinBtn.gameObject);
-        if (leaveBtn)
-            Destroy(leaveBtn.gameObject);
+        if (joinBtnGo)
+            Destroy(joinBtnGo.gameObject);
+        if (leaveBtnGo)
+            Destroy(leaveBtnGo.gameObject);
         if (LocalViewGo)
             Destroy(LocalViewGo.gameObject);
         if (RemoteViews != null)

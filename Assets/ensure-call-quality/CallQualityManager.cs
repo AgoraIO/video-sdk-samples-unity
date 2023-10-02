@@ -15,7 +15,6 @@ public class CallQualityManager : AuthenticationWorkflowManager
     private DeviceInfo[] _videoDeviceInfos; // Represent information about video devices.
     private TMP_Dropdown videoDevicesDropdown; // To access the video devices dropdown.
     private TMP_Dropdown audioDevicesDropdown; // To access the audio devices dropdown.
-    private bool isTestRunning = false; // To track the device test state.
 
     [DllImport("user32.dll")]
     private static extern IntPtr CreateWindowEx(uint dwExStyle, string lpClassName, string lpWindowName,
@@ -165,31 +164,28 @@ public class CallQualityManager : AuthenticationWorkflowManager
         videoDevicesDropdown.ClearOptions();
         videoDevicesDropdown.AddOptions(options);
     }
-    public void testAudioAndVideoDevice()
+    public void StartAudioVideoDeviceTest()
     {
-        GameObject go = GameObject.Find("testDevicesBtn");
-        if(!isTestRunning)
+        Debug.Log("Please conduct the device test before joining the channel.");
+        SetupAgoraEngine();
+        string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
+        string selectedVideoDevice = videoDevicesDropdown.options[videoDevicesDropdown.value].text;
+        foreach (var device in _audioRecordingDeviceInfos)
         {
-            Debug.Log("Please conduct the device test before joining the channel.");
-            SetupAgoraEngine();
-            string selectedAudioDevice = audioDevicesDropdown.options[audioDevicesDropdown.value].text;
-            string selectedVideoDevice = videoDevicesDropdown.options[videoDevicesDropdown.value].text;
-            foreach (var device in _audioRecordingDeviceInfos)
+            if(selectedAudioDevice == device.deviceName)
             {
-                if(selectedAudioDevice == device.deviceName)
-                {
-                    _audioDeviceManager.SetRecordingDevice(device.deviceId);
-                }
+                _audioDeviceManager.SetRecordingDevice(device.deviceId);
             }
-            _audioDeviceManager.StartAudioDeviceLoopbackTest(500);
-            foreach (var device in _videoDeviceInfos)
+        }
+        _audioDeviceManager.StartAudioDeviceLoopbackTest(500);
+        foreach (var device in _videoDeviceInfos)
+        {
+            if(selectedVideoDevice == device.deviceName)
             {
-                if(selectedVideoDevice == device.deviceName)
-                {
-                    _videoDeviceManager.SetDevice(device.deviceId);
-                }
+                _videoDeviceManager.SetDevice(device.deviceId);
             }
-            hWnd = CreateWindowEx(
+        }
+        hWnd = CreateWindowEx(
                 0,
                 "Static",
                 "My Window",
@@ -204,20 +200,14 @@ public class CallQualityManager : AuthenticationWorkflowManager
                 IntPtr.Zero);
             ShowWindow(hWnd, SW_SHOW);
             _videoDeviceManager.StartDeviceTest(hWnd);
-            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop test";
-            isTestRunning = true;
-
-        }
-        else
-        {
-            DestroyWindow(hWnd);
-            isTestRunning = false;
-            go.GetComponentInChildren<TextMeshProUGUI>(true).text = "Start device test";
-            _audioDeviceManager.StopAudioDeviceLoopbackTest();
-            _videoDeviceManager.StopDeviceTest();
-            DestroyEngine();
-
-        }
+    }
+    public void StopAudioVideoDeviceTest()
+    {
+        DestroyWindow(hWnd);
+        isTestRunning = false;
+        _audioDeviceManager.StopAudioDeviceLoopbackTest();
+        _videoDeviceManager.StopDeviceTest();
+        DestroyEngine();
     }
     public void updateNetworkStatus(int quality)
     {  
@@ -242,27 +232,15 @@ public class CallQualityManager : AuthenticationWorkflowManager
             networkStatus.color = Color.white;
         }
     }
-    public void setStreamQuality()
+    public void SetLowStreamQuality()
     {
-        GameObject videoQualityBtn = GameObject.Find("videoQualityBtn");
-        TMP_Text videoQualityBtnText = videoQualityBtn.GetComponentInChildren<TextMeshProUGUI>(true); // For changing the button text programmatically.
-        if(remoteUid == 0)
-        {
-            Debug.Log("No remote user in the channel");
-            return;
-        }
-        highQuality = !highQuality;
-        if (highQuality) 
-        {
-            agoraEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_HIGH);
-            videoQualityBtnText.text = "Low Video Quality";
-            Debug.Log("Switching to high-quality video");
-        } 
-        else 
-        {
-            agoraEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_LOW);
-            Debug.Log("Switching to low-quality video");
-        }
+        agoraEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_LOW);
+        Debug.Log("Switching to low-quality video");
+    }
+    public void SetHighStreamQuality()
+    {
+        agoraEngine.SetRemoteVideoStreamType(remoteUid, VIDEO_STREAM_TYPE.VIDEO_STREAM_HIGH);
+        Debug.Log("Switching to high-quality video");
     }
 }
     

@@ -1,3 +1,4 @@
+
 public class GetStartedManager : AgoraManager
 {
     public override void Join()
