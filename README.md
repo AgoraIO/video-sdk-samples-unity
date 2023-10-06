@@ -26,6 +26,7 @@ The runnable code examples are:
   using Video SDK.
 - [Stream media to a channel](./Assets/play-media/) - play video and audio files during online social and business interactions.
 - [Audio and voice effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
+- [Screen share, mute, and volume control](./Assets/product-workflow/productWorkflowManager.cs) - Implement a simple workflow in your game.
 
 ## Prerequisites
 
