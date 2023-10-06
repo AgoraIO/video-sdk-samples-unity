@@ -15,6 +15,9 @@ public class EnsureCallQuality : AgoraUI
     internal GameObject audienceToggleGo, hostToggleGo;
     bool isDeviceTest = false;
     bool isHighQuality = false;
+    string selectedAudioDevice = "";
+    string selectedVideoDevice = "";
+
 
     // Start is called before the first frame update
     public override void Start()
@@ -41,27 +44,16 @@ public class EnsureCallQuality : AgoraUI
         }
 
         // Create and position UI elements
-        joinBtn = AddButton("Join", new Vector3(-327, -172, 0), "Join", new Vector2(160f, 30f));
-        leaveBtn = AddButton("Leave", new Vector3(330, -172, 0), "Leave", new Vector2(160f, 30f));
+        joinBtnGo = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(100, 30f));
+        leaveBtnGo = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(100, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
-        deviceTestGo = AddButton("testDevicesBtn", new Vector3(162, -172, 0), "Start device test", new Vector2(200f, 30f));
-        videoQualityGo = AddButton("videoQualityBtn", new Vector3(350, 172, 0), "High Video Quality", new Vector2(130, 30f));
-        audioDevicesDropdownGo = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
-        audioDevicesDropdownGo.name = "audioDevicesDropdown";
-        audioDevicesDropdownGo.transform.SetParent(canvas.transform);
-        audioDevicesDropdownGo.transform.localPosition = new Vector2(-187, -172);
-        audioDevicesDropdownGo.transform.localScale = Vector3.one;
-        videoDevicesDropdownGo = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
-        videoDevicesDropdownGo.name = "videoDevicesDropdown";
-        videoDevicesDropdownGo.transform.SetParent(canvas.transform);
-        videoDevicesDropdownGo.transform.localPosition = new Vector2(-30, -172);
-        videoDevicesDropdownGo.transform.localScale = Vector3.one;
-        networkStatusGo = new GameObject("networkStatus");
-        TextMeshProUGUI networkStatus = networkStatusGo.AddComponent<TextMeshProUGUI>();
-        networkStatus.transform.SetParent(canvas.transform);
-        networkStatus.transform.localPosition = new Vector2(370, 100);
-        networkStatus.text = "Network Quality: ";
-        networkStatus.fontSize = 6;
+        deviceTestGo = AddButton("testDevicesBtn", new Vector3(218, -172, 0), "Start device test", new Vector2(160f, 30f));
+        videoQualityGo = AddButton("videoQualityBtn", new Vector3(336, 172, 0), "High Video Quality", new Vector2(130, 30f));
+
+        audioDevicesDropdownGo = AddDropdown("audioDevicesDropdown", new Vector2(-191, -172), new Vector2(215, 30));
+        videoDevicesDropdownGo = AddDropdown("videoDevicesDropdown", new Vector2(27, -172), new Vector2(215, 30));
+        networkStatusGo = AddLabel("networkStatus", new Vector2(370, 100), "Network Quality: ");
+
         // Toggles to switch the user roles
         if (callQualityManager.configData.product != "Video Calling")
         {
@@ -90,6 +82,7 @@ public class EnsureCallQuality : AgoraUI
             });
         }
 
+        // Add events listerners to UI elements.
         leaveBtnGo.GetComponent<Button>().onClick.AddListener(callQualityManager.Leave);
         joinBtnGo.GetComponent<Button>().onClick.AddListener(callQualityManager.Join);
         deviceTestGo.GetComponent<Button>().onClick.AddListener(ToggleDeviceTest);
@@ -120,6 +113,12 @@ public class EnsureCallQuality : AgoraUI
     // Function to toggle device test
     public void ToggleDeviceTest()
     {
+        TMP_Dropdown audioDeviceDropdown = audioDevicesDropdownGo.GetComponent<TMP_Dropdown>();
+        selectedAudioDevice = audioDeviceDropdown.options[audioDeviceDropdown.value].text;
+
+        TMP_Dropdown videoDeviceDropdown = videoDevicesDropdownGo.GetComponent<TMP_Dropdown>();
+        selectedVideoDevice = videoDeviceDropdown.options[audioDeviceDropdown.value].text;
+
         if (isDeviceTest)
         {
             isDeviceTest = false;
@@ -130,7 +129,7 @@ public class EnsureCallQuality : AgoraUI
         {
             isDeviceTest = true;
             deviceTestGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop device test";
-            callQualityManager.StartAudioVideoDeviceTest();
+            callQualityManager.StartAudioVideoDeviceTest(selectedAudioDevice, selectedVideoDevice);
         }
     }
 
@@ -138,6 +137,22 @@ public class EnsureCallQuality : AgoraUI
     private void HandleChannelFieldChange(string newValue)
     {
         callQualityManager.configData.channelName = newValue;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        TMP_Dropdown videoDevicesDropdown = GameObject.Find("videoDevicesDropdown").GetComponent<TMP_Dropdown>();
+        videoDevicesDropdown.ClearOptions();
+        videoDevicesDropdown.AddOptions(callQualityManager.videoDevices);
+
+        TMP_Dropdown audioDevicesDropdown = GameObject.Find("audioDevicesDropdown").GetComponent<TMP_Dropdown>();
+        audioDevicesDropdown.ClearOptions();
+        audioDevicesDropdown.AddOptions(callQualityManager.audioDevices);
+
+        TextMeshProUGUI networkStatus = networkStatusGo.GetComponent<TextMeshProUGUI>();
+        networkStatus.text = callQualityManager.networkStatus;
+
     }
 
     private void DestroyUIElements()

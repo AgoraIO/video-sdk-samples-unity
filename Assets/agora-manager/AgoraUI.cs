@@ -128,6 +128,27 @@ public class AgoraUI : MonoBehaviour
         return Button;
     }
 
+    public virtual GameObject AddDropdown(string Dname, Vector3 DPos, Vector2 DSize)
+    {
+        GameObject dropDownGo = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
+        dropDownGo.name = Dname;
+        dropDownGo.transform.SetParent(canvas.transform);
+        dropDownGo.transform.localPosition = DPos;
+        dropDownGo.transform.localScale = Vector3.one;
+        RectTransform rectTransform = dropDownGo.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = DSize;
+        return dropDownGo;
+    }
+    public virtual GameObject AddLabel(string LName, Vector3 LPos, string LText)
+    {
+        GameObject labelGo = new GameObject(LName);
+        TextMeshProUGUI label = labelGo.AddComponent<TextMeshProUGUI>();
+        label.transform.SetParent(canvas.transform);
+        label.transform.localPosition = LPos;
+        label.text = LText;
+        label.fontSize = 6;
+        return labelGo;
+    }
     // Empty virtual methods for Start and Update
     public virtual void Start() { }
     public virtual void Update() { }

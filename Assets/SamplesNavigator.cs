@@ -14,7 +14,6 @@ public class SamplesNavigator : MonoBehaviour
     private Dictionary<string, Type> scriptDictionary = new Dictionary<string, Type>();
     private string previousOption = "";
     internal ConfigData configData;
-    private Type selectedScriptType;
 
     #endregion
 
@@ -49,9 +48,6 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Screen share, volume control and mute", typeof(ProductWorkflow));
         scriptDictionary.Add("Stream Media to a Channel", typeof(PlayMedia));
         scriptDictionary.Add("Audio and Voice Effects", typeof(AudioVoiceEffects));
-
-        // Get the script names from the dictionary
-        scriptNames.AddRange(scriptDictionary.Keys);
     }
 
     void PopulateDropdowns()
