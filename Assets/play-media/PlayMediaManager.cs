@@ -171,6 +171,7 @@ internal class PlayMediaEventHandler : IMediaPlayerSourceObserver
     {
         // Required to implement IMediaPlayerObserver
     }
+
     public override void OnMetaData(byte[] type, int length)
     {
         // Required to implement IMediaPlayerObserver
