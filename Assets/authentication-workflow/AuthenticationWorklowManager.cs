@@ -57,7 +57,7 @@ public class AuthenticationWorkflowManager : AgoraManager
     {
         if (configData.tokenUrl == "")
         {
-            Debug.Log("Please specify a valid token server URL inside `config.json`");
+            Debug.Log("Specify a valid token server URL inside `config.json` if you wish to fetch token from the server");
         }
         else
         {

@@ -32,7 +32,7 @@ public class AgoraManager
     internal VideoSurface LocalView;
     internal VideoSurface RemoteView;
     internal ConfigData configData;
-
+    internal AREA_CODE region;
     #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     // Define an ArrayList of permissions required for Android devices.
     private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };
@@ -74,10 +74,6 @@ public class AgoraManager
             _channelName = configData.channelName;
             _token = configData.rtcToken;
 
-            if(_appID == ""|| _channelName == null || _token == "")
-            {
-                Debug.Log("Please make sure you specified a valid app ID, token, and channel name inside `config.json`");
-            }
         }
         else
         {
@@ -88,6 +84,11 @@ public class AgoraManager
     // Define a public function called SetupAgoraEngine to setup the video SDK engine.
     public virtual void SetupAgoraEngine()
     {
+        if(_appID == "" || _token == "")
+        {
+            Debug.Log("Please set an app ID and a token in the config file.");
+            return;
+        }
         // Create an instance of the video SDK engine.
         agoraEngine = Agora.Rtc.RtcEngine.CreateAgoraRtcEngine();
 
@@ -97,7 +98,7 @@ public class AgoraManager
             : CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_LIVE_BROADCASTING;
 
         RtcEngineContext context = new RtcEngineContext(_appID, 0, channelProfile,
-            AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT, AREA_CODE.AREA_CODE_GLOB, null);
+            AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT, region, null);
 
         agoraEngine.Initialize(context);
 

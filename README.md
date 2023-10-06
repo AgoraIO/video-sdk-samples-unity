@@ -28,6 +28,8 @@ The runnable code examples are:
 - [Audio and voice effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
 - [Screen share, mute, and volume control](./Assets/product-workflow/productWorkflowManager.cs) - Implement a simple workflow in your game.
 
+- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your game
+
 ## Prerequisites
 
 Before getting started with this reference app, ensure you have the following set up:
