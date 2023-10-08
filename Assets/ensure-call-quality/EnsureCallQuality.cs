@@ -82,7 +82,7 @@ public class EnsureCallQuality : AgoraUI
             });
         }
 
-        // Add events listerners to UI elements.
+        // Add events listerners to the UI elements.
         leaveBtnGo.GetComponent<Button>().onClick.AddListener(callQualityManager.Leave);
         joinBtnGo.GetComponent<Button>().onClick.AddListener(callQualityManager.Join);
         deviceTestGo.GetComponent<Button>().onClick.AddListener(ToggleDeviceTest);

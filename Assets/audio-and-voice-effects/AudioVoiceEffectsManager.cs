@@ -23,8 +23,8 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
         // Initialize event handling for Agora
         agoraEngine.InitEventHandler(new AudioVoiceEffectEventHandler(this));
 
-#if (UNITY_ANDROID)
-        agoraEngine.SetDefaultAudioRouteToSpeakerphone(!enableSpeakerPhone); // Disables the default audio route.
+#if (UNITY_ANDROID || UNITY_IOS)
+            agoraEngine.SetDefaultAudioRouteToSpeakerphone(!enableSpeakerPhone); // Disables the default audio route.
         agoraEngine.SetEnableSpeakerphone(enableSpeakerPhone); // Enables or disables the speakerphone temporarily.
 #endif
     }
@@ -36,7 +36,7 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
     }
 
     // Method to get the current voice effect state
-    public bool GetVoiceEffectState()
+    public bool GetSoundEffectState()
     {
         return isEffectFinished;
     }
@@ -95,7 +95,6 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
     // Method to apply voice effects
     public void ApplyVoiceEffect(VOICE_BEAUTIFIER_PRESET effect)
     {
-        isEffectFinished = false;
         agoraEngine.SetVoiceBeautifierPreset(effect);
     }
 
@@ -126,6 +125,7 @@ internal class AudioVoiceEffectEventHandler : UserEventHandler
         // Handle the event, stop the audio effect, and reset its status
         Debug.Log("Audio effect finished");
         audioVoiceEffectsManager.isEffectFinished = true;
+        audioVoiceEffectsManager.StopAudioMixing();
     }
 
     // Occurs when you start audio mixing, with different states
