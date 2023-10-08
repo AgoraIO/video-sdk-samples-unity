@@ -217,7 +217,7 @@ public class AudioVoiceEffects : AgoraUI
         }
 
         // Check if a voice effect is in progress and update the text of the playEffectBtn accordingly.
-        if (audioVoiceEffectsManager.GetVoiceEffectState())
+        if (audioVoiceEffectsManager.GetSoundEffectState())
         {
             playEffectBtn.GetComponentInChildren<TextMeshProUGUI>(true).text = "Play Sound Effect";
             soundEffectState = 0;

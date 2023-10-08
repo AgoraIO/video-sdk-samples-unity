@@ -33,6 +33,7 @@ public class AgoraManager
     internal VideoSurface RemoteView;
     internal ConfigData configData;
     internal AREA_CODE region;
+
     #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     // Define an ArrayList of permissions required for Android devices.
     private ArrayList permissionList = new ArrayList() { Permission.Camera, Permission.Microphone };

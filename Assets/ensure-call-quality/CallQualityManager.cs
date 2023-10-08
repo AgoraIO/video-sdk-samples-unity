@@ -265,7 +265,7 @@ internal class CallQualityEventHandler : UserEventHandler
     }
     public override void OnLastmileProbeResult(LastmileProbeResult result) 
     {
-        _videoSample.agoraEngine.StopLastmileProbeTest();
+        callQuality.agoraEngine.StopLastmileProbeTest();
        
         Debug.Log("Probe test finished");
         // The result object contains the detailed test results that help you
