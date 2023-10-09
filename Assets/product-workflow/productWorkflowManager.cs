@@ -59,6 +59,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
     {
         if (isScreenSharing)
         {
+            // Update the VideoSurface component of the local view GameObject.
             LocalView = localViewGo.AddComponent<VideoSurface>();
             // Render the screen sharing track on the local view GameObject.
             LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_SCREEN_PRIMARY);
@@ -88,6 +89,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
         var parameters2 = new ScreenCaptureParameters2();
         parameters2.captureAudio = true;
         parameters2.captureVideo = true;
+        // Start screen sharing.
         agoraEngine.StartScreenCapture(parameters2);
     }
 
@@ -128,7 +130,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
             StartScreenCaptureWindows(sourceId);
 #endif
 
-            // Publish the screen track and update local video display.
+            // Publish the screen track.
             PublishScreenTrack();
         }
         else
