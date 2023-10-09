@@ -110,11 +110,7 @@ public class ProductWorkflow : AgoraUI
             productWorkflowManager.PlayScreenTrackLocally(false, LocalViewGo);
 
             // Change the button text.
-            var buttonText = shareScreenBtnGo.GetComponentInChildren<TextMeshProUGUI>(true);
-            if (buttonText != null)
-            {
-                buttonText.text = "Share Screen";
-            }
+            shareScreenBtnGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Share Screen";
 
             // Update the screen sharing state
             isSharing = false;
@@ -131,11 +127,7 @@ public class ProductWorkflow : AgoraUI
             productWorkflowManager.PlayScreenTrackLocally(true, LocalViewGo);
 
             // Change the button text.
-            var buttonText = shareScreenBtnGo.GetComponentInChildren<TextMeshProUGUI>(true);
-            if (buttonText != null)
-            {
-                buttonText.text = "Stop Sharing";
-            }
+            shareScreenBtnGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop Sharing";
 
             // Update the screen sharing state.
             isSharing = true;
@@ -155,5 +147,7 @@ public class ProductWorkflow : AgoraUI
             Destroy(shareScreenBtnGo.gameObject);
         if (channelFieldGo)
             Destroy(channelFieldGo.gameObject);
+        if (muteToggleGo)
+            Destroy(muteToggleGo.gameObject);
     }
 }
