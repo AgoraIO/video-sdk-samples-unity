@@ -30,6 +30,8 @@ The runnable code examples are:
 
 - [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your game
 
+- [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
+
 ## Prerequisites
 
 Before getting started with this reference app, ensure you have the following set up:
