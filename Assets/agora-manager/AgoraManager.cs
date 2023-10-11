@@ -16,6 +16,9 @@ public class ConfigData
     public string tokenUrl = ""; // Add Token Generator URL ...
     public uint uid  = 0; // RTC elected user ID (0 = choose random)
     public string product;
+    public string soundEffectFileURL;
+    public string audioFileURL;
+    public string videoFileURL;
 }
 
 public class AgoraManager
@@ -29,6 +32,8 @@ public class AgoraManager
     internal VideoSurface LocalView;
     internal VideoSurface RemoteView;
     internal ConfigData configData;
+    internal AREA_CODE region = AREA_CODE.AREA_CODE_GLOB;
+    internal string userRole = "";
 
     #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     // Define an ArrayList of permissions required for Android devices.
@@ -71,10 +76,6 @@ public class AgoraManager
             _channelName = configData.channelName;
             _token = configData.rtcToken;
 
-            if(_appID == ""|| _channelName == null || _token == "")
-            {
-                Debug.Log("Please make sure you specified a valid app ID, token, and channel name inside `config.json`");
-            }
         }
         else
         {
@@ -82,9 +83,14 @@ public class AgoraManager
         }
     }
 
-    // Define a public function called SetupVideoSDKEngine to setup the video SDK engine.
+    // Define a public function called SetupAgoraEngine to setup the video SDK engine.
     public virtual void SetupAgoraEngine()
     {
+        if(_appID == "" || _token == "")
+        {
+            Debug.Log("Please set an app ID and a token in the config file.");
+            return;
+        }
         // Create an instance of the video SDK engine.
         agoraEngine = Agora.Rtc.RtcEngine.CreateAgoraRtcEngine();
 
@@ -94,7 +100,7 @@ public class AgoraManager
             : CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_LIVE_BROADCASTING;
 
         RtcEngineContext context = new RtcEngineContext(_appID, 0, channelProfile,
-            AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT, AREA_CODE.AREA_CODE_GLOB, null);
+            AUDIO_SCENARIO_TYPE.AUDIO_SCENARIO_DEFAULT, region, null);
 
         agoraEngine.Initialize(context);
 
@@ -106,27 +112,23 @@ public class AgoraManager
 
         // Attach the eventHandler
         InitEventHandler();
-        
-        // Attack a video surface to the local view game object.
-        LocalView = GameObject.Find("LocalView").AddComponent<VideoSurface>();
 
     }
 
-    public virtual void setClientRole(string role)
+    public virtual void SetClientRole(string role)
     {
         if(agoraEngine == null)
         {
             Debug.Log("Click join and then change the client role!");
             return;
         }
-        if(role == "Host")
+        userRole = role;
+        if (role == "Host")
         {
-            Debug.Log("Role is set to Host");
             agoraEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
         }
-        else
+        else if(role == "Audience")
         {
-            Debug.Log("Role is set to Audience");
             agoraEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
         }
     }
@@ -151,13 +153,13 @@ public class AgoraManager
         SetupAgoraEngine();
 
         // Set the local video view.
-        LocalView.SetForUser(configData.uid, configData.channelName);
+        LocalView.SetForUser(configData.uid, _channelName);
 
         // Start rendering local video.
         LocalView.SetEnable(true);
 
         // Join the channel using the specified token and channel name.
-        agoraEngine.JoinChannel(_token, _channelName);
+        agoraEngine.JoinChannel(configData.rtcToken, configData.channelName);
     }
 
     // Init event handler to receive callbacks
@@ -214,11 +216,11 @@ public class AgoraManager
 // An event handler class to deal with video SDK events
 internal class UserEventHandler : IRtcEngineEventHandler
 {
-    internal readonly AgoraManager _videoSample;
+    internal readonly AgoraManager agoraManager;
 
     internal UserEventHandler(AgoraManager videoSample)
     {
-        _videoSample = videoSample;
+        agoraManager = videoSample;
     }
     // This callback is triggered when the local user joins the channel.
     public override void OnJoinChannelSuccess(RtcConnection connection, int elapsed)
@@ -228,12 +230,12 @@ internal class UserEventHandler : IRtcEngineEventHandler
     // This callback is triggered when a remote user leaves the channel or drops offline.
     public override void OnUserOffline(RtcConnection connection, uint uid, USER_OFFLINE_REASON_TYPE reason)
     {
-        _videoSample.DestroyVideoView(uid);
+        agoraManager.DestroyVideoView(uid);
     }
-    public override void OnUserJoined(RtcConnection connection, uint uid, int elapsed)
+    public override void OnUserJoined(RtcConnection connecn, uint uid, int elapsed)
     {
-        _videoSample.MakeVideoView(uid);
+        agoraManager.MakeVideoView(uid);
         // Save the remote user ID in a variable.
-        _videoSample.remoteUid = uid;
+        agoraManager.remoteUid = uid;
     }
 }

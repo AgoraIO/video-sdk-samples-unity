@@ -3,23 +3,23 @@ using UnityEngine.UI;
 using TMPro;
 using Agora.Rtc;
 
-public class MediaStreamEncryption : AgoraUI
+public class Geofencing : AgoraUI
 {
-    internal MediaEncryptionManager mediaEncryptionManager;
+    internal GeofencingManager geofencingManager;
     internal GameObject channelFieldGo;
     internal GameObject audienceToggleGo, hostToggleGo;
 
     // Start is called before the first frame update
     public override void Start()
     {
-        // Create an instance of the MediaEncryptionManager
-        mediaEncryptionManager = new MediaEncryptionManager();
+        // Create an instance of the GeofencingManager
+        geofencingManager = new GeofencingManager();
 
         // Setup UI elements
         SetupUI();
 
         // Attach a video surface to the local view game object.
-        mediaEncryptionManager.LocalView = LocalViewGo.AddComponent<VideoSurface>();
+        geofencingManager.LocalView = LocalViewGo.AddComponent<VideoSurface>();
     }
 
     // Set up UI elements
@@ -39,18 +39,18 @@ public class MediaStreamEncryption : AgoraUI
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
         channelFieldGo = AddInputField("channelName", new Vector3(0, 0, 0), "Channel Name");
 
-        // Check the product type for conditional UI elements
-        if (mediaEncryptionManager.configData.product != "Video Calling")
+        // Check the product type to determine if host and audience toggles are needed
+        if (geofencingManager.configData.product != "Video Calling")
         {
             hostToggleGo = AddToggle("Host", new Vector2(-19, 50), "Host", new Vector2(200, 30));
             audienceToggleGo = AddToggle("Audience", new Vector2(-19, 100), "Audience", new Vector2(200, 30));
         }
 
-        // Add event functions to UI elements
-        joinBtnGo.GetComponent<Button>().onClick.AddListener(mediaEncryptionManager.Join);
-        leaveBtnGo.GetComponent<Button>().onClick.AddListener(mediaEncryptionManager.Leave);
+        // Add event functions to UI elements.
+        joinBtnGo.GetComponent<Button>().onClick.AddListener(geofencingManager.Join);
+        leaveBtnGo.GetComponent<Button>().onClick.AddListener(geofencingManager.Leave);
 
-        // Handle role selection with toggles (Host and Audience)
+        // Toggle event listeners for role selection.
         if (hostToggleGo && audienceToggleGo)
         {
             // Toggle event listeners for role selection
@@ -63,7 +63,7 @@ public class MediaStreamEncryption : AgoraUI
                 if (value == true)
                 {
                     audienceToggle.isOn = false;
-                    mediaEncryptionManager.SetClientRole("Host");
+                    geofencingManager.SetClientRole("Host");
                 }
             });
             audienceToggle.onValueChanged.AddListener((value) =>
@@ -71,27 +71,27 @@ public class MediaStreamEncryption : AgoraUI
                 if (value == true)
                 {
                     hostToggle.isOn = false;
-                    mediaEncryptionManager.SetClientRole("Audience");
+                    geofencingManager.SetClientRole("Audience");
                 }
             });
 
         }
 
-        // Add a listener to the channel input field to update the channel name in MediaEncryptionManager
+        // Add a listener to the channel input field to update the channel name in GeofencingManager
         TMP_InputField tmpInputField = channelFieldGo.GetComponent<TMP_InputField>();
         tmpInputField.onValueChanged.AddListener(HandleChannelFieldChange);
     }
 
-    // Pass the channel name to the MediaEncryptionManager class to fetch a token from the token server
+    // Pass the channel name to the GeofencingManager class to fetch a token from the token server
     private void HandleChannelFieldChange(string newValue)
     {
-        mediaEncryptionManager.configData.channelName = newValue;
+        geofencingManager.configData.channelName = newValue;
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
-        mediaEncryptionManager.DestroyEngine();
+        geofencingManager.DestroyEngine();
         DestroyUIElements();
     }
 

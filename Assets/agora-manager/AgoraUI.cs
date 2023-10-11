@@ -9,8 +9,8 @@ public class AgoraUI : MonoBehaviour
 {
     // References to UI elements
     internal Canvas canvas;
-    internal GameObject joinBtn;
-    internal GameObject leaveBtn;
+    internal GameObject joinBtnGo;
+    internal GameObject leaveBtnGo;
     internal GameObject LocalViewGo;
     internal static GameObject[] RemoteViews;
     public TMP_FontAsset tmpFont;
@@ -91,6 +91,26 @@ public class AgoraUI : MonoBehaviour
         return uiToggle;
     }
 
+    public GameObject AddInputField(string fieldName, Vector3 position, string placeholderText)
+    {
+        // Create input field.
+        TMP_DefaultControls.Resources resources = new TMP_DefaultControls.Resources();
+        GameObject inputFieldGo = TMP_DefaultControls.CreateInputField(resources);
+        inputFieldGo.name = fieldName;
+        inputFieldGo.transform.SetParent(canvas.transform, false);
+
+        TMP_InputField tmpInputField = inputFieldGo.GetComponent<TMP_InputField>();
+        RectTransform inputFieldTransform = tmpInputField.GetComponent<RectTransform>();
+        inputFieldTransform.sizeDelta = new Vector2(200, 30);
+
+        TMP_Text textComponent = inputFieldGo.GetComponentInChildren<TMP_Text>();
+        textComponent.alignment = TextAlignmentOptions.Center;
+        tmpInputField.placeholder.GetComponent<TMP_Text>().text = placeholderText;
+
+        return inputFieldGo;
+    }
+
+
     // Create a button
     public virtual GameObject AddButton(string BName, Vector3 BPos, string BText, Vector2 BSize)
     {
@@ -108,21 +128,42 @@ public class AgoraUI : MonoBehaviour
         return Button;
     }
 
+    public virtual GameObject AddDropdown(string Dname, Vector3 DPos, Vector2 DSize)
+    {
+        GameObject dropDownGo = TMP_DefaultControls.CreateDropdown(new TMP_DefaultControls.Resources());
+        dropDownGo.name = Dname;
+        dropDownGo.transform.SetParent(canvas.transform);
+        dropDownGo.transform.localPosition = DPos;
+        dropDownGo.transform.localScale = Vector3.one;
+        RectTransform rectTransform = dropDownGo.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = DSize;
+        return dropDownGo;
+    }
+    public virtual GameObject AddLabel(string LName, Vector3 LPos, string LText)
+    {
+        GameObject labelGo = new GameObject(LName);
+        TextMeshProUGUI label = labelGo.AddComponent<TextMeshProUGUI>();
+        label.transform.SetParent(canvas.transform);
+        label.transform.localPosition = LPos;
+        label.text = LText;
+        label.fontSize = 6;
+        return labelGo;
+    }
     // Empty virtual methods for Start and Update
-    public virtual void Start() {}
-    public virtual void Update() {}
+    public virtual void Start() { }
+    public virtual void Update() { }
 
     public virtual void OnDestroy()
     {
-        if(joinBtn)
-           Destroy(joinBtn.gameObject);
-        if(leaveBtn)
-           Destroy(leaveBtn.gameObject);
-        if(LocalViewGo)
-           Destroy(LocalViewGo.gameObject);
-        if(RemoteViews != null)
+        if (joinBtnGo)
+            Destroy(joinBtnGo.gameObject);
+        if (leaveBtnGo)
+            Destroy(leaveBtnGo.gameObject);
+        if (LocalViewGo)
+            Destroy(LocalViewGo.gameObject);
+        if (RemoteViews != null)
         {
-            foreach(var go in RemoteViews)
+            foreach (var go in RemoteViews)
             {
                 Destroy(go.gameObject);
             }
