@@ -47,25 +47,30 @@ public class PlayMedia : AgoraUI
         channelFieldGo = AddInputField("channelName", new Vector3(0, 0, 0), "Channel Name");
         mediaProgressBarSlider = mediaProgressBarGo.GetComponent<Slider>();
 
-        if (playMediaManager.configData.product != "Video Calling")
+        if (hostToggleGo && audienceToggleGo)
         {
-            hostToggleGo = AddToggle("Host", new Vector2(-19, 50), "Host", new Vector2(200, 30));
-            audienceToggleGo = AddToggle("Audience", new Vector2(-19, 100), "Audience", new Vector2(200, 30));
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                playMediaManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    playMediaManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                playMediaManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    playMediaManager.SetClientRole("Audience");
+                }
             });
+
         }
 
         // Add click-event functions to the buttons

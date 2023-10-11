@@ -53,23 +53,28 @@ public class MediaStreamEncryption : AgoraUI
         // Handle role selection with toggles (Host and Audience)
         if (hostToggleGo && audienceToggleGo)
         {
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
-
-            // Toggle event listeners for role selection.
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                mediaEncryptionManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    mediaEncryptionManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                mediaEncryptionManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    mediaEncryptionManager.SetClientRole("Audience");
+                }
             });
+
         }
 
         // Add a listener to the channel input field to update the channel name in MediaEncryptionManager
