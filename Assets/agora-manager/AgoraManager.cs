@@ -32,7 +32,8 @@ public class AgoraManager
     internal VideoSurface LocalView;
     internal VideoSurface RemoteView;
     internal ConfigData configData;
-    internal AREA_CODE region;
+    internal AREA_CODE region = AREA_CODE.AREA_CODE_GLOB;
+    internal string userRole = "";
 
     #if (UNITY_2018_3_OR_NEWER && UNITY_ANDROID)
     // Define an ArrayList of permissions required for Android devices.
@@ -121,14 +122,13 @@ public class AgoraManager
             Debug.Log("Click join and then change the client role!");
             return;
         }
-        if(role == "Host")
+        userRole = role;
+        if (role == "Host")
         {
-            Debug.Log("Role is set to Host");
             agoraEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
         }
-        else
+        else if(role == "Audience")
         {
-            Debug.Log("Role is set to Audience");
             agoraEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
         }
     }
@@ -216,11 +216,11 @@ public class AgoraManager
 // An event handler class to deal with video SDK events
 internal class UserEventHandler : IRtcEngineEventHandler
 {
-    internal readonly AgoraManager _videoSample;
+    internal readonly AgoraManager agoraManager;
 
     internal UserEventHandler(AgoraManager videoSample)
     {
-        _videoSample = videoSample;
+        agoraManager = videoSample;
     }
     // This callback is triggered when the local user joins the channel.
     public override void OnJoinChannelSuccess(RtcConnection connection, int elapsed)
@@ -230,12 +230,12 @@ internal class UserEventHandler : IRtcEngineEventHandler
     // This callback is triggered when a remote user leaves the channel or drops offline.
     public override void OnUserOffline(RtcConnection connection, uint uid, USER_OFFLINE_REASON_TYPE reason)
     {
-        _videoSample.DestroyVideoView(uid);
+        agoraManager.DestroyVideoView(uid);
     }
     public override void OnUserJoined(RtcConnection connecn, uint uid, int elapsed)
     {
-        _videoSample.MakeVideoView(uid);
+        agoraManager.MakeVideoView(uid);
         // Save the remote user ID in a variable.
-        _videoSample.remoteUid = uid;
+        agoraManager.remoteUid = uid;
     }
 }

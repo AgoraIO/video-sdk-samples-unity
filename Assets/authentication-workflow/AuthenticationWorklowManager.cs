@@ -10,10 +10,21 @@ public class TokenStruct
 
 public class AuthenticationWorkflowManager : AgoraManager
 {
+    public int role = 1; // By default, the user role is host.
+
     public async Task FetchToken()
     {
-        
-        string url = string.Format("{0}/rtc/{1}/1/uid/{2}/?expiry={3}", configData.tokenUrl, configData.channelName, configData.uid, configData.tokenExpiryTime);
+        if(userRole == "Host")
+        {
+            role = 1;
+        }
+        else if (userRole == "Audience")
+        {
+            role = 2;
+        }
+
+        string url = string.Format("{0}/rtc/{1}/{2}/uid/{3}/?expiry={4}", configData.tokenUrl, configData.channelName, role ,configData.uid, configData.tokenExpiryTime);
+
         UnityWebRequest request = UnityWebRequest.Get(url);
         
         var operation = request.SendWebRequest();
@@ -34,6 +45,7 @@ public class AuthenticationWorkflowManager : AgoraManager
         _token = tokenInfo.rtcToken;
         _channelName = configData.channelName;
     }
+
     public void RenewToken()
     {
         if(_token == "")
@@ -41,7 +53,8 @@ public class AuthenticationWorkflowManager : AgoraManager
             Debug.Log("Token was not retrieved");
             return;
         }
-        // Update RTC Engine with new token, which will not expire so soon
+
+        // Update RTC Engine with new token
         agoraEngine.RenewToken(_token);
     }
 
@@ -64,10 +77,10 @@ public class AuthenticationWorkflowManager : AgoraManager
             await FetchToken();
         }
 
-        // Join the channel using the specified token and channel name.
+        // Join the channel.
         base.Join();
-
     }
+
     public override void Leave()
     {
         // Leave the channel.
@@ -77,16 +90,26 @@ public class AuthenticationWorkflowManager : AgoraManager
 
 internal class AuthenticationWorkflowEventHandler : UserEventHandler
 {
-    private AuthenticationWorkflowManager AuthenticationWorkflow;
-    internal AuthenticationWorkflowEventHandler(AuthenticationWorkflowManager refAuthenticationWorkflow):base(refAuthenticationWorkflow) 
+    private AuthenticationWorkflowManager authenticationWorkflowManager;
+
+    internal AuthenticationWorkflowEventHandler(AuthenticationWorkflowManager refAuthenticationWorkflow) : base(refAuthenticationWorkflow)
     {
-        AuthenticationWorkflow = refAuthenticationWorkflow;
+        authenticationWorkflowManager = refAuthenticationWorkflow;
     }
+
     public override async void OnTokenPrivilegeWillExpire(RtcConnection connection, string token)
     {
         Debug.Log("Token Expired");
         // Retrieve a fresh token from the token server.
-        await AuthenticationWorkflow.FetchToken();
-        AuthenticationWorkflow.RenewToken();
+        await authenticationWorkflowManager.FetchToken();
+        authenticationWorkflowManager.RenewToken();
+    }
+
+    public override async void OnClientRoleChanged(RtcConnection connection, CLIENT_ROLE_TYPE oldRole, CLIENT_ROLE_TYPE newRole, ClientRoleOptions newRoleOptions)
+    {
+        // Retrieve a fresh token from the token server for the new role.
+        Debug.Log("Role is set to " + newRole.ToString());
+        await authenticationWorkflowManager.FetchToken();
+        authenticationWorkflowManager.RenewToken();
     }
 }

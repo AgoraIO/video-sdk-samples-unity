@@ -51,24 +51,30 @@ public class Geofencing : AgoraUI
         leaveBtnGo.GetComponent<Button>().onClick.AddListener(geofencingManager.Leave);
 
         // Toggle event listeners for role selection.
-        if (audienceToggleGo && hostToggleGo)
+        if (hostToggleGo && audienceToggleGo)
         {
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
-
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                geofencingManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    geofencingManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                geofencingManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    geofencingManager.SetClientRole("Audience");
+                }
             });
+
         }
 
         // Add a listener to the channel input field to update the channel name in GeofencingManager

@@ -55,25 +55,31 @@ public class ProductWorkflow : AgoraUI
         joinBtnGo.GetComponent<Button>()?.onClick.AddListener(productWorkflowManager.Join);
         leaveBtnGo.GetComponent<Button>()?.onClick.AddListener(productWorkflowManager.Leave);
         shareScreenBtnGo.GetComponent<Button>()?.onClick.AddListener(ToggleScreenSharing);
-        if (hostToggleGo != null && audienceToggleGo != null)
+
+        if (hostToggleGo && audienceToggleGo)
         {
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
-
-            // Toggle event listeners for role selection.
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                productWorkflowManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    productWorkflowManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                productWorkflowManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    productWorkflowManager.SetClientRole("Audience");
+                }
             });
+
         }
         Toggle muteToggle = muteToggleGo.GetComponent<Toggle>();
         muteToggle.isOn = false;
@@ -149,5 +155,7 @@ public class ProductWorkflow : AgoraUI
             Destroy(channelFieldGo.gameObject);
         if (muteToggleGo)
             Destroy(muteToggleGo.gameObject);
+        if (volumeControlGo)
+            Destroy(volumeControlGo.gameObject);
     }
 }

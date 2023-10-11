@@ -65,21 +65,28 @@ public class EnsureCallQuality : AgoraUI
         // Attach event listeners to UI elements
         if (hostToggleGo && audienceToggleGo)
         {
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                callQualityManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    callQualityManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                callQualityManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    callQualityManager.SetClientRole("Audience");
+                }
             });
+
         }
 
         // Add events listerners to the UI elements.

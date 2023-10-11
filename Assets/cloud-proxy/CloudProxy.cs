@@ -58,26 +58,31 @@ public class CloudProxy : AgoraUI
         leaveBtnGo.GetComponent<Button>().onClick.AddListener(cloudProxyManager.Leave);
 
         // Toggle event listeners for role selection.
-        if (audienceToggleGo && hostToggleGo)
+        if (hostToggleGo && audienceToggleGo)
         {
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
-
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                cloudProxyManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    cloudProxyManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                cloudProxyManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    cloudProxyManager.SetClientRole("Audience");
+                }
             });
-        }
 
+        }
         // Add a listener to the channel input field to update the channel name in CloudProxyManager
         TMP_InputField tmpInputField = channelFieldGo.GetComponent<TMP_InputField>();
         tmpInputField.onValueChanged.AddListener(HandleChannelFieldChange);

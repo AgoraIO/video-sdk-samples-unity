@@ -50,25 +50,30 @@ public class GetStarted : AgoraUI
         leaveBtnGo.GetComponent<Button>().onClick.AddListener(getStartedManager.Leave);
 
         // Check if audienceToggleGo and hostToggleGo exist before adding listeners
-        if (audienceToggleGo && hostToggleGo)
+        if (hostToggleGo && audienceToggleGo)
         {
+            // Toggle event listeners for role selection
             Toggle audienceToggle = audienceToggleGo.GetComponent<Toggle>();
             Toggle hostToggle = hostToggleGo.GetComponent<Toggle>();
             hostToggle.isOn = false;
             audienceToggle.isOn = false;
-
-            // Toggle event listeners for role selection
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                getStartedManager.SetClientRole("Host");
+                if (value == true)
+                {
+                    audienceToggle.isOn = false;
+                    getStartedManager.SetClientRole("Host");
+                }
             });
-
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                getStartedManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    getStartedManager.SetClientRole("Audience");
+                }
             });
+
         }
     }
 

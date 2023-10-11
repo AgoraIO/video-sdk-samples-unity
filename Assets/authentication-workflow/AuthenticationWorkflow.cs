@@ -38,6 +38,7 @@ public class AuthenticationWorkflow : AgoraUI
         joinBtnGo = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtnGo = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         channelFieldGo = AddInputField("channelName", new Vector3(0, 0, 0), "Channel Name");
+        LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
 
         // Check the product type to determine if host and audience toggles are needed
         if (authenticationWorkflowManager.configData.product != "Video Calling")
@@ -59,13 +60,19 @@ public class AuthenticationWorkflow : AgoraUI
             audienceToggle.isOn = false;
             hostToggle.onValueChanged.AddListener((value) =>
             {
-                audienceToggle.isOn = !value;
-                authenticationWorkflowManager.SetClientRole("Host");
-            });
+                if(value == true)
+                {
+                    audienceToggle.isOn = false;
+                    authenticationWorkflowManager.SetClientRole("Host");
+                }
+            }); 
             audienceToggle.onValueChanged.AddListener((value) =>
             {
-                hostToggle.isOn = !value;
-                authenticationWorkflowManager.SetClientRole("Audience");
+                if (value == true)
+                {
+                    hostToggle.isOn = false;
+                    authenticationWorkflowManager.SetClientRole("Audience");
+                }
             });
 
         }
