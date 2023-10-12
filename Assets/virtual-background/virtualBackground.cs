@@ -42,6 +42,7 @@ public class VirtualBackground : AgoraUI
         joinBtnGo = AddButton("Join", new Vector3(-350, -172, 0), "Join", new Vector2(160f, 30f));
         leaveBtnGo = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
+        channelFieldGo = AddInputField("channelName", new Vector3(0, 0, 0), "Channel Name");
         virtualBackgroundGo = AddButton("VirtualBackground", new Vector3(-165, -172, 0), "Enable Virtual Background", new Vector2(200, 30f));
 
         // Check the product type to determine if host and audience toggles are needed
@@ -82,8 +83,15 @@ public class VirtualBackground : AgoraUI
             });
 
         }
+        // Add a listener to the channel input field to update the channel name in VirtualBackgroundManager
+        TMP_InputField tmpInputField = channelFieldGo.GetComponent<TMP_InputField>();
+        tmpInputField.onValueChanged.AddListener(HandleChannelFieldChange);
     }
-
+    // Pass the channel name to the VirtualBackgroundManager class to fetch a token from the token server
+    private void HandleChannelFieldChange(string newValue)
+    {
+        virtualBackgroundManager.configData.channelName = newValue;
+    }
     public void SetVirtualBackground()
     {
         TMP_Text BtnText = virtualBackgroundGo.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -127,5 +135,7 @@ public class VirtualBackground : AgoraUI
             Destroy(hostToggleGo.gameObject);
         if (virtualBackgroundGo)
             Destroy(virtualBackgroundGo.gameObject);
+        if (channelFieldGo)
+            Destroy(channelFieldGo.gameObject);
     }
 }

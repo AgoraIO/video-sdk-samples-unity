@@ -1,7 +1,7 @@
 using Agora.Rtc;
 using UnityEngine;
 
-public class VirtualBackgroundManager : AgoraManager
+public class VirtualBackgroundManager : AuthenticationWorkflowManager
 {
     public void setVirtualBackground(bool enableVirtualBackgroud, string option)
     {
