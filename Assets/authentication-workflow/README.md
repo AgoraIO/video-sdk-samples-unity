@@ -10,8 +10,8 @@ For context on this sample, and a full explanation of the essential code snippet
 
 * [Video calling](https://docs.agora.io/en/video-calling/get-started/authentication-workflow?platform=unity)
 * [Voice calling](https://docs.agora.io/en/voice-calling/get-started/authentication-workflow?platform=unity)
-* [Interactive live Streaming](https://docs.agora.io/en/interactive-live-streaming/enable-features/audio-and-voice-effects?platform=unity)
-* [Broadcast streaming](https://docs.agora.io/en/broadcast-streaming/enable-features/audio-and-voice-effects?platform=unity)
+* [Interactive live Streaming](https://docs.agora.io/en/interactive-live-streaming/get-started/authentication-workflow?platform=unity)
+* [Broadcast streaming](https://docs.agora.io/en/broadcast-streaming/get-started/authentication-workflow?platform=unity)
 
 For the UI implementation of this example, refer to [`AuthenticationWorkflow.cs`](./AuthenticationWorkflow.cs).
 
