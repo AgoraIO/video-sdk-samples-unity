@@ -7,9 +7,8 @@ Virtual Background enables users to blur their background or replace it with a s
 For context on this sample, and a full explanation of the essential code snippets used in this project, read the **Virtual Background** document for your product of interest:
 
 * [Video calling](https://docs.agora.io/en/video-calling/enable-features/virtual-background?platform=unity)
-* [Voice calling](https://docs.agora.io/en/voice-calling/enable-features/virtual-background?platform=unity)
 * [Interactive live Streaming](https://docs.agora.io/en/interactive-live-streaming/enable-features/virtual-background?platform=unity)
-* [Broadcast streaming](https://docs.agora.io/en/broadcast-streaming/enable-features/enable-features/virtual-background?platform=unity)
+* [Broadcast streaming](https://docs.agora.io/en/broadcast-streaming/enable-features/virtual-background?platform=unity)
 
 For the UI implementation of this example, refer to [`VirtualBackground.cs`](./virtualBackground.cs).
 
