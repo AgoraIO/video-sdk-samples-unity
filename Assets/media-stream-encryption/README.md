@@ -4,11 +4,18 @@ Media stream encryption ensures that only the authorized users in a channel can 
 
 ## Understand the code
 
-For context on this sample and a full explanation of the essential code snippets used in this project, read [Secure authentication with tokens](https://docs-beta.agora.io/en/video-calling/develop/media-stream-encryption)
+For context on this sample, and a full explanation of the essential code snippets used in this project, read the **Secure channel encryption** document for your product of interest:
 
+* [Video calling](https://docs.agora.io/en/video-calling/develop/media-stream-encryption?platform=unity)
+* [Voice calling](https://docs.agora.io/en/voice-calling/develop/media-stream-encryption?platform=unity)
+* [Interactive live Streaming](https://docs.agora.io/en/interactive-live-streaming/develop/media-stream-encryption?platform=unity)
+* [Broadcast streaming](https://docs.agora.io/en/broadcast-streaming/develop/media-stream-encryption?platform=unity)
 
-## How to run this project
+For the UI implementation of this example, refer to [`MediaEncryption.cs`](./MediaEncryptionManager.cs).
 
-To see how to run this project, read the instructions in the main [README](../../README.md) or [SDK quickstart](https://docs.agora.io/en/video-calling/get-started/get-started-sdk).
+## How to run this example
+
+To see how to run this example, refer to the [README](../../README.md) in the root folder or one of the complete product guides.
+
 
 

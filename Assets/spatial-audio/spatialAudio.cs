@@ -77,7 +77,6 @@ public class SpatialAudio : AgoraUI
                     spatialAudioManager.SetClientRole("Audience");
                 }
             });
-
         }
 
         // Add a listener to the channel input field to update the channel name in SpatialAudioManager
