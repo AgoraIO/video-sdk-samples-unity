@@ -32,6 +32,8 @@ The runnable code examples are:
 
 - [Spatial Audio](./Assets/spatial-audio/spatialAudioManager.cs) - 3D Spatial Audio enhances your real-time interaction experience with immersive sound, making it feel like sound is all around.
 
+- [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
+
 ## Prerequisites
 
 Before getting started with this reference app, ensure you have the following set up:
