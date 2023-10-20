@@ -21,9 +21,6 @@ public class MultiChannelLiveStreamingManager : AgoraManager
         // Enable the video module.
         agoraEngine.EnableVideo();
 
-        // Set the user role as broadcaster.
-        agoraEngine.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
-
         // Initialize the event handler
         agoraEngine.InitEventHandler(new MultiChannelLiveStreamingEventHandler(this));
     }
@@ -71,28 +68,6 @@ public class MultiChannelLiveStreamingManager : AgoraManager
         }
     }
 
-    // Switch role between the first and second channel.
-    public override void SetClientRole(string role)
-    {
-        // Note: The local camera track is published only in the channel where you are the host.        }
-
-        base.SetClientRole(role);
-
-        if (role == "Host")
-        {
-            // Join as a audience if you joined the primary channel as a host.
-            agoraEngineEx.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_AUDIENCE);
-            Debug.Log("Role for the second channel is set to Audience");
-
-        }
-        else
-        {
-            // Join as a host if you joined the primary channel as a audience.
-            agoraEngineEx.SetClientRole(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
-            Debug.Log("Role for the second channel is set to Broadcaster");
-        }
-    }
-
     // Method to stop media relaying.
     public void StopChannelRelay()
     {
@@ -117,6 +92,8 @@ public class MultiChannelLiveStreamingManager : AgoraManager
             mediaOptions.autoSubscribeVideo.SetValue(true);
             mediaOptions.publishCameraTrack.SetValue(true);
             mediaOptions.publishMicrophoneTrack.SetValue(true);
+            mediaOptions.clientRoleType.SetValue(CLIENT_ROLE_TYPE.CLIENT_ROLE_BROADCASTER);
+            mediaOptions.channelProfile.SetValue(CHANNEL_PROFILE_TYPE.CHANNEL_PROFILE_LIVE_BROADCASTING);
             rtcSecondConnection = new RtcConnection();
             rtcSecondConnection.channelId = configData.secondChannelName;
             rtcSecondConnection.localUid = configData.secondChannelUID;
