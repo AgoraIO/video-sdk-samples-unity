@@ -19,6 +19,12 @@ public class ConfigData
     public string soundEffectFileURL;
     public string audioFileURL;
     public string videoFileURL;
+    public string destChannelName;
+    public string destToken;
+    public uint destUID;
+    public string secondChannelName;
+    public string secondChannelToken;
+    public uint secondChannelUID;
 }
 
 public class AgoraManager
@@ -169,7 +175,7 @@ public class AgoraManager
     }
 
     // Dynamically create views for the remote users
-    public void MakeVideoView(uint uid)
+    public void MakeVideoView(uint uid, string channelName)
     {
         // Create and configure a remote user's video view
         AgoraUI agoraUI = new AgoraUI();
@@ -177,7 +183,7 @@ public class AgoraManager
         userView.AddComponent<AgoraUI>();
 
         VideoSurface videoSurface = userView.AddComponent<VideoSurface>();
-        videoSurface.SetForUser(uid, _channelName, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
+        videoSurface.SetForUser(uid, channelName, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
         videoSurface.OnTextureSizeModify += (int width, int height) =>
         {
             float scale = (float)height / (float)width;
@@ -232,9 +238,9 @@ internal class UserEventHandler : IRtcEngineEventHandler
     {
         agoraManager.DestroyVideoView(uid);
     }
-    public override void OnUserJoined(RtcConnection connecn, uint uid, int elapsed)
+    public override void OnUserJoined(RtcConnection connection, uint uid, int elapsed)
     {
-        agoraManager.MakeVideoView(uid);
+        agoraManager.MakeVideoView(uid, connection.channelId);
         // Save the remote user ID in a variable.
         agoraManager.remoteUid = uid;
     }
