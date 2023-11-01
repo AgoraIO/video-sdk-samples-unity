@@ -9,7 +9,7 @@ public class MediaEncryptionManager : AuthenticationWorkflowManager
     {
         base.SetupAgoraEngine();
 
-        agoraEngine.InitEventHandler(new MediaEncryptionEventHandler());
+        agoraEngine.InitEventHandler(new MediaEncryptionEventHandler(this));
         // Enable media stream encryption
         enableEncryption();
 
