@@ -121,6 +121,15 @@ public class AgoraManager
 
     }
 
+    public virtual void SetupLocalVideo()
+    {
+        // Set the local video view.
+        LocalView.SetForUser(configData.uid, _channelName);
+
+        // Start rendering local video.
+        LocalView.SetEnable(true);
+
+    }
     public virtual void SetClientRole(string role)
     {
         if(agoraEngine == null)
@@ -158,11 +167,8 @@ public class AgoraManager
         // Create an instance of the engine.
         SetupAgoraEngine();
 
-        // Set the local video view.
-        LocalView.SetForUser(configData.uid, _channelName);
-
-        // Start rendering local video.
-        LocalView.SetEnable(true);
+        // Setup local video view.
+        SetupLocalVideo();
 
         // Join the channel using the specified token and channel name.
         agoraEngine.JoinChannel(configData.rtcToken, configData.channelName);

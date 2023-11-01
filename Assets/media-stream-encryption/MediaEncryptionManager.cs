@@ -9,6 +9,7 @@ public class MediaEncryptionManager : AuthenticationWorkflowManager
     {
         base.SetupAgoraEngine();
 
+        agoraEngine.InitEventHandler(new MediaEncryptionEventHandler());
         // Enable media stream encryption
         enableEncryption();
 
@@ -50,3 +51,18 @@ public class MediaEncryptionManager : AuthenticationWorkflowManager
     }
     
 }
+// Event handler class to handle the events raised by Agora's RtcEngine instance
+internal class MediaEncryptionEventHandler : UserEventHandler
+{
+    private MediaEncryptionManager encryptionManager;
+    public MediaEncryptionEventHandler(MediaEncryptionManager manager):base(manager)
+    {
+        encryptionManager = manager;
+    }
+    public override void OnEncryptionError(RtcConnection connection, ENCRYPTION_ERROR_TYPE errorType)
+    {
+        Debug.Log("Encryption error:" + errorType);
+    }
+
+}
+
