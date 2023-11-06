@@ -33,6 +33,11 @@ The runnable code examples are:
 - [Spatial Audio](./Assets/spatial-audio/spatialAudioManager.cs) - 3D Spatial Audio enhances your real-time interaction experience with immersive sound, making it feel like sound is all around.
 
 - [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
+- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your 
+
+- [Raw video and audio processing](./Assets//raw-audio-and-video/RawAudioVideo.cs) - Pre-process and post-process the captured audio and video data for implementation of custom playback effects.
+
+- [Custom video and audio sources](./Assets/custom-audio-and-video/CustomAudioAndVideo.cs) - Integrate a custom audio or video source into your app
 
 ## Prerequisites
 
