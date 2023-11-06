@@ -49,6 +49,8 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Stream Media to a Channel", typeof(PlayMedia));
         scriptDictionary.Add("Audio and Voice Effects", typeof(AudioVoiceEffects));
         scriptDictionary.Add("Geofencing", typeof(Geofencing));
+        scriptDictionary.Add("Raw audio and video", typeof(RawAudioVideo));
+        scriptDictionary.Add("Custom audio and video", typeof(CustomAudioAndVideo));
         // (Note: The above dictionary should be completed with all your available scripts.)
     }
 
