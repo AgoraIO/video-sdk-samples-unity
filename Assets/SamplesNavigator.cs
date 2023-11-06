@@ -51,6 +51,9 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Geofencing", typeof(Geofencing));
         scriptDictionary.Add("Raw audio and video", typeof(RawAudioVideo));
         scriptDictionary.Add("Custom audio and video", typeof(CustomAudioAndVideo));
+        scriptDictionary.Add("Spatial Audio", typeof(SpatialAudio));
+        scriptDictionary.Add("Virtual Background", typeof(VirtualBackground));
+        scriptDictionary.Add("Multi-channel live streaming", typeof(MultiChannelLiveStreaming));
         // (Note: The above dictionary should be completed with all your available scripts.)
     }
 
@@ -147,6 +150,12 @@ public class SamplesNavigator : MonoBehaviour
 
         // Store the current option as the previous option
         previousOption = selectedOption;
+
+        if (configData.product == "Video Calling" && selectedOption == "Multi-channel live streaming")
+        {
+            Debug.Log("This feature is only available in interactive live streaming");
+            return;
+        }
 
         // Get the corresponding script type from the dictionary
         if (scriptDictionary.TryGetValue(selectedOption, out Type scriptType))

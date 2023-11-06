@@ -6,8 +6,14 @@ This app authenticates the current user and channel with a token retrieved from 
 
 ## Understand the code
 
-For context on this sample, and a full explanation of the essential code snippets used in this project, read [Secure authentication with tokens](https://docs-beta.agora.io/en/video-calling/get-started/authentication-workflow)
+For context on this sample, and a full explanation of the essential code snippets used in this project, read the **Secure authentication with tokens** document for your product of interest:
 
+* [Video calling](https://docs.agora.io/en/video-calling/get-started/authentication-workflow?platform=unity)
+* [Voice calling](https://docs.agora.io/en/voice-calling/get-started/authentication-workflow?platform=unity)
+* [Interactive live Streaming](https://docs.agora.io/en/interactive-live-streaming/get-started/authentication-workflow?platform=unity)
+* [Broadcast streaming](https://docs.agora.io/en/broadcast-streaming/get-started/authentication-workflow?platform=unity)
+
+For the UI implementation of this example, refer to [`AuthenticationWorkflow.cs`](./AuthenticationWorkflow.cs).
 
 ## How to run this project
 
