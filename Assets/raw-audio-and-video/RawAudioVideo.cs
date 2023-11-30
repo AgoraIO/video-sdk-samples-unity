@@ -7,7 +7,7 @@ public class RawAudioVideo : AgoraUI
 {
     internal RawAudioVideoManager rawAudioVideoManager;
     internal GameObject channelFieldGo;
-    internal GameObject audienceToggleGo, hostToggleGo, zoomBtnGo;
+    internal GameObject audienceToggleGo, hostToggleGo, zoomBtnGo, playAudioFrameBtn;
     bool isZoomIn = false;
 
     // Start is called before the first frame update
@@ -47,6 +47,8 @@ public class RawAudioVideo : AgoraUI
         leaveBtnGo = AddButton("Leave", new Vector3(350, -172, 0), "Leave", new Vector2(160f, 30f));
         LocalViewGo = MakeLocalView("LocalView", new Vector3(-250, 0, 0), new Vector2(250, 250));
         zoomBtnGo = AddButton("ZoomBtn", new Vector3(185, -172, 0), "Zoom In", new Vector2(160f, 30f));
+        playAudioFrameBtn = AddButton("playAudioFrame", new Vector3(24, -172, 0), "Process audio frame", new Vector2(160f, 30f));
+
         // Check the product type to determine if host and audience toggles are needed
         if (rawAudioVideoManager.configData.product != "Video Calling")
         {
@@ -58,6 +60,8 @@ public class RawAudioVideo : AgoraUI
         joinBtnGo.GetComponent<Button>().onClick.AddListener(rawAudioVideoManager.Join);
         leaveBtnGo.GetComponent<Button>().onClick.AddListener(rawAudioVideoManager.Leave);
         zoomBtnGo.GetComponent<Button>().onClick.AddListener(ZoomInOut);
+        playAudioFrameBtn.GetComponent<Button>().onClick.AddListener(ProcessAudioFrame);
+
 
         // Check if audienceToggleGo and hostToggleGo exist before adding listeners
         if (hostToggleGo && audienceToggleGo)
@@ -109,6 +113,21 @@ public class RawAudioVideo : AgoraUI
             zoomBtnGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Zoom In";
             rawAudioVideoManager._videoFrameWidth = 1080;
             rawAudioVideoManager._videoFrameHeight = 720;
+        }
+        rawAudioVideoManager.SetVideoEncoderConfiguration();
+
+    }
+
+    public void ProcessAudioFrame()
+    {
+        rawAudioVideoManager.isPlaying = !rawAudioVideoManager.isPlaying;
+        if (rawAudioVideoManager.isPlaying)
+        {
+            zoomBtnGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Stop processing";
+        }
+        else
+        {
+            zoomBtnGo.GetComponentInChildren<TextMeshProUGUI>(true).text = "Process Audio Frame";
         }
         rawAudioVideoManager.SetVideoEncoderConfiguration();
 

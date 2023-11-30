@@ -3,13 +3,14 @@ using Agora.Rtc;
 
 public class CloudProxyManager : AuthenticationWorkflowManager
 {
+    private CLOUD_PROXY_TYPE proxyType = CLOUD_PROXY_TYPE.UDP_PROXY;
 
     public override void SetupAgoraEngine()
     {
         base.SetupAgoraEngine();
 
         // Start cloud proxy service and set automatic transmission mode.
-        int proxyStatus = agoraEngine.SetCloudProxy(CLOUD_PROXY_TYPE.UDP_PROXY);
+        int proxyStatus = agoraEngine.SetCloudProxy(proxyType);
         if (proxyStatus == 0)
         {
             Debug.Log("Proxy service started successfully");

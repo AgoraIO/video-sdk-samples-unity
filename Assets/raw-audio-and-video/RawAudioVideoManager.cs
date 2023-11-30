@@ -55,6 +55,7 @@ public class RawAudioVideoManager : AgoraManager
     internal int _readCount;
     internal RingBuffer<float> _audioBuffer;
     internal AudioClip _audioClip;
+    internal bool isPlaying = false;
 
     // Initialize the texture
     public void InitializeTexture()
@@ -102,7 +103,6 @@ public class RawAudioVideoManager : AgoraManager
             AUDIO_FRAME_POSITION.AUDIO_FRAME_POSITION_BEFORE_MIXING |
             AUDIO_FRAME_POSITION.AUDIO_FRAME_POSITION_EAR_MONITORING,
             OBSERVER_MODE.RAW_DATA);
-        agoraEngine.AdjustPlaybackSignalVolume(0);
     }
 
     void SetupAudio(AudioSource aud, string clipName)
@@ -113,7 +113,10 @@ public class RawAudioVideoManager : AgoraManager
             OnAudioRead);
         aud.clip = _audioClip;
         aud.loop = true;
-        aud.Play();
+        if (isPlaying)
+        {
+            aud.Play();
+        }
     }
 
     public override void DestroyEngine()
@@ -123,6 +126,7 @@ public class RawAudioVideoManager : AgoraManager
             return;
         }
         agoraEngine.UnRegisterVideoFrameObserver();
+        agoraEngine.UnRegisterAudioFrameObserver();
         base.DestroyEngine();
     }
 
@@ -222,11 +226,6 @@ internal class RawAudioEventHandler : IAudioFrameObserver
 
     public override bool OnRecordAudioFrame(string channelId, AudioFrame audioFrame)
     {
-        return true;
-    }
-
-    public override bool OnPlaybackAudioFrame(string channelId, AudioFrame audioFrame)
-    {
         var floatArray = RawAudioVideoManager.ConvertByteToFloat16(audioFrame.RawBuffer);
 
         lock (_agoraAudioRawData._audioBuffer)
@@ -235,6 +234,11 @@ internal class RawAudioEventHandler : IAudioFrameObserver
             _agoraAudioRawData._writeCount += floatArray.Length;
             _agoraAudioRawData._count++;
         }
+        return true;
+    }
+
+    public override bool OnPlaybackAudioFrame(string channelId, AudioFrame audioFrame)
+    {
         return true;
     }
 
