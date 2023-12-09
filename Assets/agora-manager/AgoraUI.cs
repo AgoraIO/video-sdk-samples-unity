@@ -47,14 +47,13 @@ public class AgoraUI : MonoBehaviour
     {
         GameObject userView = new GameObject();
         userView.name = VName;
-        userView.AddComponent<RawImage>();
+        RawImage rawImage = userView.AddComponent<RawImage>();
 
-        userView.transform.SetParent(GameObject.Find("Content").transform); // Set parent to the Content of ScrollView
-
+        // Set parent to the specified panel
+        userView.transform.SetParent(GameObject.Find("Panel").transform, false);
+        GameObject.Find("Panel").AddComponent<UnityEngine.UI.Image>();
         // Set up transform
         userView.transform.Rotate(0f, 0.0f, 180.0f);
-        userView.transform.localPosition = Vector3.zero;
-        userView.transform.localScale = new Vector3(2f, 3f, 1f);
 
         if (RemoteViews == null)
         {
@@ -74,6 +73,7 @@ public class AgoraUI : MonoBehaviour
         }
         return userView;
     }
+
     public virtual GameObject AddToggle(string TName, Vector3 TPos, string text, Vector2 TSize)
     {
         DefaultControls.Resources uiResources = new DefaultControls.Resources();

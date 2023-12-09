@@ -92,9 +92,9 @@ public class AgoraManager
     // Define a public function called SetupAgoraEngine to setup the video SDK engine.
     public virtual void SetupAgoraEngine()
     {
-        if(_appID == "" || _token == "")
+        if(_appID == "")
         {
-            Debug.Log("Please set an app ID and a token in the config file.");
+            Debug.Log("Please specify an app ID in the config file.");
             return;
         }
         // Create an instance of the video SDK engine.
@@ -167,11 +167,15 @@ public class AgoraManager
         // Create an instance of the engine.
         SetupAgoraEngine();
 
-        // Setup local video view.
-        SetupLocalVideo();
+        if(agoraEngine != null)
+        {
+            // Setup local video view.
+            SetupLocalVideo();
 
-        // Join the channel using the specified token and channel name.
-        agoraEngine.JoinChannel(configData.rtcToken, configData.channelName);
+            // Join the channel using the specified token and channel name.
+            agoraEngine.JoinChannel(configData.rtcToken, configData.channelName);
+        }
+   
     }
 
     // Init event handler to receive callbacks
@@ -190,14 +194,8 @@ public class AgoraManager
 
         VideoSurface videoSurface = userView.AddComponent<VideoSurface>();
         videoSurface.SetForUser(uid, channelName, VIDEO_SOURCE_TYPE.VIDEO_SOURCE_REMOTE);
-        videoSurface.OnTextureSizeModify += (int width, int height) =>
-        {
-            float scale = (float)height / (float)width;
-            videoSurface.transform.localScale = new Vector3(-5, 5 * scale, 1);
-            Debug.Log("OnTextureSizeModify: " + width + " " + height);
-        };
-        videoSurface.SetEnable(true);
 
+        videoSurface.SetEnable(true);
         RemoteView = videoSurface;
     }
 

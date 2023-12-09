@@ -39,7 +39,6 @@ public class SamplesNavigator : MonoBehaviour
     void PopulateScriptDictionary()
     {
         // Add script names and types to the dictionary
-        scriptDictionary.Add("Select", null);
         scriptDictionary.Add("SDK QuickStart", typeof(GetStarted));
         scriptDictionary.Add("Call Quality Best Practice", typeof(EnsureCallQuality));
         scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));

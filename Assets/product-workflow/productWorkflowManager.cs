@@ -26,7 +26,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
         if (remoteUid > 0)
         {
             // Pass the uid of the remote user you want to mute.
-            agoraEngine.MuteRemoteAudioStream(Convert.ToUInt32(remoteUid), value);
+            agoraEngine.MuteRemoteAudioStream(remoteUid, value);
         }
         else
         {
@@ -83,7 +83,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
 
     }
 
-    private void StartScreenCaptureAndroid(long sourceId)
+    private void StartScreenCaptureMobile(long sourceId)
     {
         // Configure screen capture parameters for Android.
         var parameters2 = new ScreenCaptureParameters2();
@@ -125,7 +125,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
 
             // Start screen sharing based on platform.
 #if UNITY_ANDROID || UNITY_IPHONE
-            StartScreenCaptureAndroid(sourceId);
+            StartScreenCaptureMobile(sourceId);
 #else
             StartScreenCaptureWindows(sourceId);
 #endif
