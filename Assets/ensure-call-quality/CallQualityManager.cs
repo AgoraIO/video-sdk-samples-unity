@@ -188,7 +188,7 @@ public class CallQualityManager : AuthenticationWorkflowManager
                 480,
                 IntPtr.Zero,
                 IntPtr.Zero,
-                Marshal.GetHINSTANCE(typeof(EnsureCallQuality).Module),
+                IntPtr.Zero,
                 IntPtr.Zero);
             ShowWindow(hWnd, SW_SHOW);
             _videoDeviceManager.StartDeviceTest(hWnd);

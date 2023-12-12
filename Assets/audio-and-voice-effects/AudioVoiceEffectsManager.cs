@@ -44,6 +44,11 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
     // Method to start audio mixing
     public void StartAudioMixing()
     {
+        if(agoraEngine == null)
+        {
+            Debug.Log("Join the channel to start audio mixing");
+            return;
+        }
         agoraEngine.StartAudioMixing(configData.audioFileURL, false, 1);
     }
 
@@ -68,6 +73,11 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
     // Method to play the sound effect
     public void PlaySoundEffect()
     {
+        if (agoraEngine == null)
+        {
+            Debug.Log("Join the channel to play the sound effect");
+            return;
+        }
         agoraEngine.PlayEffect(
             soundEffectId,   // The ID of the sound effect file.
             configData.soundEffectFileURL,   // The path of the sound effect file.
@@ -95,6 +105,11 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
     // Method to apply voice effects
     public void ApplyVoiceEffect(VOICE_BEAUTIFIER_PRESET effect)
     {
+        if (agoraEngine == null)
+        {
+            Debug.Log("Join the channel to apply voice effects");
+            return;
+        }
         agoraEngine.SetVoiceBeautifierPreset(effect);
     }
 
@@ -105,6 +120,13 @@ public class AudioVoiceEffectsManager : AuthenticationWorkflowManager
         agoraEngine.SetVoiceBeautifierPreset(VOICE_BEAUTIFIER_PRESET.VOICE_BEAUTIFIER_OFF);
         agoraEngine.SetAudioEffectPreset(AUDIO_EFFECT_PRESET.AUDIO_EFFECT_OFF);
         agoraEngine.SetVoiceConversionPreset(VOICE_CONVERSION_PRESET.VOICE_CONVERSION_OFF);
+    }
+
+    public override void Leave()
+    {
+        base.Leave();
+        audioMixingState = AUDIO_MIXING_STATE_TYPE.AUDIO_MIXING_STATE_STOPPED;
+        isEffectFinished = true;
     }
 
 }

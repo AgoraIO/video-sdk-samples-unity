@@ -29,6 +29,7 @@ public class CustomAudioAndVideo : AgoraUI
         if(isJoin)
         {
             StartCoroutine(customAudioVideoManager.ShareScreen());
+            StartCoroutine(customAudioVideoManager.PushAudioFrameCoroutine());
         }
 
     }
@@ -98,6 +99,7 @@ public class CustomAudioAndVideo : AgoraUI
     private void HandleLeaveCall()
     {
         customAudioVideoManager.Leave();
+        StopAllCoroutines();
         isJoin = false;
     }
     // Pass the channel name to the CustomAudioAndVideo class to fetch a token from the token server

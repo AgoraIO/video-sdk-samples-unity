@@ -14,6 +14,7 @@ public class SamplesNavigator : MonoBehaviour
     private Dictionary<string, Type> scriptDictionary = new Dictionary<string, Type>();
     private string previousOption = "";
     internal ConfigData configData;
+    internal string path;
 
     #endregion
 
@@ -21,6 +22,7 @@ public class SamplesNavigator : MonoBehaviour
 
     void Start()
     {
+        ReadConfigData();
         InitializeDropdowns();
         AttachEventListeners();
     }
@@ -39,7 +41,6 @@ public class SamplesNavigator : MonoBehaviour
     void PopulateScriptDictionary()
     {
         // Add script names and types to the dictionary
-        scriptDictionary.Add("Select", null);
         scriptDictionary.Add("SDK QuickStart", typeof(GetStarted));
         scriptDictionary.Add("Call Quality Best Practice", typeof(EnsureCallQuality));
         scriptDictionary.Add("Authentication Workflow", typeof(AuthenticationWorkflow));
@@ -59,6 +60,11 @@ public class SamplesNavigator : MonoBehaviour
 
     void PopulateDropdowns()
     {
+        if (configData.appID == "")
+        { 
+            Debug.Log("Please provide an App ID to run the sample game");
+            return;
+        }
         // Define dropdown options
         List<string> scriptNames = new List<string>(scriptDictionary.Keys);
         List<string> productNames = new List<string> { "Video Calling", "ILS" };
@@ -101,23 +107,25 @@ public class SamplesNavigator : MonoBehaviour
     #endregion
 
     #region Custom Methods
-
     void UpdateConfigData(int index)
     {
-        string path = Path.Combine(Application.dataPath, "agora-manager", "config.json");
+        // Update the 'product' attribute
+        configData.product = productDropdown.options[index].text;
+
+        // Convert the updated configData back to JSON
+        string updatedJson = JsonUtility.ToJson(configData);
+
+        // Write the updated JSON back to the file
+        File.WriteAllText(path, updatedJson);
+    }
+
+    void ReadConfigData()
+    {
+        path = Path.Combine(Application.dataPath, "agora-manager", "config.json");
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             configData = JsonUtility.FromJson<ConfigData>(json);
-
-            // Update the 'product' attribute
-            configData.product = productDropdown.options[index].text;
-
-            // Convert the updated configData back to JSON
-            string updatedJson = JsonUtility.ToJson(configData);
-
-            // Write the updated JSON back to the file
-            File.WriteAllText(path, updatedJson);
         }
         else
         {

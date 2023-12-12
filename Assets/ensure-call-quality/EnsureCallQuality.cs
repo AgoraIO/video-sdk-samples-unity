@@ -52,7 +52,7 @@ public class EnsureCallQuality : AgoraUI
 
         audioDevicesDropdownGo = AddDropdown("audioDevicesDropdown", new Vector2(-191, -172), new Vector2(215, 30));
         videoDevicesDropdownGo = AddDropdown("videoDevicesDropdown", new Vector2(27, -172), new Vector2(215, 30));
-        networkStatusGo = AddLabel("networkStatus", new Vector2(370, 100), "Network Quality: ");
+        networkStatusGo = AddLabel("networkStatus", new Vector2(185, 133), "Network Quality: ");
 
         // Toggles to switch the user roles
         if (callQualityManager.configData.product != "Video Calling")

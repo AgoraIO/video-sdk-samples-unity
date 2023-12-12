@@ -9,10 +9,8 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-*/Assets/
-/API-Example-Unity/UnityPackageManager/
-/Assets/Agora-RTC-Plugin/
-.VsCode/
+*/Assets/AgoraEngine
+UnityPackageManager/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -53,6 +51,7 @@ ExportedObj/
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+*.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
@@ -65,3 +64,8 @@ sysinfo.txt
 crashlytics-build.properties
 
 .DS_Store
+
+Assets/StreamingAssets/build_info
+Assets/StreamingAssets/build_info.meta
+build_info.meta
+Assets/Agora-RTC-Plugin

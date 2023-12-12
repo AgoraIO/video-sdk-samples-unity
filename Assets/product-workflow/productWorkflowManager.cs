@@ -1,4 +1,3 @@
-using System;
 using Agora.Rtc;
 using UnityEngine;
 public class ProductWorkflowManager : AuthenticationWorkflowManager
@@ -26,7 +25,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
         if (remoteUid > 0)
         {
             // Pass the uid of the remote user you want to mute.
-            agoraEngine.MuteRemoteAudioStream(Convert.ToUInt32(remoteUid), value);
+            agoraEngine.MuteRemoteAudioStream(remoteUid, value);
         }
         else
         {
@@ -62,14 +61,14 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
             // Update the VideoSurface component of the local view GameObject.
             LocalView = localViewGo.AddComponent<VideoSurface>();
             // Render the screen sharing track on the local view GameObject.
-            LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_SCREEN_PRIMARY);
+            LocalView.SetForUser(configData.uid, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_SCREEN_PRIMARY);
         }
         else
         {
             // Update the VideoSurface component of the local view GameObject.
             LocalView = localViewGo.AddComponent<VideoSurface>();
             // Render the local video track on the local view GameObject.
-            LocalView.SetForUser(0, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY);
+            LocalView.SetForUser(configData.uid, "", VIDEO_SOURCE_TYPE.VIDEO_SOURCE_CAMERA_PRIMARY);
         }
     }
 
@@ -83,7 +82,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
 
     }
 
-    private void StartScreenCaptureAndroid(long sourceId)
+    private void StartScreenCaptureMobile(long sourceId)
     {
         // Configure screen capture parameters for Android.
         var parameters2 = new ScreenCaptureParameters2();
@@ -125,7 +124,7 @@ public class ProductWorkflowManager : AuthenticationWorkflowManager
 
             // Start screen sharing based on platform.
 #if UNITY_ANDROID || UNITY_IPHONE
-            StartScreenCaptureAndroid(sourceId);
+            StartScreenCaptureMobile(sourceId);
 #else
             StartScreenCaptureWindows(sourceId);
 #endif

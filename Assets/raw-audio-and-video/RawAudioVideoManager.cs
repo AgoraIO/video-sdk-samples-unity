@@ -138,7 +138,6 @@ public class RawAudioVideoManager : AgoraManager
                     _readCount += 1;
                 }
             }
-            //Debug.Log(string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]));
         }
 
         Debug.LogFormat("buffer length remains: {0}", _writeCount - _readCount);
@@ -163,7 +162,8 @@ public class RawAudioVideoManager : AgoraManager
         else if (_needResize)
         {
             Debug.Log("Resized frame ==> (Width: " + _videoFrameHeight + " Height: " + _videoFrameWidth + ")");
-            _texture.Reinitialize(_videoFrameWidth, _videoFrameHeight);
+            // Adjust the texture width and height.
+            _texture.Resize(_videoFrameHeight, _videoFrameHeight);
             _texture.Apply();
             _needResize = false;
         }

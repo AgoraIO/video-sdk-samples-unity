@@ -28,7 +28,7 @@ public class VirtualBackgroundManager : AuthenticationWorkflowManager
         else if (option ==  "Image")
         { // Set a background image
             virtualBackgroundSource.background_source_type = BACKGROUND_SOURCE_TYPE.BACKGROUND_IMG;
-            virtualBackgroundSource.source = "Assets/agora.png";
+            virtualBackgroundSource.source = "Assets/Resources/agora.png";
             Debug.Log("Image background enabled");
         }
 
