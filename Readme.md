@@ -36,11 +36,12 @@ This reference app includes several samples that illustrate the functionality an
 
 - [Screen share, mute, and volume control](./Assets/product-workflow/productWorkflowManager.cs) - Implement a simple workflow in your game.
 
-- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your game.
-
 - [Raw video and audio processing](./Assets//raw-audio-and-video/RawAudioVideo.cs) - Pre-process and post-process the captured audio and video data for implementation of custom playback effects.
 
-- [Custom video and audio sources](./Assets/custom-audio-and-video/CustomAudioAndVideo.cs) - Integrate a custom audio or video source into your app
+- [Custom video and audio sources](./Assets/custom-audio-and-video/CustomAudioAndVideo.cs) - Integrate a custom audio or video source into your app.
+
+- [Live streaming over multiple channels](./Assets/live-streaming-over-multiple-channels/multiChannelLiveStreamingManager.cs) - Stream media to multiple channels.
+
 
 **Integrate Features**
 
@@ -51,6 +52,7 @@ This reference app includes several samples that illustrate the functionality an
 - [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
 
 - [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your 
+
 
 ## Prerequisites
 
