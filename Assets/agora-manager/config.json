@@ -1,1 +1,19 @@
-{"appID":"0cc8ea75bf504ed08d3e8f5ef3c371bf","channelName":"demo","rtcToken":"007eJxTYJh+7NpalrCHu+ICQlJiqvJunRYt2/5jwv67Rff8xax/bTypwGCQnGyRmmhumpRmamCSmmJgkWKcapFmmppmnGxsbpiU1sVVkdoQyMhQWr2EmZEBAkF8FoaU1Nx8BgYAG1siDQ==","encryptionKey":"","salt":"","tokenExpiryTime":60,"tokenUrl":"","uid":0,"product":"Video Calling","soundEffectFileURL":"https://www.soundjay.com/human/applause-01.mp3","audioFileURL":"https://www.kozco.com/tech/organfinale.mp3","videoFileURL":"https://www.appsloveworld.com/wp-content/uploads/2018/10/640.mp4","destChannelName":"","destToken":"","destUID":0,"secondChannelName":"secondChannel","secondChannelToken":"","secondChannelUID":10}
+{
+    "appID":"",
+    "channelName":"demo",
+    "rtcToken":"",
+    "encryptionKey":"",
+    "salt":"",
+    "tokenExpiryTime":60,
+    "tokenUrl":"","uid":0,
+    "product":"Video Calling",
+    "soundEffectFileURL":"https://www.soundjay.com/human/applause-01.mp3",
+    "audioFileURL":"https://www.kozco.com/tech/organfinale.mp3",
+    "videoFileURL":"https://www.appsloveworld.com/wp-content/uploads/2018/10/640.mp4",
+    "destChannelName":"",
+    "destToken":"",
+    "destUID":0,
+    "secondChannelName":"secondChannel",
+    "secondChannelToken":"",
+    "secondChannelUID":10
+}
