@@ -11,45 +11,33 @@ Clone the repo, run and test the samples, and use the code in your own project. 
 
 ## Samples  
 
-This reference app includes several samples that illustrate the functionality and features of Agora Video and Voice SDKs. Each sample is self-contained and the relevant code can be found in its own folder in the root directory. For more information about each sample, see:
+The runnable code examples are:
 
-**Get Started**
-- [SDK quickstart](./Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency video calling features into your app using Agora Video SDK.
-
-- [Secure authentication with tokens](./Assets/authentication-workflow/) - quickly set up an authentication token server, retrieve a token from the server, and use it to connect securely to the SD-RTN server as a specific user.
-
-**Develop**
-
+- [SDK quickstart](./Assets/get-started) - the minimum code you need to integrate low-latency, high-concurrency
+  video calling features into your app using Agora Video SDK.
+- [Secure authentication with tokens](./Assets/authentication-workflow/) - quickly set up an authentication token 
+  server, retrieve
+  a token from the server, and use it to connect securely to the SD-RTN server as a specific user.
 - [Call quality best practice](./Assets/ensure-call-quality/) - ensure optimal audio and video quality in your game.
-
 - [Connect through restricted networks with Cloud Proxy](./Assets/cloud-proxy/) - ensure reliable connectivity for 
   your users when they connect from an
   environment with a restricted network.
-
 - [Secure channel encryption](./Assets/media-stream-encryption/) - integrate built-in data encryption into your app 
   using Video SDK.
-
 - [Stream media to a channel](./Assets/play-media/) - play video and audio files during online social and business interactions.
-
+- [Audio and voice effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
 - [Screen share, mute, and volume control](./Assets/product-workflow/productWorkflowManager.cs) - Implement a simple workflow in your game.
 
+- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your game.
+
+- [Spatial Audio](./Assets/spatial-audio/spatialAudioManager.cs) - 3D Spatial Audio enhances your real-time interaction experience with immersive sound, making it feel like sound is all around.
+
+- [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
 - [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your 
 
 - [Raw video and audio processing](./Assets//raw-audio-and-video/RawAudioVideo.cs) - Pre-process and post-process the captured audio and video data for implementation of custom playback effects.
 
 - [Custom video and audio sources](./Assets/custom-audio-and-video/CustomAudioAndVideo.cs) - Integrate a custom audio or video source into your app
-
-**Integrate Features**
-
-- [Audio and voice effect](./Assets/audio-and-voice-effects) - Implement different audio and voice effect features.
-
-- [Spatial Audio](./Assets/spatial-audio/spatialAudioManager.cs) - 3D Spatial Audio enhances your real-time interaction experience with immersive sound, making it feel like sound is all around.
-
-- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your game.
-
-- [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
-
-- AI noise suppression: This feature is not available.
 
 ## Prerequisites
 
