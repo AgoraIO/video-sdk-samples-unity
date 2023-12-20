@@ -51,7 +51,9 @@ This reference app includes several samples that illustrate the functionality an
 
 - [Virtual Background](./Assets/virtual-background/virtualBackground.cs) - Blur the background or replace it with a solid color or an image.
 
-- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your 
+- [Geofencing](./Assets/geofencing/geofencing.cs) - Control and customize data routing in your game.
+
+- [AI Noise Suppression](./Assets/ai-noise-suppress) - Suppress hundreds of types of noise and reduce distortion in your game.
 
 
 ## Prerequisites
