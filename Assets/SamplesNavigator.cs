@@ -55,6 +55,7 @@ public class SamplesNavigator : MonoBehaviour
         scriptDictionary.Add("Spatial Audio", typeof(SpatialAudio));
         scriptDictionary.Add("Virtual Background", typeof(VirtualBackground));
         scriptDictionary.Add("Multi-channel live streaming", typeof(MultiChannelLiveStreaming));
+        scriptDictionary.Add("AI Noise Suppression", typeof(AiNoiseSuppression));
         // (Note: The above dictionary should be completed with all your available scripts.)
     }
 
