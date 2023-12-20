@@ -1,6 +1,6 @@
 # Agora Video SDK for Unity reference game
 
-This app demonstrates use of [Agora's Video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk) for real-time audio and video communication. It is a robust and comprehensive documentation reference app for Unity, designed to enhance your productivity and understanding. It's built to be flexible, easily extensible, and beginner-friendly.
+This app demonstrates use of [Agora's Video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk?platform=unity) for real-time audio and video communication. It is a robust and comprehensive documentation reference app for Unity, designed to enhance your productivity and understanding. It's built to be flexible, easily extensible, and beginner-friendly.
 
 Clone the repo, run and test the samples, and use the code in your own project. Enjoy.
 
