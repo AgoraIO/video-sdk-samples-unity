@@ -1,6 +1,6 @@
 # Agora Video SDK for Unity reference game
 
-This app demonstrates use of [Agora's Video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk) for real-time audio and video communication. It is a robust and comprehensive documentation reference app for Android, designed to enhance your productivity and understanding. It's built to be flexible, easily extensible, and beginner-friendly.
+This app demonstrates use of [Agora's Video SDK](https://docs.agora.io/en/video-calling/get-started/get-started-sdk) for real-time audio and video communication. It is a robust and comprehensive documentation reference app for Unity, designed to enhance your productivity and understanding. It's built to be flexible, easily extensible, and beginner-friendly.
 
 Clone the repo, run and test the samples, and use the code in your own project. Enjoy.
 
@@ -94,7 +94,7 @@ To run the sample game, take the following steps:
 
 1. **Modify the project configuration**
 
-   The app loads connection parameters from [`./Assets/agora-manager/config.json`](./Assets/agora-manager/config.json)
+   The app loads connection parameters from [`config.json`](./Assets/agora-manager/config.json)
    . Ensure that the file is populated with the required parameter values before running the application.
 
     - `uid`: The user ID associated with the application.
