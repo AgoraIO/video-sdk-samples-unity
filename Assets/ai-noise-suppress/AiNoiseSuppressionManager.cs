@@ -7,7 +7,7 @@ public class AiNoiseSuppressionManager : AuthenticationWorkflowManager
     {
         base.SetupAgoraEngine();
 
-        // Enable AI noise suppression when uopu configue the engine.
+        // Enable AI noise suppression when you configure the engine.
         agoraEngine.SetAINSMode(true, AUDIO_AINS_MODE.AINS_MODE_AGGRESSIVE);
 
     }
